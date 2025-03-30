@@ -7,3 +7,9 @@ This project is an artillery calculator for **Arma Reforger** designed to help p
 - **Interactive Map**: Select a firing position and a target on the map.
 - **Artillery Parameters**: Calculate the number of charges, elevation, and azimuth for the artillery shot.
 - **Customization**: Adjust the artillery type and other parameters based on your needs.
+
+## Technologies
+
+- **Next.js**: A React framework for building the app.
+- **Leaflet.js** (or **Mapbox**): For displaying the interactive map and handling geospatial data.
+- **JavaScript**: Core logic for calculating artillery parameters.
