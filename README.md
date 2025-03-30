@@ -51,3 +51,7 @@ npm run dev
 - Click on the firing location and target location to select them.
 - The app will calculate and display the number of charges, elevation, and azimuth required for the artillery shot.
 - Adjust artillery settings (such as artillery type) to customize the calculations.
+
+## License
+
+This project is open source and available under the MIT License.
