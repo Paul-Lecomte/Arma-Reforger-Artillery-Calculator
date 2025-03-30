@@ -13,3 +13,27 @@ This project is an artillery calculator for **Arma Reforger** designed to help p
 - **Next.js**: A React framework for building the app.
 - **Leaflet.js** (or **Mapbox**): For displaying the interactive map and handling geospatial data.
 - **JavaScript**: Core logic for calculating artillery parameters.
+
+## Setup
+
+### Prerequisites
+
+- Node.js (>= 16.x.x)
+- npm or yarn
+
+### Installation
+
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/Paul-Lecomte/Arma-Reforger-Artillery-Calculator.git
+   ```
+
+2. Navigate into the project directory:
+   ```bash
+   cd Arma-Reforger-Artillery-Calculator
+   ```
+
+3. Install dependencies:
+   ```bash
+   npm install
+   ```
