@@ -55,3 +55,13 @@ npm run dev
 ## License
 
 This project is open source and available under the MIT License.
+
+## Contributing
+
+Feel free to fork the repository, submit issues, and make pull requests. Contributions are welcome!
+
+## Acknowledgments
+
+- **Next.js**: For creating a powerful and flexible framework for React.
+- **Leaflet.js** or **Mapbox**: For enabling geospatial map functionality.
+- **Arma Reforger**: For providing the game mechanics that inspire this project.
