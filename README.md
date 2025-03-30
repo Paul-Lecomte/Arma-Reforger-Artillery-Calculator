@@ -44,3 +44,10 @@ To run the project locally in development mode:
 ```bash
 npm run dev
 ```
+
+## Usage
+
+- Navigate to the map interface on the site.
+- Click on the firing location and target location to select them.
+- The app will calculate and display the number of charges, elevation, and azimuth required for the artillery shot.
+- Adjust artillery settings (such as artillery type) to customize the calculations.
