@@ -37,3 +37,10 @@ This project is an artillery calculator for **Arma Reforger** designed to help p
    ```bash
    npm install
    ```
+
+### Running the Project Locally
+
+To run the project locally in development mode:
+```bash
+npm run dev
+```
