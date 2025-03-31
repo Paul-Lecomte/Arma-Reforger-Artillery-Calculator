@@ -4,6 +4,7 @@ export const artilleryData = {
         rounds: {
             "HE": {
                 "0": [
+                    {dispersion: 6},
                     { range: 50, mil: 1540 },
                     { range: 100, mil: 1479 },
                     { range: 150, mil: 1416 },
@@ -14,6 +15,7 @@ export const artilleryData = {
                     { range: 400, mil: 955 }
                 ],
                 "1": [
+                    {dispersion: 14},
                     { range: 100, mil: 1547 },
                     { range: 200, mil: 1492 },
                     { range: 300, mil: 1437 },
@@ -25,6 +27,7 @@ export const artilleryData = {
                     { range: 900, mil: 954 }
                 ],
                 "2": [
+                    {dispersion: 24},
                     { range: 200, mil: 1538 },
                     { range: 300, mil: 1507 },
                     { range: 400, mil: 1475 },
@@ -42,6 +45,7 @@ export const artilleryData = {
                     { range: 1600, mil: 912 }
                 ],
                 "3": [
+                    {dispersion: 32},
                     { range: 300, mil: 1534 },
                     { range: 400, mil: 1511 },
                     { range: 500, mil: 1489 },
@@ -65,6 +69,7 @@ export const artilleryData = {
                     { range: 2300, mil: 801 }
                 ],
                 "4": [
+                    {dispersion: 42},
                     { range: 400, mil: 1531 },
                     { range: 500, mil: 1514 },
                     { range: 600, mil: 1496 },
@@ -95,6 +100,7 @@ export const artilleryData = {
             },
             "Smoke": {
                 "1": [
+                    {dispersion: 11},
                     { range: 200, mil: 1463 },
                     { range: 250, mil: 1427 },
                     { range: 300, mil: 1391 },
@@ -109,6 +115,7 @@ export const artilleryData = {
                     { range: 750, mil: 822 }
                 ],
                 "2": [
+                    {dispersion: 20},
                     { range: 200, mil: 1528 },
                     { range: 300, mil: 1491 },
                     { range: 400, mil: 1453 },
@@ -124,6 +131,7 @@ export const artilleryData = {
                     { range: 1400, mil: 818 }
                 ],
                 "3": [
+                    {dispersion: 28},
                     { range: 300, mil: 1522 },
                     { range: 400, mil: 1495 },
                     { range: 500, mil: 1468 },
@@ -143,6 +151,7 @@ export const artilleryData = {
                     { range: 1900, mil: 892 }
                 ],
                 "4": [
+                    {dispersion: 35},
                     { range: 400, mil: 1517 },
                     { range: 500, mil: 1495 },
                     { range: 600, mil: 1474 },
@@ -168,6 +177,7 @@ export const artilleryData = {
             },
             "Illumination": {
                 "1": [
+                    {dispersion: 11},
                     { range: 200, mil: 1463 },
                     { range: 250, mil: 1428 },
                     { range: 300, mil: 1391 },
@@ -182,6 +192,7 @@ export const artilleryData = {
                     { range: 750, mil: 823 }
                 ],
                 "2": [
+                    {dispersion: 21},
                     { range: 200, mil: 1529 },
                     { range: 300, mil: 1493 },
                     { range: 400, mil: 1457 },
@@ -197,6 +208,7 @@ export const artilleryData = {
                     { range: 1400, mil: 900 }
                 ],
                 "3": [
+                    {dispersion: 29},
                     { range: 300, mil: 1521 },
                     { range: 400, mil: 1494 },
                     { range: 500, mil: 1466 },
@@ -216,6 +228,7 @@ export const artilleryData = {
                     { range: 1900, mil: 875 }
                 ],
                 "4": [
+                    {dispersion: 36},
                     { range: 400, mil: 1515 },
                     { range: 500, mil: 1493 },
                     { range: 600, mil: 1471 },
@@ -246,6 +259,7 @@ export const artilleryData = {
         rounds: {
             "HE": {
                 "0": [
+                    {dispersion: 8},
                     { range: 50, mil: 1455 },
                     { range: 100, mil: 1411 },
                     { range: 150, mil: 1365 },
@@ -258,6 +272,7 @@ export const artilleryData = {
                     { range: 500, mil: 922 }
                 ],
                 "1": [
+                    {dispersion: 13},
                     { range: 100, mil: 1446 },
                     { range: 200, mil: 1392 },
                     { range: 300, mil: 1335 },
@@ -268,6 +283,7 @@ export const artilleryData = {
                     { range: 800, mil: 952 }
                 ],
                 "2": [
+                    {dispersion: 19},
                     { range: 200, mil: 1432 },
                     { range: 300, mil: 1397 },
                     { range: 400, mil: 1362 },
@@ -283,6 +299,7 @@ export const artilleryData = {
                     { range: 1400, mil: 755 }
                 ],
                 "3": [
+                    {dispersion: 27},
                     { range: 200, mil: 1432 },
                     { range: 300, mil: 1397 },
                     { range: 400, mil: 1362 },
@@ -302,6 +319,7 @@ export const artilleryData = {
                     { range: 1800, mil: 851 }
                 ],
                 "4": [
+                    {dispersion: 34},
                     { range: 400, mil: 1418 },
                     { range: 500, mil: 1398 },
                     { range: 600, mil: 1376 },
@@ -326,6 +344,7 @@ export const artilleryData = {
             },
             "Smoke": {
                 "1": [
+                    {dispersion: 7},
                     { range: 50, mil: 1450 },
                     { range: 100, mil: 1399 },
                     { range: 150, mil: 1347 },
@@ -337,6 +356,7 @@ export const artilleryData = {
                     { range: 450, mil: 898 }
                 ],
                 "2": [
+                    {dispersion: 12},
                     { range: 200, mil: 1381 },
                     { range: 300, mil: 1319 },
                     { range: 400, mil: 1252 },
@@ -346,6 +366,7 @@ export const artilleryData = {
                     { range: 800, mil: 805 }
                 ],
                 "3": [
+                    {dispersion: 18},
                     { range: 300, mil: 1387 },
                     { range: 400, mil: 1348 },
                     { range: 500, mil: 1308 },
@@ -358,6 +379,7 @@ export const artilleryData = {
                     { range: 1200, mil: 902 }
                 ],
                 "4": [
+                    {dispersion: 24},
                     { range: 400, mil: 1387 },
                     { range: 500, mil: 1357 },
                     { range: 600, mil: 1327 },
@@ -376,6 +398,7 @@ export const artilleryData = {
             },
             "Illumination": {
                 "1": [
+                    {dispersion: 9},
                     { range: 100, mil: 1421 },
                     { range: 150, mil: 1381 },
                     { range: 200, mil: 1339 },
@@ -389,6 +412,7 @@ export const artilleryData = {
                     { range: 600, mil: 799 }
                 ],
                 "2": [
+                    {dispersion: 17},
                     { range: 200, mil: 1417 },
                     { range: 300, mil: 1374 },
                     { range: 400, mil: 1330 },
@@ -401,6 +425,7 @@ export const artilleryData = {
                     { range: 1100, mil: 870 }
                 ],
                 "3": [
+                    {dispersion: 24},
                     { range: 300, mil: 1411 },
                     { range: 400, mil: 1380 },
                     { range: 500, mil: 1348 },
@@ -417,6 +442,7 @@ export const artilleryData = {
                     { range: 1600, mil: 807 }
                 ],
                 "4": [
+                    {dispersion: 32},
                     { range: 400, mil: 1411 },
                     { range: 500, mil: 1388 },
                     { range: 600, mil: 1364 },
