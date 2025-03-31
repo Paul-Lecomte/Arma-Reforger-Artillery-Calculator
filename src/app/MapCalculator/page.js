@@ -97,7 +97,7 @@ const Page = () => {
                 <Circle center={firingPosition} radius={10} color="red" fillOpacity={0.2} />
 
                 {/* Red transparent circle around Target Position */}
-                <Circle center={targetPosition} radius={10} color="red" fillOpacity={0.2} />
+                <Circle center={targetPosition} radius={10} color="green" fillOpacity={0.2} />
 
                 {/* Path between Firing Position and Target */}
                 <Polyline positions={[firingPosition, targetPosition]} color="blue" />
