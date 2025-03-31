@@ -1,6 +1,6 @@
 export const artilleryData = {
     "American": {
-        name: "M1A1 155mm Howitzer",
+        name: "M252 Mortar",
         rounds: {
             "HE": {
                 "0": [
@@ -92,11 +92,84 @@ export const artilleryData = {
                     { range: 2800, mil: 942 },
                     { range: 2900, mil: 870 }
                 ]
+            },
+            "Smoke": {
+                "1": [
+                    { range: 200, mil: 1463 },
+                    { range: 250, mil: 1427 },
+                    { range: 300, mil: 1391 },
+                    { range: 350, mil: 1352 },
+                    { range: 400, mil: 1314 },
+                    { range: 450, mil: 1271 },
+                    { range: 500, mil: 1227 },
+                    { range: 550, mil: 1178 },
+                    { range: 600, mil: 1124 },
+                    { range: 650, mil: 1060 },
+                    { range: 700, mil: 982 },
+                    { range: 750, mil: 822 }
+                ],
+                "2": [
+                    { range: 200, mil: 1528 },
+                    { range: 300, mil: 1491 },
+                    { range: 400, mil: 1453 },
+                    { range: 500, mil: 1414 },
+                    { range: 600, mil: 1374 },
+                    { range: 700, mil: 1333 },
+                    { range: 800, mil: 1289 },
+                    { range: 900, mil: 1242 },
+                    { range: 1000, mil: 1191 },
+                    { range: 1100, mil: 1133 },
+                    { range: 1200, mil: 1067 },
+                    { range: 1300, mil: 980 },
+                    { range: 1400, mil: 818 }
+                ],
+                "3": [
+                    { range: 300, mil: 1522 },
+                    { range: 400, mil: 1495 },
+                    { range: 500, mil: 1468 },
+                    { range: 600, mil: 1440 },
+                    { range: 700, mil: 1412 },
+                    { range: 800, mil: 1383 },
+                    { range: 900, mil: 1354 },
+                    { range: 1000, mil: 1323 },
+                    { range: 1100, mil: 1291 },
+                    { range: 1200, mil: 1257 },
+                    { range: 1300, mil: 1221 },
+                    { range: 1400, mil: 1183 },
+                    { range: 1500, mil: 1142 },
+                    { range: 1600, mil: 1096 },
+                    { range: 1700, mil: 1044 },
+                    { range: 1800, mil: 980 },
+                    { range: 1900, mil: 892 }
+                ],
+                "4": [
+                    { range: 400, mil: 1517 },
+                    { range: 500, mil: 1495 },
+                    { range: 600, mil: 1474 },
+                    { range: 700, mil: 1452 },
+                    { range: 800, mil: 1429 },
+                    { range: 900, mil: 1407 },
+                    { range: 1000, mil: 1383 },
+                    { range: 1100, mil: 1360 },
+                    { range: 1200, mil: 1335 },
+                    { range: 1300, mil: 1310 },
+                    { range: 1400, mil: 1284 },
+                    { range: 1500, mil: 1257 },
+                    { range: 1600, mil: 1228 },
+                    { range: 1700, mil: 1199 },
+                    { range: 1800, mil: 1166 },
+                    { range: 1900, mil: 1132 },
+                    { range: 2000, mil: 1096 },
+                    { range: 2100, mil: 1055 },
+                    { range: 2200, mil: 1008 },
+                    { range: 2300, mil: 952 },
+                    { range: 2400, mil: 871 }
+                ]
             }
         }
     },
     "Soviet": {
-        name: "ML-20 152mm Howitzer",
+        name: "2Б14",
         rounds: {
             "HE": {
                 "0": [
