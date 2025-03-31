@@ -14,18 +14,107 @@ const artilleryData = {
     "Soviet": {
         name: "ML-20 152mm Howitzer",
         rounds: {
-            "HE": [550, 1050, 1550, 2050],
-            "Smoke": [650, 1150, 1650, 2150],
-            "Illumination": [750, 1250, 1750, 2250],
-            "Practice Round": [850, 1350, 1850, 2350]
+            "HE": {
+                "0": [
+                    { range: 50, mil: 1455 },
+                    { range: 100, mil: 1411 },
+                    { range: 150, mil: 1365 },
+                    { range: 200, mil: 1318 },
+                    { range: 250, mil: 1268 },
+                    { range: 300, mil: 1217 },
+                    { range: 350, mil: 1159 },
+                    { range: 400, mil: 1095 },
+                    { range: 450, mil: 1023 },
+                    { range: 500, mil: 922 }
+                ],
+                "1": [
+                    { range: 100, mil: 1446 },
+                    { range: 200, mil: 1392 },
+                    { range: 300, mil: 1335 },
+                    { range: 400, mil: 1275 },
+                    { range: 500, mil: 1212 },
+                    { range: 600, mil: 1141 },
+                    { range: 700, mil: 1058 },
+                    { range: 800, mil: 952 }
+                ],
+                "2": [
+                    { range: 200, mil: 1432 },
+                    { range: 300, mil: 1397 },
+                    { range: 400, mil: 1362 },
+                    { range: 500, mil: 1325 },
+                    { range: 600, mil: 1288 },
+                    { range: 700, mil: 1248 },
+                    { range: 800, mil: 1207 },
+                    { range: 900, mil: 1162 },
+                    { range: 1000, mil: 1114 },
+                    { range: 1100, mil: 1060 },
+                    { range: 1200, mil: 997 },
+                    { range: 1300, mil: 914 },
+                    { range: 1400, mil: 755 }
+                ],
+                "3": [
+                    { range: 200, mil: 1432 },
+                    { range: 300, mil: 1397 },
+                    { range: 400, mil: 1362 },
+                    { range: 500, mil: 1325 },
+                    { range: 600, mil: 1288 },
+                    { range: 700, mil: 1248 },
+                    { range: 800, mil: 1207 },
+                    { range: 900, mil: 1162 },
+                    { range: 1000, mil: 1114 },
+                    { range: 1100, mil: 1060 },
+                    { range: 1200, mil: 997 },
+                    { range: 1300, mil: 914 },
+                    { range: 1400, mil: 755 },
+                    { range: 1500, mil: 1040 },
+                    { range: 1600, mil: 991 },
+                    { range: 1700, mil: 932 },
+                    { range: 1800, mil: 851 }
+                ],
+                "4": [
+                    { range: 400, mil: 1418 },
+                    { range: 500, mil: 1398 },
+                    { range: 600, mil: 1376 },
+                    { range: 700, mil: 1355 },
+                    { range: 800, mil: 1333 },
+                    { range: 900, mil: 1311 },
+                    { range: 1000, mil: 1288 },
+                    { range: 1100, mil: 1264 },
+                    { range: 1200, mil: 1240 },
+                    { range: 1300, mil: 1215 },
+                    { range: 1400, mil: 1189 },
+                    { range: 1500, mil: 1161 },
+                    { range: 1600, mil: 1133 },
+                    { range: 1700, mil: 1102 },
+                    { range: 1800, mil: 1069 },
+                    { range: 1900, mil: 1034 },
+                    { range: 2000, mil: 995 },
+                    { range: 2100, mil: 950 },
+                    { range: 2200, mil: 896 },
+                    { range: 2300, mil: 820 }
+                ]
+            }
         }
     }
+};
+
+const interpolateMil = (rangeTable, distance) => {
+    for (let i = 0; i < rangeTable.length - 1; i++) {
+        if (distance >= rangeTable[i].range && distance <= rangeTable[i + 1].range) {
+            const x1 = rangeTable[i].range;
+            const y1 = rangeTable[i].mil;
+            const x2 = rangeTable[i + 1].range;
+            const y2 = rangeTable[i + 1].mil;
+            return y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1);
+        }
+    }
+    return null;
 };
 
 const Home = () => {
     const [faction, setFaction] = useState('American');
     const [round, setRound] = useState('HE');
-    const [charge, setCharge] = useState(0);
+    const [charge, setCharge] = useState('0');
     const [distance, setDistance] = useState('');
     const [error, setError] = useState('');
     const [calculatedMil, setCalculatedMil] = useState(null);
@@ -33,19 +122,18 @@ const Home = () => {
     useEffect(() => {
         if (faction && round && !isNaN(distance) && distance) {
             const artillery = artilleryData[faction];
-            const roundRanges = artillery.rounds[round];
-            if (artillery && roundRanges && distance >= 100 && distance <= roundRanges[3]) {
-                let mil;
-                if (faction === 'American') {
-                    mil = (-2.18e-12 * Math.pow(distance, 2)) - (0.237 * distance) + 1001.53;
-                } else if (faction === 'Soviet') {
-                    mil = (-1.05e-7 * Math.pow(distance, 2)) - (0.213 * distance) + 1141.65;
+            if (artillery && artillery.rounds[round] && faction === 'Soviet') {
+                const roundData = artillery.rounds[round][charge];
+                if (roundData) {
+                    const mil = interpolateMil(roundData, parseFloat(distance));
+                    if (mil !== null) {
+                        setCalculatedMil(mil);
+                        setError('');
+                    } else {
+                        setCalculatedMil(null);
+                        setError(`Distance must be within the available range.`);
+                    }
                 }
-                setCalculatedMil(mil);
-                setError('');
-            } else {
-                setCalculatedMil(null);
-                setError(distance < 100 || distance > roundRanges[3] ? `Distance must be between 100 and ${roundRanges[3]} meters.` : 'Invalid faction, round, or distance.');
             }
         } else {
             setCalculatedMil(null);
@@ -82,29 +170,18 @@ const Home = () => {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor="round" className="block text-lg font-medium">Round Type</label>
-                    <select
-                        id="round"
-                        value={round}
-                        onChange={(e) => setRound(e.target.value)}
-                        className="w-full mt-2 p-3 rounded-lg bg-[#0D0D0D] border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    >
-                        {Object.keys(artilleryData[faction].rounds).map((roundType) => (
-                            <option key={roundType} value={roundType}>{roundType}</option>
-                        ))}
-                    </select>
-                </div>
-                <div>
-                    <label htmlFor="charge" className="block text-lg font-medium">Charge Level</label>
+                    <label htmlFor="charge" className="block text-lg font-medium">Charge</label>
                     <select
                         id="charge"
                         value={charge}
-                        onChange={(e) => setCharge(parseInt(e.target.value))}
+                        onChange={(e) => setCharge(e.target.value)}
                         className="w-full mt-2 p-3 rounded-lg bg-[#0D0D0D] border border-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
                     >
-                        {[0, 1, 2, 3, 4].map((c) => (
-                            <option key={c} value={c}>Charge {c}</option>
-                        ))}
+                        <option value="0">Charge 0</option>
+                        <option value="1">Charge 1</option>
+                        <option value="2">Charge 2</option>
+                        <option value="3">Charge 3</option>
+                        <option value="4">Charge 4</option>
                     </select>
                 </div>
             </form>
