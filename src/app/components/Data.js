@@ -154,6 +154,55 @@ export const artilleryData = {
                     { range: 500, mil: 1028 },
                     { range: 550, mil: 945 },
                     { range: 600, mil: 799 }
+                ],
+                "2": [
+                    { range: 200, mil: 1417 },
+                    { range: 300, mil: 1374 },
+                    { range: 400, mil: 1330 },
+                    { range: 500, mil: 1284 },
+                    { range: 600, mil: 1234 },
+                    { range: 700, mil: 1182 },
+                    { range: 800, mil: 1124 },
+                    { range: 900, mil: 1057 },
+                    { range: 1000, mil: 979 },
+                    { range: 1100, mil: 870 }
+                ],
+                "3": [
+                    { range: 300, mil: 1411 },
+                    { range: 400, mil: 1380 },
+                    { range: 500, mil: 1348 },
+                    { range: 600, mil: 1315 },
+                    { range: 700, mil: 1281 },
+                    { range: 800, mil: 1246 },
+                    { range: 900, mil: 1209 },
+                    { range: 1000, mil: 1170 },
+                    { range: 1100, mil: 1128 },
+                    { range: 1200, mil: 1082 },
+                    { range: 1300, mil: 1031 },
+                    { range: 1400, mil: 973 },
+                    { range: 1500, mil: 903 },
+                    { range: 1600, mil: 807 }
+                ],
+                "4": [
+                    { range: 400, mil: 1411 },
+                    { range: 500, mil: 1388 },
+                    { range: 600, mil: 1364 },
+                    { range: 700, mil: 1341 },
+                    { range: 800, mil: 1316 },
+                    { range: 900, mil: 1291 },
+                    { range: 1000, mil: 1265 },
+                    { range: 1100, mil: 1238 },
+                    { range: 1200, mil: 1210 },
+                    { range: 1300, mil: 1181 },
+                    { range: 1400, mil: 1150 },
+                    { range: 1500, mil: 1119 },
+                    { range: 1600, mil: 1085 },
+                    { range: 1700, mil: 1048 },
+                    { range: 1800, mil: 1009 },
+                    { range: 1900, mil: 965 },
+                    { range: 2000, mil: 917 },
+                    { range: 2100, mil: 860 },
+                    { range: 2200, mil: 787 }
                 ]
             }
         }
