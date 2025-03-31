@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-    title: "Range And Rain",
-    description: "Hell Let Loose artillery calculator",
+    title: "Arma Reforger Artillery Calculator",
+    description: "Arma Reforger Artillery Calculator, Artillery Calculator, Arma Reforger Calculator, Arma Reforger map",
 };
 
 export default function RootLayout({ children }) {
