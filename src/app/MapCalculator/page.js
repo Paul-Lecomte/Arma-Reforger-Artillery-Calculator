@@ -13,9 +13,6 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { 
 
 import "leaflet/dist/leaflet.css";
 
-// Scale factor: Each square represents 100 meters.
-const SCALE_FACTOR = 100; // 1 square = 100 meters
-
 const Page = () => {
     const [firingPosition, setFiringPosition] = useState([500, 500]);
     const [targetPosition, setTargetPosition] = useState([600, 600]);
@@ -28,18 +25,20 @@ const Page = () => {
     const maps = {
         map1: {
             imageUrl: "/maps/map1/arland.png",
-            bounds: [[0, 0], [1000, 1000]], // Adjust these bounds to match your image scale
+            bounds: [[0, 0], [1000, 1000]],
+            scaleFactor: 18, // Arland scale 100m
         },
         map2: {
             imageUrl: "/maps/map2/everon.png",
-            bounds: [[0, 0], [1000, 1000]], // Adjust these bounds as needed
+            bounds: [[0, 0], [1000, 1000]],
+            scaleFactor: 9, // Everon scale (divide twice Arland)
         },
     };
 
     // Calculate Distance in meters using Euclidean formula
-    const calculateDistance = (x1, y1, x2, y2) => {
+    const calculateDistance = (x1, y1, x2, y2, scaleFactor) => {
         const pixelDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-        return (pixelDistance / 18) * SCALE_FACTOR; // Convert pixels to meters
+        return (pixelDistance / scaleFactor) * 100; // Convert pixels to meters
     };
 
     // Calculate Azimuth (angle in a 2D plane)
@@ -49,13 +48,27 @@ const Page = () => {
     };
 
     useEffect(() => {
-        const dist = calculateDistance(firingPosition[0], firingPosition[1], targetPosition[0], targetPosition[1]).toFixed(2);
-        const azi = calculateAzimuth(firingPosition[0], firingPosition[1], targetPosition[0], targetPosition[1]).toFixed(2);
+        const scaleFactor = maps[mapType].scaleFactor;
+
+        const dist = calculateDistance(
+            firingPosition[0],
+            firingPosition[1],
+            targetPosition[0],
+            targetPosition[1],
+            scaleFactor
+        ).toFixed(2);
+
+        const azi = calculateAzimuth(
+            firingPosition[0],
+            firingPosition[1],
+            targetPosition[0],
+            targetPosition[1]
+        ).toFixed(2);
 
         setDistance(dist);
         setAzimuth(azi);
         setElevation(Math.floor(dist * 0.1)); // Example elevation calculation
-    }, [firingPosition, targetPosition]);
+    }, [firingPosition, targetPosition, mapType]);
 
     return (
         <div className="map-container">
