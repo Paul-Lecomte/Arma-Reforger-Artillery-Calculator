@@ -202,8 +202,12 @@ const Page = () => {
                             key={index}
                             center={firingPosition}
                             radius={range}
-                            color={["purple", "blue", "green", "yellow", "orange"][index]}
-                            fillOpacity={0.1}
+                            pathOptions={{
+                                color: ["purple", "blue", "green", "yellow", "orange"][index],
+                                fillOpacity: 0.05, // Adjust fill transparency
+                                weight: 2, // Thinner lines
+                                dashArray: "5, 5", // Dashed effect (5px on, 5px off)
+                            }}
                         />
                     ) : null
                 )}
