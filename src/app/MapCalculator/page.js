@@ -13,6 +13,9 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { 
 
 import "leaflet/dist/leaflet.css";
 
+// Scale factor: Each square represents 100 meters.
+const SCALE_FACTOR = 100; // 1 square = 100 meters
+
 const Page = () => {
     const [firingPosition, setFiringPosition] = useState([500, 500]);
     const [targetPosition, setTargetPosition] = useState([600, 600]);
@@ -33,21 +36,25 @@ const Page = () => {
         },
     };
 
-    // Calculate Distance using Euclidean formula (since this is a non-geographical map)
+    // Calculate Distance in meters using Euclidean formula
     const calculateDistance = (x1, y1, x2, y2) => {
-        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        const pixelDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+        return (pixelDistance / 18) * SCALE_FACTOR; // Convert pixels to meters
     };
 
-    // Calculate Azimuth (simple angle calculation in a 2D plane)
+    // Calculate Azimuth (angle in a 2D plane)
     const calculateAzimuth = (x1, y1, x2, y2) => {
         let angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
         return (angle + 360) % 360;
     };
 
     useEffect(() => {
-        setDistance(calculateDistance(firingPosition[0], firingPosition[1], targetPosition[0], targetPosition[1]).toFixed(2));
-        setAzimuth(calculateAzimuth(firingPosition[0], firingPosition[1], targetPosition[0], targetPosition[1]).toFixed(2));
-        setElevation(Math.floor(distance * 0.1));
+        const dist = calculateDistance(firingPosition[0], firingPosition[1], targetPosition[0], targetPosition[1]).toFixed(2);
+        const azi = calculateAzimuth(firingPosition[0], firingPosition[1], targetPosition[0], targetPosition[1]).toFixed(2);
+
+        setDistance(dist);
+        setAzimuth(azi);
+        setElevation(Math.floor(dist * 0.1)); // Example elevation calculation
     }, [firingPosition, targetPosition]);
 
     return (
@@ -105,7 +112,7 @@ const Page = () => {
 
             {/* Display Calculations */}
             <div className="text-center mt-4">
-                {distance !== null && <p className="text-xl">Distance: {distance} pixels</p>}
+                {distance !== null && <p className="text-xl">Distance: {distance} meters</p>}
                 {azimuth !== null && <p className="text-xl">Azimuth: {azimuth}°</p>}
                 {elevation !== null && <p className="text-xl">Elevation: {elevation}°</p>}
             </div>
