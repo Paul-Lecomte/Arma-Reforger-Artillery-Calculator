@@ -18,8 +18,6 @@ const Page = () => {
     const [targetPosition, setTargetPosition] = useState([51.51, -0.1]);
     const [elevation, setElevation] = useState(null);
 
-    const [path, setPath] = useState([firingPosition, targetPosition]);
-
     // Custom icons
     const mortarIcon = new L.Icon({
         iconUrl: "/mortar.png",
@@ -33,6 +31,26 @@ const Page = () => {
         iconAnchor: [15, 30],
     });
 
+    // Prevent dragging the image instead of the marker
+    useEffect(() => {
+        const images = document.querySelectorAll(".leaflet-marker-icon, .leaflet-marker-shadow");
+        images.forEach((img) => img.setAttribute("draggable", "false"));
+
+        document.addEventListener("dragstart", (e) => {
+            if (e.target.tagName === "IMG") {
+                e.preventDefault();
+            }
+        });
+
+        return () => {
+            document.removeEventListener("dragstart", (e) => {
+                if (e.target.tagName === "IMG") {
+                    e.preventDefault();
+                }
+            });
+        };
+    }, []);
+
     // Calculate elevation whenever positions change
     useEffect(() => {
         const calculateElevation = () => {
@@ -43,7 +61,6 @@ const Page = () => {
             setElevation(Math.floor(distance * 0.1)); // Dummy elevation formula
         };
 
-        setPath([firingPosition, targetPosition]); // Update line path
         calculateElevation();
     }, [firingPosition, targetPosition]);
 
@@ -60,10 +77,9 @@ const Page = () => {
                 {/* Draggable Firing Position Marker */}
                 <Marker
                     position={firingPosition}
-                    icon={mortarIcon}
                     draggable={true}
                     eventHandlers={{
-                        dragend: (e) => setFiringPosition([e.target.getLatLng().lat, e.target.getLatLng().lng]),
+                        drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
                     }}
                 >
                     <Popup>Firing Position</Popup>
@@ -72,10 +88,9 @@ const Page = () => {
                 {/* Draggable Target Position Marker */}
                 <Marker
                     position={targetPosition}
-                    icon={shellIcon}
                     draggable={true}
                     eventHandlers={{
-                        dragend: (e) => setTargetPosition([e.target.getLatLng().lat, e.target.getLatLng().lng]),
+                        drag: (e) => setTargetPosition([e.latlng.lat, e.latlng.lng]),
                     }}
                 >
                     <Popup>Target Position</Popup>
@@ -88,7 +103,7 @@ const Page = () => {
                 <Circle center={targetPosition} radius={50} color="red" fillOpacity={0.2} />
 
                 {/* Path between Firing Position and Target (updates in real-time) */}
-                <Polyline positions={path} color="blue" />
+                <Polyline positions={[firingPosition, targetPosition]} color="blue" />
             </MapContainer>
 
             {elevation !== null && (
