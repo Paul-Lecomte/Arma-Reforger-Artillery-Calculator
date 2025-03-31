@@ -85,6 +85,21 @@ const Page = () => {
         return (angle + 360) % 360;
     };
 
+    const getMaxRanges = (roundData) => {
+        const maxRanges = [];
+
+        for (let rings = 0; rings <= 4; rings++) {
+            if (roundData[rings]) {
+                // Extract the last range value (max range for this ring)
+                const maxRange = roundData[rings][roundData[rings].length - 1].range;
+                maxRanges.push(maxRange);
+            } else {
+                maxRanges.push(null);
+            }
+        }
+        return maxRanges;
+    };
+
     // Recalculate the MIL, rings, and dispersion when the distance or other params change
     useEffect(() => {
         const scaleFactor = maps[mapType].scaleFactor;
