@@ -14,11 +14,28 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-    title: "Arma Reforger Artillery Calculator",
-    description: "Arma Reforger Artillery Calculator, Artillery Calculator, Arma Reforger Calculator, Arma Reforger map",
+    title: "Arma Reforger Artillery Calculator - Range, Elevation & Azimuth Calculations",
+    description: "The best Arma Reforger artillery calculator for calculating range, elevation, and azimuth for artillery shots in Arma Reforger. Includes real-time elevation calculation, round selection (HE, Smoke, Illumination, Practice), and multiple rounds per faction.",
+    keywords: "Arma Reforger, artillery calculator, artillery range, artillery elevation, artillery azimuth, Arma Reforger calculator, artillery rounds, military artillery, HE rounds, Smoke rounds, Illumination rounds, Practice rounds",
     icons: {
-        icon: '/mortar.ico',
+        icon: '/mortar.ico', // Your favicon
     },
+    openGraph: {
+        title: "Arma Reforger Artillery Calculator",
+        description: "Calculate artillery range, elevation, and azimuth in Arma Reforger with ease using our artillery calculator tool.",
+        url: "https://www.yourwebsite.com", // Replace with your actual URL
+        site_name: "Arma Reforger Artillery Calculator",
+        images: [
+            {
+                url: "/public/shell.png", // Optional image to use for social sharing
+                width: 1200,
+                height: 630,
+                alt: "Arma Reforger Artillery Calculator",
+            },
+        ],
+        type: "website",
+    },
+    locale: "en_US", // Specify the locale for better targeting
 };
 
 export default function RootLayout({ children }) {
