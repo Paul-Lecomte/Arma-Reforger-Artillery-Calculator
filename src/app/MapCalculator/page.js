@@ -58,6 +58,7 @@ const Page = () => {
     const [calculatedRings, setCalculatedRings] = useState(null);
     const [calculatedDispersion, setCalculatedDispersion] = useState(null);
     const [error, setError] = useState("");
+    const [ringRanges, setRingRanges] = useState([]);
 
     // Map images and bounds
     const maps = {
@@ -85,21 +86,6 @@ const Page = () => {
         return (angle + 360) % 360;
     };
 
-    const getMaxRanges = (roundData) => {
-        const maxRanges = [];
-
-        for (let rings = 0; rings <= 4; rings++) {
-            if (roundData[rings]) {
-                // Extract the last range value (max range for this ring)
-                const maxRange = roundData[rings][roundData[rings].length - 1].range;
-                maxRanges.push(maxRange);
-            } else {
-                maxRanges.push(null);
-            }
-        }
-        return maxRanges;
-    };
-
     // Recalculate the MIL, rings, and dispersion when the distance or other params change
     useEffect(() => {
         const scaleFactor = maps[mapType].scaleFactor;
@@ -124,7 +110,6 @@ const Page = () => {
         setAzimuth(azi);
         setElevation(Math.floor(dist * 0.1)); // Example elevation calculation
 
-        // Artillery calculation logic
         if (faction && round && !isNaN(dist) && dist) {
             const artillery = artilleryData[faction];
             if (!artillery) {
@@ -138,13 +123,26 @@ const Page = () => {
                 return;
             }
 
+            // Get max ranges for each ring and convert them to pixels
+            const maxRanges = [];
+            for (let rings = 0; rings <= 4; rings++) {
+                if (roundData[rings]) {
+                    const maxRange = roundData[rings][roundData[rings].length - 1].range;
+                    maxRanges.push((maxRange * scaleFactor) / 100); // Convert meters to pixels
+                } else {
+                    maxRanges.push(null);
+                }
+            }
+
+            setRingRanges(maxRanges);
+            setError("");
+
             const result = interpolateMil(roundData, parseFloat(dist));
 
             if (result) {
                 setCalculatedMil(result.mil);
                 setCalculatedRings(result.rings);
                 setCalculatedDispersion(result.dispersion);
-                setError('');
             } else {
                 setCalculatedMil(null);
                 setCalculatedRings(null);
@@ -198,6 +196,17 @@ const Page = () => {
             {/* Map Component */}
             <MapContainer center={[600, 500]} zoom={2} style={{ height: "500px", width: "100%" }} crs={L.CRS.Simple}>
                 <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
+                {ringRanges.map((range, index) =>
+                    range ? (
+                        <Circle
+                            key={index}
+                            center={firingPosition}
+                            radius={range}
+                            color={["purple", "blue", "green", "yellow", "orange"][index]}
+                            fillOpacity={0.1}
+                        />
+                    ) : null
+                )}
 
                 {/* Draggable Firing Position Marker */}
                 <Marker
