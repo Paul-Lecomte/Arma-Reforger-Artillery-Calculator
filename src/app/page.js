@@ -4,22 +4,27 @@ import { artilleryData } from './components/Data'; // import the artilleryData
 
 // Function to find the appropriate number of rings and calculate mil
 const interpolateMil = (roundData, distance) => {
-    for (let rings = 4; rings >= 0; rings--) {  // Start from the highest number of rings
+    for (let rings = 4; rings >= 0; rings--) {
         const rangeTable = roundData[rings];
-        if (!rangeTable) {
-            continue;  // Skip if rangeTable is not defined for this number of rings
-        }
-        for (let i = 0; i < rangeTable.length - 1; i++) {
+        if (!rangeTable) continue;
+
+        const dispersion = rangeTable[0].dispersion; // Extract dispersion from first entry
+
+        for (let i = 1; i < rangeTable.length - 1; i++) { // Start at 1 to skip dispersion object
             if (distance >= rangeTable[i].range && distance <= rangeTable[i + 1].range) {
                 const x1 = rangeTable[i].range;
                 const y1 = rangeTable[i].mil;
                 const x2 = rangeTable[i + 1].range;
                 const y2 = rangeTable[i + 1].mil;
-                return { mil: y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1), rings };  // Return both mil and rings
+                return {
+                    mil: y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1),
+                    rings,
+                    dispersion
+                };
             }
         }
     }
-    return null; // If no valid range found
+    return null;
 };
 
 const Home = () => {
@@ -30,6 +35,8 @@ const Home = () => {
     const [error, setError] = useState('');
     const [calculatedMil, setCalculatedMil] = useState(null);
     const [calculatedRings, setCalculatedRings] = useState(null);
+
+    const [calculatedDispersion, setCalculatedDispersion] = useState(null);
 
     useEffect(() => {
         if (faction && round && !isNaN(distance) && distance) {
@@ -50,15 +57,18 @@ const Home = () => {
             if (result) {
                 setCalculatedMil(result.mil);
                 setCalculatedRings(result.rings);
+                setCalculatedDispersion(result.dispersion);
                 setError('');
             } else {
                 setCalculatedMil(null);
                 setCalculatedRings(null);
+                setCalculatedDispersion(null);
                 setError(`Distance must be within the available range.`);
             }
         } else {
             setCalculatedMil(null);
             setCalculatedRings(null);
+            setCalculatedDispersion(null);
         }
     }, [faction, round, charge, distance]);
 
@@ -109,6 +119,7 @@ const Home = () => {
                 <div className="mt-6 text-xl text-center font-semibold">
                     <p>Calculated Elevation: {Math.floor(calculatedMil)} MIL</p>
                     <p>Number of Rings: {calculatedRings}</p>
+                    <p>Dispersion: {calculatedDispersion} m</p>
                 </div>
             )}
         </div>
