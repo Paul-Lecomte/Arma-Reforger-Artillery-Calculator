@@ -5,9 +5,9 @@ import Footer from "./components/Footer";
 export default function Home() {
     return (
         <div>
-            <div>
-
-            </div>
+            <h1>
+                Calculator
+            </h1>
         </div>
     );
 }
