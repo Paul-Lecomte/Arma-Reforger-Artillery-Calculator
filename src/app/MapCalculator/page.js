@@ -16,25 +16,38 @@ import "leaflet/dist/leaflet.css";
 
 // Function to interpolate MIL and dispersion based on range
 const interpolateMil = (roundData, distance) => {
-    for (let rings = 4; rings >= 0; rings--) {
+    let lastMaxRange = 0; // Variable to track the last max range that was used
+    for (let rings = 0; rings <= 4; rings++) {
         const rangeTable = roundData[rings];
         if (!rangeTable) continue;
 
         const dispersion = rangeTable[0].dispersion; // Extract dispersion from first entry
 
-        for (let i = 1; i < rangeTable.length - 1; i++) { // Start at 1 to skip dispersion object
-            if (distance >= rangeTable[i].range && distance <= rangeTable[i + 1].range) {
-                const x1 = rangeTable[i].range;
-                const y1 = rangeTable[i].mil;
-                const x2 = rangeTable[i + 1].range;
-                const y2 = rangeTable[i + 1].mil;
-                return {
-                    mil: y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1),
-                    rings,
-                    dispersion
-                };
+        // Get the max range for this ring
+        const maxRange = rangeTable[rangeTable.length - 1].range;
+
+        // If the current distance has not maxed out the previous ring, skip this ring
+        if (distance < lastMaxRange) continue;
+
+        // If the distance is within the range for this ring
+        if (distance >= lastMaxRange && distance <= maxRange) {
+            for (let i = 1; i < rangeTable.length - 1; i++) { // Start at 1 to skip dispersion object
+                if (distance >= rangeTable[i].range && distance <= rangeTable[i + 1].range) {
+                    const x1 = rangeTable[i].range;
+                    const y1 = rangeTable[i].mil;
+                    const x2 = rangeTable[i + 1].range;
+                    const y2 = rangeTable[i + 1].mil;
+                    return {
+                        mil: y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1),
+                        rings, // Return the current ring level
+                        dispersion
+                    };
+                }
             }
         }
+
+        // Update the lastMaxRange to the current ring's max range
+        lastMaxRange = maxRange;
     }
     return null;
 };
