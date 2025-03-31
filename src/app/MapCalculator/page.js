@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import L from "leaflet";
+import { artilleryData } from '../components/Data'; // import your artillery data for calculations
 
 // Dynamically import react-leaflet components
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
@@ -13,6 +14,34 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { 
 
 import "leaflet/dist/leaflet.css";
 
+// Function to interpolate MIL and dispersion based on range
+const interpolateMil = (roundData, distance) => {
+    for (let rings = 4; rings >= 0; rings--) {
+        const rangeTable = roundData[rings];
+        if (!rangeTable) continue;
+
+        const dispersion = rangeTable[0].dispersion; // Extract dispersion from first entry
+
+        for (let i = 1; i < rangeTable.length - 1; i++) { // Start at 1 to skip dispersion object
+            if (distance >= rangeTable[i].range && distance <= rangeTable[i + 1].range) {
+                const x1 = rangeTable[i].range;
+                const y1 = rangeTable[i].mil;
+                const x2 = rangeTable[i + 1].range;
+                const y2 = rangeTable[i + 1].mil;
+                return {
+                    mil: y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1),
+                    rings,
+                    dispersion
+                };
+            }
+        }
+    }
+    return null;
+};
+
+// Scale factor: Each square represents 100 meters.
+const SCALE_FACTOR = 100; // 1 square = 100 meters
+
 const Page = () => {
     const [firingPosition, setFiringPosition] = useState([500, 500]);
     const [targetPosition, setTargetPosition] = useState([600, 600]);
@@ -21,17 +50,26 @@ const Page = () => {
     const [elevation, setElevation] = useState(null);
     const [mapType, setMapType] = useState("map1");
 
+    // Additional state variables for artillery calculations
+    const [faction, setFaction] = useState("American");
+    const [round, setRound] = useState("HE");
+    const [charge, setCharge] = useState("0");
+    const [calculatedMil, setCalculatedMil] = useState(null);
+    const [calculatedRings, setCalculatedRings] = useState(null);
+    const [calculatedDispersion, setCalculatedDispersion] = useState(null);
+    const [error, setError] = useState("");
+
     // Map images and bounds
     const maps = {
         map1: {
             imageUrl: "/maps/map1/arland.png",
             bounds: [[0, 0], [1000, 1000]],
-            scaleFactor: 18, // Arland scale 100m
+            scaleFactor: 18 // Arland scale 100m
         },
         map2: {
             imageUrl: "/maps/map2/everon.png",
             bounds: [[0, 0], [1000, 1000]],
-            scaleFactor: 9, // Everon scale (divide twice Arland)
+            scaleFactor: 8.58164, // Everon scale for 100m
         },
     };
 
@@ -47,6 +85,7 @@ const Page = () => {
         return (angle + 360) % 360;
     };
 
+    // Recalculate the MIL, rings, and dispersion when the distance or other params change
     useEffect(() => {
         const scaleFactor = maps[mapType].scaleFactor;
 
@@ -58,6 +97,8 @@ const Page = () => {
             scaleFactor
         ).toFixed(2);
 
+        setDistance(dist);
+
         const azi = calculateAzimuth(
             firingPosition[0],
             firingPosition[1],
@@ -65,10 +106,38 @@ const Page = () => {
             targetPosition[1]
         ).toFixed(2);
 
-        setDistance(dist);
         setAzimuth(azi);
         setElevation(Math.floor(dist * 0.1)); // Example elevation calculation
-    }, [firingPosition, targetPosition, mapType]);
+
+        // Artillery calculation logic
+        if (faction && round && !isNaN(dist) && dist) {
+            const artillery = artilleryData[faction];
+            if (!artillery) {
+                setError('Artillery data for the selected faction is missing.');
+                return;
+            }
+
+            const roundData = artillery.rounds[round];
+            if (!roundData) {
+                setError(`No data available for the selected round type: ${round}`);
+                return;
+            }
+
+            const result = interpolateMil(roundData, parseFloat(dist));
+
+            if (result) {
+                setCalculatedMil(result.mil);
+                setCalculatedRings(result.rings);
+                setCalculatedDispersion(result.dispersion);
+                setError('');
+            } else {
+                setCalculatedMil(null);
+                setCalculatedRings(null);
+                setCalculatedDispersion(null);
+                setError(`Distance must be within the available range.`);
+            }
+        }
+    }, [firingPosition, targetPosition, mapType, faction, round, charge]);
 
     return (
         <div className="map-container">
@@ -87,8 +156,32 @@ const Page = () => {
                 </select>
             </div>
 
+            {/* Faction & Round Selection */}
+            <div className="text-center mb-4 bg-black">
+                <label className="mr-2 text-lg">Faction:</label>
+                <select
+                    value={faction}
+                    onChange={(e) => setFaction(e.target.value)}
+                    className="p-2 border rounded bg-black"
+                >
+                    <option value="American">American</option>
+                    <option value="Soviet">Soviet</option>
+                </select>
+
+                <label className="mr-2 text-lg ml-4">Round Type:</label>
+                <select
+                    value={round}
+                    onChange={(e) => setRound(e.target.value)}
+                    className="p-2 border rounded bg-black"
+                >
+                    <option value="HE">HE</option>
+                    <option value="Smoke">Smoke</option>
+                    <option value="Illumination">Illumination</option>
+                </select>
+            </div>
+
             {/* Map Component */}
-            <MapContainer center={[600, 500]} zoom={2} style={{ height: "600px", width: "100%" }} crs={L.CRS.Simple}>
+            <MapContainer center={[600, 500]} zoom={2} style={{ height: "500px", width: "100%" }} crs={L.CRS.Simple}>
                 <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
 
                 {/* Draggable Firing Position Marker */}
@@ -124,11 +217,23 @@ const Page = () => {
             </MapContainer>
 
             {/* Display Calculations */}
-            <div className="text-center mt-4">
-                {distance !== null && <p className="text-xl">Distance: {distance} meters</p>}
-                {azimuth !== null && <p className="text-xl">Azimuth: {azimuth}°</p>}
-                {elevation !== null && <p className="text-xl">Elevation: {elevation}°</p>}
+            <div className="text-center mt-4 z-40">
+                <h3 className="text-xl">Artillery Calculation</h3>
+                {error && <p className="text-red-500">{error}</p>}
+
+                <p><strong>Distance:</strong> {distance} meters</p>
+                <p><strong>Azimuth:</strong> {azimuth}°</p>
+                <p><strong>Elevation:</strong> {elevation} meters</p>
+
+                {calculatedMil !== null && (
+                    <div>
+                        <p><strong>MIL:</strong> {calculatedMil.toFixed(2)}</p>
+                        <p><strong>Rings:</strong> {calculatedRings}</p>
+                        <p><strong>Dispersion:</strong> {calculatedDispersion}</p>
+                    </div>
+                )}
             </div>
+
         </div>
     );
 };
