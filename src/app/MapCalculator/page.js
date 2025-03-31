@@ -8,6 +8,7 @@ const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.Map
 const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
 const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
 const Polyline = dynamic(() => import("react-leaflet").then((mod) => mod.Polyline), { ssr: false });
+const Circle = dynamic(() => import("react-leaflet").then((mod) => mod.Circle), { ssr: false });
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
 
 import "leaflet/dist/leaflet.css";
@@ -16,9 +17,8 @@ const Page = () => {
     const [firingPosition, setFiringPosition] = useState([51.505, -0.09]);
     const [targetPosition, setTargetPosition] = useState([51.51, -0.1]);
     const [elevation, setElevation] = useState(null);
-    const [faction, setFaction] = useState("American");
-    const [artilleryType, setArtilleryType] = useState("HE");
-    const [charge, setCharge] = useState("0");
+
+    const [path, setPath] = useState([firingPosition, targetPosition]);
 
     // Custom icons
     const mortarIcon = new L.Icon({
@@ -33,7 +33,7 @@ const Page = () => {
         iconAnchor: [15, 30],
     });
 
-    // Calculate elevation when positions change
+    // Calculate elevation whenever positions change
     useEffect(() => {
         const calculateElevation = () => {
             const distance = Math.sqrt(
@@ -43,53 +43,13 @@ const Page = () => {
             setElevation(Math.floor(distance * 0.1)); // Dummy elevation formula
         };
 
+        setPath([firingPosition, targetPosition]); // Update line path
         calculateElevation();
     }, [firingPosition, targetPosition]);
 
     return (
         <div className="map-container">
             <h2 className="text-center text-2xl mb-6">Map Calculator</h2>
-            <div className="mb-4 flex justify-center space-x-4">
-                <div>
-                    <label htmlFor="faction" className="block text-lg font-medium">Faction</label>
-                    <select
-                        id="faction"
-                        value={faction}
-                        onChange={(e) => setFaction(e.target.value)}
-                        className="w-full mt-2 p-3 rounded-lg bg-[#0D0D0D] border focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    >
-                        <option value="American">American</option>
-                        <option value="Soviet">Soviet</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label htmlFor="artilleryType" className="block text-lg font-medium">Artillery Type</label>
-                    <select
-                        id="artilleryType"
-                        value={artilleryType}
-                        onChange={(e) => setArtilleryType(e.target.value)}
-                        className="w-full mt-2 p-3 rounded-lg bg-[#0D0D0D] border focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    >
-                        <option value="HE">HE</option>
-                        <option value="Illumination">Illumination</option>
-                    </select>
-                </div>
-
-                <div>
-                    <label htmlFor="charge" className="block text-lg font-medium">Charge</label>
-                    <select
-                        id="charge"
-                        value={charge}
-                        onChange={(e) => setCharge(e.target.value)}
-                        className="w-full mt-2 p-3 rounded-lg bg-[#0D0D0D] border focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                    >
-                        {[...Array(5).keys()].map((num) => (
-                            <option key={num} value={num}>Charge {num}</option>
-                        ))}
-                    </select>
-                </div>
-            </div>
 
             <MapContainer center={firingPosition} zoom={13} style={{ height: "500px", width: "100%" }}>
                 <TileLayer
@@ -97,7 +57,7 @@ const Page = () => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 />
 
-                {/* Draggable Marker for Firing Position */}
+                {/* Draggable Firing Position Marker */}
                 <Marker
                     position={firingPosition}
                     icon={mortarIcon}
@@ -109,7 +69,7 @@ const Page = () => {
                     <Popup>Firing Position</Popup>
                 </Marker>
 
-                {/* Draggable Marker for Target Position */}
+                {/* Draggable Target Position Marker */}
                 <Marker
                     position={targetPosition}
                     icon={shellIcon}
@@ -121,8 +81,14 @@ const Page = () => {
                     <Popup>Target Position</Popup>
                 </Marker>
 
-                {/* Path between Firing Position and Target */}
-                <Polyline positions={[firingPosition, targetPosition]} color="blue" />
+                {/* Red transparent circle around Firing Position */}
+                <Circle center={firingPosition} radius={50} color="red" fillOpacity={0.2} />
+
+                {/* Red transparent circle around Target Position */}
+                <Circle center={targetPosition} radius={50} color="red" fillOpacity={0.2} />
+
+                {/* Path between Firing Position and Target (updates in real-time) */}
+                <Polyline positions={path} color="blue" />
             </MapContainer>
 
             {elevation !== null && (
