@@ -5,7 +5,7 @@ import L from "leaflet";
 
 // Dynamically import react-leaflet components
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
+const ImageOverlay = dynamic(() => import("react-leaflet").then((mod) => mod.ImageOverlay), { ssr: false });
 const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
 const Polyline = dynamic(() => import("react-leaflet").then((mod) => mod.Polyline), { ssr: false });
 const Circle = dynamic(() => import("react-leaflet").then((mod) => mod.Circle), { ssr: false });
@@ -14,99 +14,62 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { 
 import "leaflet/dist/leaflet.css";
 
 const Page = () => {
-    const [firingPosition, setFiringPosition] = useState([51.505, -0.09]);
-    const [targetPosition, setTargetPosition] = useState([51.51, -0.1]);
-    const [elevation, setElevation] = useState(null);
+    const [firingPosition, setFiringPosition] = useState([500, 500]);
+    const [targetPosition, setTargetPosition] = useState([600, 600]);
     const [distance, setDistance] = useState(null);
     const [azimuth, setAzimuth] = useState(null);
+    const [elevation, setElevation] = useState(null);
+    const [mapType, setMapType] = useState("map1");
 
-    // Custom icons
-    const mortarIcon = new L.Icon({
-        iconUrl: "/mortar.png",
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-    });
-
-    const shellIcon = new L.Icon({
-        iconUrl: "/shell.png",
-        iconSize: [30, 30],
-        iconAnchor: [15, 30],
-    });
-
-    // Prevent dragging the image instead of the marker
-    useEffect(() => {
-        const images = document.querySelectorAll(".leaflet-marker-icon, .leaflet-marker-shadow");
-        images.forEach((img) => img.setAttribute("draggable", "false"));
-
-        document.addEventListener("dragstart", (e) => {
-            if (e.target.tagName === "IMG") {
-                e.preventDefault();
-            }
-        });
-
-        return () => {
-            document.removeEventListener("dragstart", (e) => {
-                if (e.target.tagName === "IMG") {
-                    e.preventDefault();
-                }
-            });
-        };
-    }, []);
-
-    // Function to calculate distance using Haversine formula
-    const calculateDistance = (lat1, lon1, lat2, lon2) => {
-        const R = 6371000; // Radius of the Earth in meters
-        const φ1 = (lat1 * Math.PI) / 180;
-        const φ2 = (lat2 * Math.PI) / 180;
-        const Δφ = ((lat2 - lat1) * Math.PI) / 180;
-        const Δλ = ((lon2 - lon1) * Math.PI) / 180;
-
-        const a =
-            Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-            Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-        return R * c; // Distance in meters
+    // Map images and bounds
+    const maps = {
+        map1: {
+            imageUrl: "/maps/map1/arland.png",
+            bounds: [[0, 0], [1000, 1000]], // Adjust these bounds to match your image scale
+        },
+        map2: {
+            imageUrl: "/maps/map2/everon.png",
+            bounds: [[0, 0], [1000, 1000]], // Adjust these bounds as needed
+        },
     };
 
-    // Function to calculate azimuth (bearing)
-    const calculateAzimuth = (lat1, lon1, lat2, lon2) => {
-        const φ1 = (lat1 * Math.PI) / 180;
-        const φ2 = (lat2 * Math.PI) / 180;
-        const λ1 = (lon1 * Math.PI) / 180;
-        const λ2 = (lon2 * Math.PI) / 180;
-
-        const y = Math.sin(λ2 - λ1) * Math.cos(φ2);
-        const x =
-            Math.cos(φ1) * Math.sin(φ2) -
-            Math.sin(φ1) * Math.cos(φ2) * Math.cos(λ2 - λ1);
-        const θ = Math.atan2(y, x);
-
-        let bearing = (θ * 180) / Math.PI; // Convert radians to degrees
-        return (bearing + 360) % 360; // Normalize to 0-360 degrees
+    // Calculate Distance using Euclidean formula (since this is a non-geographical map)
+    const calculateDistance = (x1, y1, x2, y2) => {
+        return Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
     };
 
-    // Calculate elevation, distance, and azimuth whenever positions change
-    useEffect(() => {
-        const lat1 = firingPosition[0];
-        const lon1 = firingPosition[1];
-        const lat2 = targetPosition[0];
-        const lon2 = targetPosition[1];
+    // Calculate Azimuth (simple angle calculation in a 2D plane)
+    const calculateAzimuth = (x1, y1, x2, y2) => {
+        let angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
+        return (angle + 360) % 360;
+    };
 
-        setDistance(calculateDistance(lat1, lon1, lat2, lon2).toFixed(2)); // Distance in meters
-        setAzimuth(calculateAzimuth(lat1, lon1, lat2, lon2).toFixed(2)); // Azimuth in degrees
-        setElevation(Math.floor(distance * 0.1)); // Dummy elevation formula
+    useEffect(() => {
+        setDistance(calculateDistance(firingPosition[0], firingPosition[1], targetPosition[0], targetPosition[1]).toFixed(2));
+        setAzimuth(calculateAzimuth(firingPosition[0], firingPosition[1], targetPosition[0], targetPosition[1]).toFixed(2));
+        setElevation(Math.floor(distance * 0.1));
     }, [firingPosition, targetPosition]);
 
     return (
         <div className="map-container">
-            <h2 className="text-center text-2xl mb-6">Map Calculator</h2>
+            <h2 className="text-center text-2xl mb-4">Map Calculator</h2>
 
-            <MapContainer center={firingPosition} zoom={13} style={{ height: "500px", width: "100%" }}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
+            {/* Map Switch Dropdown */}
+            <div className="text-center mb-4 bg-black">
+                <label className="mr-2 text-lg">Select Map:</label>
+                <select
+                    value={mapType}
+                    onChange={(e) => setMapType(e.target.value)}
+                    className="p-2 border rounded bg-black"
+                >
+                    <option value="map1">Arland</option>
+                    <option value="map2">Everon</option>
+                </select>
+            </div>
+
+            {/* Map Component */}
+            <MapContainer center={[600, 500]} zoom={2} style={{ height: "600px", width: "100%" }} crs={L.CRS.Simple}>
+                <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
 
                 {/* Draggable Firing Position Marker */}
                 <Marker
@@ -131,18 +94,18 @@ const Page = () => {
                 </Marker>
 
                 {/* Red transparent circle around Firing Position */}
-                <Circle center={firingPosition} radius={50} color="red" fillOpacity={0.2} />
+                <Circle center={firingPosition} radius={10} color="red" fillOpacity={0.2} />
 
                 {/* Red transparent circle around Target Position */}
-                <Circle center={targetPosition} radius={50} color="red" fillOpacity={0.2} />
+                <Circle center={targetPosition} radius={10} color="red" fillOpacity={0.2} />
 
-                {/* Path between Firing Position and Target (updates in real-time) */}
+                {/* Path between Firing Position and Target */}
                 <Polyline positions={[firingPosition, targetPosition]} color="blue" />
             </MapContainer>
 
-            {/* Display Calculated Values */}
+            {/* Display Calculations */}
             <div className="text-center mt-4">
-                {distance !== null && <p className="text-xl">Distance: {distance} meters</p>}
+                {distance !== null && <p className="text-xl">Distance: {distance} pixels</p>}
                 {azimuth !== null && <p className="text-xl">Azimuth: {azimuth}°</p>}
                 {elevation !== null && <p className="text-xl">Elevation: {elevation}°</p>}
             </div>
