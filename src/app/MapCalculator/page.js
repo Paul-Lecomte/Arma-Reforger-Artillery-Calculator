@@ -17,6 +17,8 @@ const Page = () => {
     const [firingPosition, setFiringPosition] = useState([51.505, -0.09]);
     const [targetPosition, setTargetPosition] = useState([51.51, -0.1]);
     const [elevation, setElevation] = useState(null);
+    const [distance, setDistance] = useState(null);
+    const [azimuth, setAzimuth] = useState(null);
 
     // Custom icons
     const mortarIcon = new L.Icon({
@@ -26,7 +28,7 @@ const Page = () => {
     });
 
     const shellIcon = new L.Icon({
-        iconUrl: "/shell.webp",
+        iconUrl: "/shell.png",
         iconSize: [30, 30],
         iconAnchor: [15, 30],
     });
@@ -51,17 +53,49 @@ const Page = () => {
         };
     }, []);
 
-    // Calculate elevation whenever positions change
-    useEffect(() => {
-        const calculateElevation = () => {
-            const distance = Math.sqrt(
-                Math.pow(targetPosition[0] - firingPosition[0], 2) +
-                Math.pow(targetPosition[1] - firingPosition[1], 2)
-            );
-            setElevation(Math.floor(distance * 0.1)); // Dummy elevation formula
-        };
+    // Function to calculate distance using Haversine formula
+    const calculateDistance = (lat1, lon1, lat2, lon2) => {
+        const R = 6371000; // Radius of the Earth in meters
+        const φ1 = (lat1 * Math.PI) / 180;
+        const φ2 = (lat2 * Math.PI) / 180;
+        const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+        const Δλ = ((lon2 - lon1) * Math.PI) / 180;
 
-        calculateElevation();
+        const a =
+            Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+            Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return R * c; // Distance in meters
+    };
+
+    // Function to calculate azimuth (bearing)
+    const calculateAzimuth = (lat1, lon1, lat2, lon2) => {
+        const φ1 = (lat1 * Math.PI) / 180;
+        const φ2 = (lat2 * Math.PI) / 180;
+        const λ1 = (lon1 * Math.PI) / 180;
+        const λ2 = (lon2 * Math.PI) / 180;
+
+        const y = Math.sin(λ2 - λ1) * Math.cos(φ2);
+        const x =
+            Math.cos(φ1) * Math.sin(φ2) -
+            Math.sin(φ1) * Math.cos(φ2) * Math.cos(λ2 - λ1);
+        const θ = Math.atan2(y, x);
+
+        let bearing = (θ * 180) / Math.PI; // Convert radians to degrees
+        return (bearing + 360) % 360; // Normalize to 0-360 degrees
+    };
+
+    // Calculate elevation, distance, and azimuth whenever positions change
+    useEffect(() => {
+        const lat1 = firingPosition[0];
+        const lon1 = firingPosition[1];
+        const lat2 = targetPosition[0];
+        const lon2 = targetPosition[1];
+
+        setDistance(calculateDistance(lat1, lon1, lat2, lon2).toFixed(2)); // Distance in meters
+        setAzimuth(calculateAzimuth(lat1, lon1, lat2, lon2).toFixed(2)); // Azimuth in degrees
+        setElevation(Math.floor(distance * 0.1)); // Dummy elevation formula
     }, [firingPosition, targetPosition]);
 
     return (
@@ -106,11 +140,12 @@ const Page = () => {
                 <Polyline positions={[firingPosition, targetPosition]} color="blue" />
             </MapContainer>
 
-            {elevation !== null && (
-                <div className="text-center mt-4">
-                    <p className="text-xl">Elevation: {elevation}°</p>
-                </div>
-            )}
+            {/* Display Calculated Values */}
+            <div className="text-center mt-4">
+                {distance !== null && <p className="text-xl">Distance: {distance} meters</p>}
+                {azimuth !== null && <p className="text-xl">Azimuth: {azimuth}°</p>}
+                {elevation !== null && <p className="text-xl">Elevation: {elevation}°</p>}
+            </div>
         </div>
     );
 };
