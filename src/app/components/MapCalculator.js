@@ -74,6 +74,7 @@ const Page = () => {
     const [error, setError] = useState("");
     const [ringRanges, setRingRanges] = useState([]);
     const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [isMenuOpen, setIsMenuOpen] = useState(true);
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
@@ -176,9 +177,19 @@ const Page = () => {
 
     return (
         <div className="map-container relative">
-            {/* options chooser container */}
+            {/* Toggle Button */}
+            <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="fixed top-3 left-[20px] transform -translate-x-1/2 z-50 bg-gray-800 text-white p-2 rounded-full shadow-md transition-transform duration-300 hover:scale-110"
+            >
+                {isMenuOpen ? "▲" : "▼"}
+            </button>
+
+            {/* Options Chooser Container */}
             <div
-                className="fixed z-40 w-full bg-black p-2 md:p-4 flex flex-col md:flex-row md:justify-center items-center space-y-2 md:space-y-0 md:space-x-4">
+                className={`fixed z-40 w-full bg-black p-2 md:p-4 flex flex-col md:flex-row md:justify-center items-center space-y-2 md:space-y-0 md:space-x-4 transition-transform duration-300 
+            ${isMenuOpen ? "translate-y-0" : "-translate-y-full"}`}
+            >
                 {/* Map Switch Dropdown */}
                 <div className="flex flex-col md:flex-row items-center">
                     <label className="text-lg text-white">Select Map:</label>
