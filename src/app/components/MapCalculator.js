@@ -184,7 +184,7 @@ const Page = () => {
                     <select
                         value={mapType}
                         onChange={(e) => setMapType(e.target.value)}
-                        className="p-2 border rounded"
+                        className="p-2 border rounded bg-black"
                     >
                         <option value="map1">Arland</option>
                         <option value="map2">Everon</option>
