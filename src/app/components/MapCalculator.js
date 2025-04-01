@@ -222,12 +222,12 @@ const Page = () => {
                 {/* Sidebar */}
                 <button
                     onClick={toggleSidebar}
-                    className="bg-black p-2 rounded mb-4 absolute left-[5px] top-1/4 transform -translate-y-1/2 z-40"
+                    className="bg-black p-2 rounded mb-4 absolute left-[5px] top-2/4 transform -translate-y-1/2 z-40 "
                 >
-                    {sidebarOpen ? "Close" : "Open"} Menu
+                    {sidebarOpen ? "✖" : "☰"}
                 </button>
                 <div
-                    className={`fixed z-30 w-64 bg-black rounded-2xl text-white p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-1" : "-translate-x-64"} top-1/2 transform -translate-y-1/2`}>
+                    className={`fixed z-30 w-64 bg-black rounded-2xl text-white p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-1" : "-translate-x-64"} top-4/5 transform -translate-y-1/2`}>
                     <h3 className="text-xl">Artillery Calculation</h3>
                     {error && <p className="text-red-500">{error}</p>}
 
