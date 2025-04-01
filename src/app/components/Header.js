@@ -7,7 +7,7 @@ const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <header className="text-white py-4">
+        <header className="text-white py-4 bg-black">
             <div className="container mx-auto flex justify-between items-center px-6">
                 <h1 className="text-2xl font-bold tracking-wide">
                     Arma Reforger Artillery Calculator
