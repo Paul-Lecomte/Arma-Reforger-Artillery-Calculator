@@ -177,14 +177,15 @@ const Page = () => {
     return (
         <div className="map-container relative">
             {/* options chooser container */}
-            <div className="fixed z-40 w-full bg-black">
+            <div
+                className="fixed z-40 w-full bg-black p-2 md:p-4 flex flex-col md:flex-row md:justify-center items-center space-y-2 md:space-y-0 md:space-x-4">
                 {/* Map Switch Dropdown */}
-                <div className="text-center mb-4 ">
-                    <label className="mr-2 text-lg">Select Map:</label>
+                <div className="flex flex-col md:flex-row items-center">
+                    <label className="text-lg text-white">Select Map:</label>
                     <select
                         value={mapType}
                         onChange={(e) => setMapType(e.target.value)}
-                        className="p-2 border rounded bg-black"
+                        className="p-2 border rounded bg-black text-white w-full md:w-auto"
                     >
                         <option value="map1">Arland</option>
                         <option value="map2">Everon</option>
@@ -192,22 +193,22 @@ const Page = () => {
                 </div>
 
                 {/* Faction & Round Selection */}
-                <div className="text-center mb-4">
-                    <label className="mr-2 text-lg">Faction:</label>
+                <div className="flex flex-col md:flex-row items-center">
+                    <label className="text-lg text-white">Faction:</label>
                     <select
                         value={faction}
                         onChange={(e) => setFaction(e.target.value)}
-                        className="p-2 border rounded bg-black"
+                        className="p-2 border rounded bg-black text-white w-full md:w-auto"
                     >
                         <option value="American">American</option>
                         <option value="Soviet">Soviet</option>
                     </select>
 
-                    <label className="mr-2 text-lg ml-4">Round Type:</label>
+                    <label className="text-lg text-white md:ml-4">Round Type:</label>
                     <select
                         value={round}
                         onChange={(e) => setRound(e.target.value)}
-                        className="p-2 border rounded bg-black"
+                        className="p-2 border rounded bg-black text-white w-full md:w-auto"
                     >
                         <option value="HE">HE</option>
                         <option value="Smoke">Smoke</option>
@@ -225,7 +226,8 @@ const Page = () => {
                 >
                     {sidebarOpen ? "Close" : "Open"} Menu
                 </button>
-                <div className={`fixed z-30 w-64 bg-black rounded-2xl text-white p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-1" : "-translate-x-64"} top-1/2 transform -translate-y-1/2`}>
+                <div
+                    className={`fixed z-30 w-64 bg-black rounded-2xl text-white p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-1" : "-translate-x-64"} top-1/2 transform -translate-y-1/2`}>
                     <h3 className="text-xl">Artillery Calculation</h3>
                     {error && <p className="text-red-500">{error}</p>}
 
@@ -247,10 +249,10 @@ const Page = () => {
                     <MapContainer
                         center={[600, 500]}
                         zoom={2}
-                        style={{ height: "100%", width: "100%", backgroundColor: "#8DB3BD" }}
+                        style={{height: "100%", width: "100%", backgroundColor: "#8DB3BD"}}
                         crs={L.CRS.Simple}
                     >
-                        <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
+                        <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds}/>
                         {ringRanges.map((range, index) =>
                             range ? (
                                 <Circle
@@ -290,7 +292,7 @@ const Page = () => {
                         </Marker>
 
                         {/* Red transparent circle around Firing Position */}
-                        <Circle center={firingPosition} radius={8} color="red" fillOpacity={0.2} />
+                        <Circle center={firingPosition} radius={8} color="red" fillOpacity={0.2}/>
 
                         {/* Red transparent circle around Target Position */}
                         <Circle
@@ -301,7 +303,7 @@ const Page = () => {
                         />
 
                         {/* Path between Firing Position and Target */}
-                        <Polyline positions={[firingPosition, targetPosition]} color="blue" />
+                        <Polyline positions={[firingPosition, targetPosition]} color="blue"/>
                     </MapContainer>
                 </div>
             </div>
