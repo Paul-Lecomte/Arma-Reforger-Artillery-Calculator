@@ -233,7 +233,7 @@ const Page = () => {
                 {/* Sidebar */}
                 <button
                     onClick={toggleSidebar}
-                    className="bg-black p-2 rounded mb-4 absolute left-[5px] top-1/4 transform -translate-y-1/2 z-40 "
+                    className="bg-gray-800 p-2 rounded mb-4 absolute top-3 left-[6px] transform -translate-y-1/2 z-40 "
                 >
                     {sidebarOpen ? "✖" : "☰"}
                 </button>
@@ -262,6 +262,7 @@ const Page = () => {
                         zoom={2}
                         style={{height: "100%", width: "100%", backgroundColor: "#8DB3BD"}}
                         crs={L.CRS.Simple}
+                        zoomControl={false}
                     >
                         <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds}/>
                         {ringRanges.map((range, index) =>
