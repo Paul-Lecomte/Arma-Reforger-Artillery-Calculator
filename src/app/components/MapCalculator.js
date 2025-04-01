@@ -238,7 +238,12 @@ const Page = () => {
 
                 {/* Map Component */}
                 <div className={`relative transition-all duration-300 z-10 h-full`}>
-                    <MapContainer center={[600, 500]} zoom={2} style={{ height: "100%", width: "100%", backgroundColor: "#8DB3BD" }} crs={L.CRS.Simple}>
+                    <MapContainer
+                        center={[600, 500]}
+                        zoom={2}
+                        style={{ height: "100%", width: "100%", backgroundColor: "#8DB3BD" }}
+                        crs={L.CRS.Simple}
+                    >
                         <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
                         {ringRanges.map((range, index) =>
                             range ? (
