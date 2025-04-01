@@ -167,8 +167,6 @@ const Page = () => {
 
     return (
         <div className="map-container">
-            <h2 className="text-center text-2xl mb-4">Map Calculator</h2>
-
             {/* Map Switch Dropdown */}
             <div className="text-center mb-4 bg-black">
                 <label className="mr-2 text-lg">Select Map:</label>
@@ -207,7 +205,7 @@ const Page = () => {
             </div>
 
             {/* Map Component */}
-            <MapContainer center={[600, 500]} zoom={2} style={{ height: "500px", width: "100%" }} crs={L.CRS.Simple}>
+            <MapContainer center={[600, 500]} zoom={2} style={{ height: "500px", width: "100%", backgroundColor: "#8DB3BD" }} crs={L.CRS.Simple}>
                 <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
                 {ringRanges.map((range, index) =>
                     range ? (
