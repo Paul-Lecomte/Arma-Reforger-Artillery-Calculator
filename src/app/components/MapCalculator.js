@@ -225,8 +225,6 @@ const Page = () => {
 
                     <p><strong>Distance:</strong> {distance} meters</p>
                     <p><strong>Azimuth:</strong> {azimuth}°</p>
-                    <p><strong>Elevation:</strong> {elevation} meters</p>
-
                     {calculatedMil !== null && (
                         <div>
                             <p><strong>MIL:</strong> {calculatedMil.toFixed(2)}</p>
@@ -234,6 +232,8 @@ const Page = () => {
                             <p><strong>Dispersion:</strong> {calculatedDispersion}</p>
                         </div>
                     )}
+                    <span>----------------------------</span>
+                    <p><strong>Elevation:</strong> {elevation} meters</p>
                 </div>
 
                 {/* Map Component */}
