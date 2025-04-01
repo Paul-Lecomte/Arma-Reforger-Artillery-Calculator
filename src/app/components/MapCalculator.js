@@ -233,7 +233,7 @@ const Page = () => {
                 {/* Sidebar */}
                 <button
                     onClick={toggleSidebar}
-                    className="bg-black p-2 rounded mb-4 absolute left-[5px] top-2/4 transform -translate-y-1/2 z-40 "
+                    className="bg-black p-2 rounded mb-4 absolute left-[5px] top-1/4 transform -translate-y-1/2 z-40 "
                 >
                     {sidebarOpen ? "✖" : "☰"}
                 </button>
