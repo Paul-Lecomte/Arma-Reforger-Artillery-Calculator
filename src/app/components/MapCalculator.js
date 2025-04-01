@@ -229,7 +229,7 @@ const Page = () => {
                         <div>
                             <p><strong>MIL:</strong> {calculatedMil.toFixed(2)}</p>
                             <p><strong>Rings:</strong> {calculatedRings}</p>
-                            <p><strong>Dispersion:</strong> {calculatedDispersion}</p>
+                            <p><strong>Dispersion:</strong> {calculatedDispersion} meters</p>
                         </div>
                     )}
                     <span>----------------------------</span>
