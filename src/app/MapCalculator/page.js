@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import L from "leaflet";
-import { artilleryData } from '../components/Data'; // import your artillery data for calculations
+import { artilleryData } from '../components/Data';
 
 // Dynamically import react-leaflet components
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
