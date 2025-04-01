@@ -20,21 +20,6 @@ export const metadata = {
     icons: {
         icon: '/mortar.ico', // Your favicon
     },
-    openGraph: {
-        title: "Arma Reforger Artillery Calculator",
-        description: "Calculate artillery range, elevation, and azimuth in Arma Reforger with ease using our artillery calculator tool.",
-        url: "https://www.yourwebsite.com", // Replace with your actual URL
-        site_name: "Arma Reforger Artillery Calculator",
-        images: [
-            {
-                url: "/public/shell.png", // Optional image to use for social sharing
-                width: 1200,
-                height: 630,
-                alt: "Arma Reforger Artillery Calculator",
-            },
-        ],
-        type: "website",
-    },
     locale: "en_US", // Specify the locale for better targeting
 };
 
