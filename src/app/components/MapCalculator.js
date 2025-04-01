@@ -171,7 +171,7 @@ const Page = () => {
     return (
         <div className="map-container">
             {/* Map Switch Dropdown */}
-            <div className="text-center mb-4 bg-black">
+            <div className="text-center mb-4">
                 <label className="mr-2 text-lg">Select Map:</label>
                 <select
                     value={mapType}
@@ -184,7 +184,7 @@ const Page = () => {
             </div>
 
             {/* Faction & Round Selection */}
-            <div className="text-center mb-4 bg-black">
+            <div className="text-center mb-4">
                 <label className="mr-2 text-lg">Faction:</label>
                 <select
                     value={faction}
@@ -206,80 +206,84 @@ const Page = () => {
                     <option value="Illumination">Illumination</option>
                 </select>
             </div>
-            {/* Sidebar */}
-            <div className={`bg-gray-800 text-white w-64 p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-64"}`}>
-                <button onClick={toggleSidebar} className="bg-gray-600 p-2 rounded mb-4">{sidebarOpen ? "Close" : "Open"} Menu</button>
-                <h3 className="text-xl">Artillery Calculation</h3>
-                {error && <p className="text-red-500">{error}</p>}
 
-                <p><strong>Distance:</strong> {distance} meters</p>
-                <p><strong>Azimuth:</strong> {azimuth}°</p>
-                <p><strong>Elevation:</strong> {elevation} meters</p>
+            {/* Sidebar & map container */}
+            <div className="relative h-screen w-full">
+                {/* Sidebar */}
+                <div className={`bg-gray-800 text-white w-64 p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-64"}`}>
+                    <button onClick={toggleSidebar} className="bg-gray-600 p-2 rounded mb-4">{sidebarOpen ? "Close" : "Open"} Menu</button>
+                    <h3 className="text-xl">Artillery Calculation</h3>
+                    {error && <p className="text-red-500">{error}</p>}
 
-                {calculatedMil !== null && (
-                    <div>
-                        <p><strong>MIL:</strong> {calculatedMil.toFixed(2)}</p>
-                        <p><strong>Rings:</strong> {calculatedRings}</p>
-                        <p><strong>Dispersion:</strong> {calculatedDispersion}</p>
-                    </div>
-                )}
+                    <p><strong>Distance:</strong> {distance} meters</p>
+                    <p><strong>Azimuth:</strong> {azimuth}°</p>
+                    <p><strong>Elevation:</strong> {elevation} meters</p>
+
+                    {calculatedMil !== null && (
+                        <div>
+                            <p><strong>MIL:</strong> {calculatedMil.toFixed(2)}</p>
+                            <p><strong>Rings:</strong> {calculatedRings}</p>
+                            <p><strong>Dispersion:</strong> {calculatedDispersion}</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* Map Component */}
+                <MapContainer center={[600, 500]} zoom={2} style={{ height: "600px", width: "100%", backgroundColor: "#8DB3BD" }} crs={L.CRS.Simple}>
+                    <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
+                    {ringRanges.map((range, index) =>
+                        range ? (
+                            <Circle
+                                key={index}
+                                center={firingPosition}
+                                radius={range}
+                                pathOptions={{
+                                    color: ["purple", "blue", "green", "yellow", "orange"][index],
+                                    fillOpacity: 0, // Adjust fill transparency
+                                    weight: 2, // Thinner lines
+                                    dashArray: "5, 5", // Dashed effect (5px on, 5px off)
+                                }}
+                            />
+                        ) : null
+                    )}
+
+                    {/* Draggable Firing Position Marker */}
+                    <Marker
+                        position={firingPosition}
+                        draggable={true}
+                        eventHandlers={{
+                            drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
+                        }}
+                    >
+                        <Popup>Firing Position</Popup>
+                    </Marker>
+
+                    {/* Draggable Target Position Marker */}
+                    <Marker
+                        position={targetPosition}
+                        draggable={true}
+                        eventHandlers={{
+                            drag: (e) => setTargetPosition([e.latlng.lat, e.latlng.lng]),
+                        }}
+                    >
+                        <Popup>Target Position</Popup>
+                    </Marker>
+
+                    {/* Red transparent circle around Firing Position */}
+                    <Circle center={firingPosition} radius={8} color="red" fillOpacity={0.2} />
+
+                    {/* Red transparent circle around Target Position */}
+                    <Circle
+                        center={targetPosition}
+                        radius={calculatedDispersion ? (calculatedDispersion * maps[mapType].scaleFactor) / 100 : 10}
+                        color="green"
+                        fillOpacity={0.2}
+                    />
+
+                    {/* Path between Firing Position and Target */}
+                    <Polyline positions={[firingPosition, targetPosition]} color="blue" />
+                </MapContainer>
             </div>
-
-            {/* Map Component */}
-            <MapContainer center={[600, 500]} zoom={2} style={{ height: "600px", width: "100%", backgroundColor: "#8DB3BD" }} crs={L.CRS.Simple}>
-                <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
-                {ringRanges.map((range, index) =>
-                    range ? (
-                        <Circle
-                            key={index}
-                            center={firingPosition}
-                            radius={range}
-                            pathOptions={{
-                                color: ["purple", "blue", "green", "yellow", "orange"][index],
-                                fillOpacity: 0, // Adjust fill transparency
-                                weight: 2, // Thinner lines
-                                dashArray: "5, 5", // Dashed effect (5px on, 5px off)
-                            }}
-                        />
-                    ) : null
-                )}
-
-                {/* Draggable Firing Position Marker */}
-                <Marker
-                    position={firingPosition}
-                    draggable={true}
-                    eventHandlers={{
-                        drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
-                    }}
-                >
-                    <Popup>Firing Position</Popup>
-                </Marker>
-
-                {/* Draggable Target Position Marker */}
-                <Marker
-                    position={targetPosition}
-                    draggable={true}
-                    eventHandlers={{
-                        drag: (e) => setTargetPosition([e.latlng.lat, e.latlng.lng]),
-                    }}
-                >
-                    <Popup>Target Position</Popup>
-                </Marker>
-
-                {/* Red transparent circle around Firing Position */}
-                <Circle center={firingPosition} radius={8} color="red" fillOpacity={0.2} />
-
-                {/* Red transparent circle around Target Position */}
-                <Circle
-                    center={targetPosition}
-                    radius={calculatedDispersion ? (calculatedDispersion * maps[mapType].scaleFactor) / 100 : 10}
-                    color="green"
-                    fillOpacity={0.2}
-                />
-
-                {/* Path between Firing Position and Target */}
-                <Polyline positions={[firingPosition, targetPosition]} color="blue" />
-            </MapContainer>
         </div>
     );
 };
