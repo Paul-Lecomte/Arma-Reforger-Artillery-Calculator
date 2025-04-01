@@ -72,6 +72,9 @@ const Page = () => {
     const [calculatedDispersion, setCalculatedDispersion] = useState(null);
     const [error, setError] = useState("");
     const [ringRanges, setRingRanges] = useState([]);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
+
+    const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
     // Map images and bounds
     const maps = {
@@ -203,9 +206,27 @@ const Page = () => {
                     <option value="Illumination">Illumination</option>
                 </select>
             </div>
+            {/* Sidebar */}
+            <div className={`bg-gray-800 text-white w-64 p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-64"}`}>
+                <button onClick={toggleSidebar} className="bg-gray-600 p-2 rounded mb-4">{sidebarOpen ? "Close" : "Open"} Menu</button>
+                <h3 className="text-xl">Artillery Calculation</h3>
+                {error && <p className="text-red-500">{error}</p>}
+
+                <p><strong>Distance:</strong> {distance} meters</p>
+                <p><strong>Azimuth:</strong> {azimuth}°</p>
+                <p><strong>Elevation:</strong> {elevation} meters</p>
+
+                {calculatedMil !== null && (
+                    <div>
+                        <p><strong>MIL:</strong> {calculatedMil.toFixed(2)}</p>
+                        <p><strong>Rings:</strong> {calculatedRings}</p>
+                        <p><strong>Dispersion:</strong> {calculatedDispersion}</p>
+                    </div>
+                )}
+            </div>
 
             {/* Map Component */}
-            <MapContainer center={[600, 500]} zoom={2} style={{ height: "500px", width: "100%", backgroundColor: "#8DB3BD" }} crs={L.CRS.Simple}>
+            <MapContainer center={[600, 500]} zoom={2} style={{ height: "600px", width: "100%", backgroundColor: "#8DB3BD" }} crs={L.CRS.Simple}>
                 <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
                 {ringRanges.map((range, index) =>
                     range ? (
@@ -259,25 +280,6 @@ const Page = () => {
                 {/* Path between Firing Position and Target */}
                 <Polyline positions={[firingPosition, targetPosition]} color="blue" />
             </MapContainer>
-
-            {/* Display Calculations */}
-            <div className="text-center mt-4 z-40">
-                <h3 className="text-xl">Artillery Calculation</h3>
-                {error && <p className="text-red-500">{error}</p>}
-
-                <p><strong>Distance:</strong> {distance} meters</p>
-                <p><strong>Azimuth:</strong> {azimuth}°</p>
-                <p><strong>Elevation:</strong> {elevation} meters</p>
-
-                {calculatedMil !== null && (
-                    <div>
-                        <p><strong>MIL:</strong> {calculatedMil.toFixed(2)}</p>
-                        <p><strong>Rings:</strong> {calculatedRings}</p>
-                        <p><strong>Dispersion:</strong> {calculatedDispersion}</p>
-                    </div>
-                )}
-            </div>
-
         </div>
     );
 };
