@@ -2,7 +2,6 @@
 const nextConfig = {
     reactStrictMode: false,
     devIndicators: false,
-    reactDevTools: false,
 };
 
 export default nextConfig;
