@@ -9,7 +9,7 @@ const Header = () => {
     return (
         <header className="text-white py-4 bg-black z-50">
             <div className="container mx-auto flex justify-between items-center px-6">
-                <h1 className="text-2xl font-bold tracking-wide">
+                <h1 className="text-2xl pl-4 font-bold tracking-wide">
                     Arma Reforger Artillery Calculator
                 </h1>
 
