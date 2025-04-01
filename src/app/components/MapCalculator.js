@@ -13,6 +13,7 @@ const Circle = dynamic(() => import("react-leaflet").then((mod) => mod.Circle), 
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
 
 import "leaflet/dist/leaflet.css";
+import {debounce} from "lodash";
 
 // Function to interpolate MIL and dispersion based on range
 const interpolateMil = (roundData, distance) => {
@@ -103,7 +104,7 @@ const Page = () => {
     };
 
     // Recalculate the MIL, rings, and dispersion when the distance or other params change
-    useEffect(() => {
+    const debouncedCalculate = debounce(() => {
         const scaleFactor = maps[mapType].scaleFactor;
 
         const dist = calculateDistance(
@@ -166,6 +167,11 @@ const Page = () => {
                 setError(`Distance must be within the available range.`);
             }
         }
+    }, 500); // 500 ms debounce time (adjust as necessary)
+
+    // Trigger recalculation when any of these values change
+    useEffect(() => {
+        debouncedCalculate(); // Call the debounced function
     }, [firingPosition, targetPosition, mapType, faction, round, charge]);
 
     return (
