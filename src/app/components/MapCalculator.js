@@ -169,48 +169,51 @@ const Page = () => {
     }, [firingPosition, targetPosition, mapType, faction, round, charge]);
 
     return (
-        <div className="map-container">
-            {/* Map Switch Dropdown */}
-            <div className="text-center mb-4">
-                <label className="mr-2 text-lg">Select Map:</label>
-                <select
-                    value={mapType}
-                    onChange={(e) => setMapType(e.target.value)}
-                    className="p-2 border rounded bg-black"
-                >
-                    <option value="map1">Arland</option>
-                    <option value="map2">Everon</option>
-                </select>
-            </div>
+        <div className="map-container relative">
+            {/* options chooser container */}
+            <div className="fixed z-40 w-full bg-black">
+                {/* Map Switch Dropdown */}
+                <div className="text-center mb-4 ">
+                    <label className="mr-2 text-lg">Select Map:</label>
+                    <select
+                        value={mapType}
+                        onChange={(e) => setMapType(e.target.value)}
+                        className="p-2 border rounded"
+                    >
+                        <option value="map1">Arland</option>
+                        <option value="map2">Everon</option>
+                    </select>
+                </div>
 
-            {/* Faction & Round Selection */}
-            <div className="text-center mb-4">
-                <label className="mr-2 text-lg">Faction:</label>
-                <select
-                    value={faction}
-                    onChange={(e) => setFaction(e.target.value)}
-                    className="p-2 border rounded bg-black"
-                >
-                    <option value="American">American</option>
-                    <option value="Soviet">Soviet</option>
-                </select>
+                {/* Faction & Round Selection */}
+                <div className="text-center mb-4">
+                    <label className="mr-2 text-lg">Faction:</label>
+                    <select
+                        value={faction}
+                        onChange={(e) => setFaction(e.target.value)}
+                        className="p-2 border rounded bg-black"
+                    >
+                        <option value="American">American</option>
+                        <option value="Soviet">Soviet</option>
+                    </select>
 
-                <label className="mr-2 text-lg ml-4">Round Type:</label>
-                <select
-                    value={round}
-                    onChange={(e) => setRound(e.target.value)}
-                    className="p-2 border rounded bg-black"
-                >
-                    <option value="HE">HE</option>
-                    <option value="Smoke">Smoke</option>
-                    <option value="Illumination">Illumination</option>
-                </select>
+                    <label className="mr-2 text-lg ml-4">Round Type:</label>
+                    <select
+                        value={round}
+                        onChange={(e) => setRound(e.target.value)}
+                        className="p-2 border rounded bg-black"
+                    >
+                        <option value="HE">HE</option>
+                        <option value="Smoke">Smoke</option>
+                        <option value="Illumination">Illumination</option>
+                    </select>
+                </div>
             </div>
 
             {/* Sidebar & map container */}
-            <div className="relative h-screen w-full">
+            <div className="relative h-screen">
                 {/* Sidebar */}
-                <div className={`bg-gray-800 text-white w-64 p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-64"}`}>
+                <div className={`fixed z-40 w-64 bg-gray-800 text-white p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-0" : "-translate-x-64"}`}>
                     <button onClick={toggleSidebar} className="bg-gray-600 p-2 rounded mb-4">{sidebarOpen ? "Close" : "Open"} Menu</button>
                     <h3 className="text-xl">Artillery Calculation</h3>
                     {error && <p className="text-red-500">{error}</p>}
@@ -229,60 +232,62 @@ const Page = () => {
                 </div>
 
                 {/* Map Component */}
-                <MapContainer center={[600, 500]} zoom={2} style={{ height: "600px", width: "100%", backgroundColor: "#8DB3BD" }} crs={L.CRS.Simple}>
-                    <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
-                    {ringRanges.map((range, index) =>
-                        range ? (
-                            <Circle
-                                key={index}
-                                center={firingPosition}
-                                radius={range}
-                                pathOptions={{
-                                    color: ["purple", "blue", "green", "yellow", "orange"][index],
-                                    fillOpacity: 0, // Adjust fill transparency
-                                    weight: 2, // Thinner lines
-                                    dashArray: "5, 5", // Dashed effect (5px on, 5px off)
-                                }}
-                            />
-                        ) : null
-                    )}
+                <div className={`relative transition-all duration-300 z-10 h-full`}>
+                    <MapContainer center={[600, 500]} zoom={2} style={{ height: "100%", width: "100%", backgroundColor: "#8DB3BD" }} crs={L.CRS.Simple}>
+                        <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
+                        {ringRanges.map((range, index) =>
+                            range ? (
+                                <Circle
+                                    key={index}
+                                    center={firingPosition}
+                                    radius={range}
+                                    pathOptions={{
+                                        color: ["purple", "blue", "green", "yellow", "orange"][index],
+                                        fillOpacity: 0, // Adjust fill transparency
+                                        weight: 2, // Thinner lines
+                                        dashArray: "5, 5", // Dashed effect (5px on, 5px off)
+                                    }}
+                                />
+                            ) : null
+                        )}
 
-                    {/* Draggable Firing Position Marker */}
-                    <Marker
-                        position={firingPosition}
-                        draggable={true}
-                        eventHandlers={{
-                            drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
-                        }}
-                    >
-                        <Popup>Firing Position</Popup>
-                    </Marker>
+                        {/* Draggable Firing Position Marker */}
+                        <Marker
+                            position={firingPosition}
+                            draggable={true}
+                            eventHandlers={{
+                                drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
+                            }}
+                        >
+                            <Popup>Firing Position</Popup>
+                        </Marker>
 
-                    {/* Draggable Target Position Marker */}
-                    <Marker
-                        position={targetPosition}
-                        draggable={true}
-                        eventHandlers={{
-                            drag: (e) => setTargetPosition([e.latlng.lat, e.latlng.lng]),
-                        }}
-                    >
-                        <Popup>Target Position</Popup>
-                    </Marker>
+                        {/* Draggable Target Position Marker */}
+                        <Marker
+                            position={targetPosition}
+                            draggable={true}
+                            eventHandlers={{
+                                drag: (e) => setTargetPosition([e.latlng.lat, e.latlng.lng]),
+                            }}
+                        >
+                            <Popup>Target Position</Popup>
+                        </Marker>
 
-                    {/* Red transparent circle around Firing Position */}
-                    <Circle center={firingPosition} radius={8} color="red" fillOpacity={0.2} />
+                        {/* Red transparent circle around Firing Position */}
+                        <Circle center={firingPosition} radius={8} color="red" fillOpacity={0.2} />
 
-                    {/* Red transparent circle around Target Position */}
-                    <Circle
-                        center={targetPosition}
-                        radius={calculatedDispersion ? (calculatedDispersion * maps[mapType].scaleFactor) / 100 : 10}
-                        color="green"
-                        fillOpacity={0.2}
-                    />
+                        {/* Red transparent circle around Target Position */}
+                        <Circle
+                            center={targetPosition}
+                            radius={calculatedDispersion ? (calculatedDispersion * maps[mapType].scaleFactor) / 100 : 10}
+                            color="green"
+                            fillOpacity={0.2}
+                        />
 
-                    {/* Path between Firing Position and Target */}
-                    <Polyline positions={[firingPosition, targetPosition]} color="blue" />
-                </MapContainer>
+                        {/* Path between Firing Position and Target */}
+                        <Polyline positions={[firingPosition, targetPosition]} color="blue" />
+                    </MapContainer>
+                </div>
             </div>
         </div>
     );
