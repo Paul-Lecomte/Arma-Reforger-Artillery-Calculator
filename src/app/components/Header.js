@@ -9,20 +9,21 @@ const Header = () => {
     return (
         <header className="text-white py-4 bg-black z-50">
             <div className="container mx-auto flex justify-between items-center px-6">
-                <h1 className="text-2xl pl-4 font-bold tracking-wide">
+                <h1 className="text-2xl pl-4 font-bold tracking-wide hidden md:block transition-opacity duration-300">
                     Arma Reforger Artillery Calculator
                 </h1>
 
                 {/* Burger Menu Button */}
                 <button
-                    className="md:hidden text-white focus:outline-none"
+                    className="md:hidden bg-gray-800 p-2 rounded-full text-white focus:outline-none absolute top-8 right-4 transform -translate-y-1/2"
                     onClick={() => setIsOpen(!isOpen)}
                 >
-                    {isOpen ? <X size={28} /> : <Menu size={28} />}
+                    {isOpen ? <X size={28}/> : <Menu size={28}/>}
                 </button>
 
                 {/* Navigation Links */}
-                <nav className={`absolute md:static top-16 left-0 w-full md:w-auto bg-black md:bg-transparent transition-all duration-300 ${isOpen ? "block" : "hidden"} md:flex md:space-x-6`}>
+                <nav
+                    className={`absolute md:static top-16 left-0 w-full md:w-auto bg-gray-800 md:bg-transparent transition-all duration-300 ${isOpen ? "block" : "hidden"} md:flex md:space-x-6`}>
                     <ul className="flex flex-col items-center md:flex-row space-y-4 md:space-y-0 md:space-x-6 p-6 md:p-0">
                         <li>
                             <Link href="/" className="hover:text-gray-400" onClick={() => setIsOpen(false)}>

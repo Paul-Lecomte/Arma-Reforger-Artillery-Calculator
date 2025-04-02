@@ -180,7 +180,7 @@ const Page = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="fixed top-3 left-[20px] transform -translate-x-1/2 z-50 bg-gray-800 text-white p-2 rounded-full shadow-md transition-transform duration-300 hover:scale-110"
+                className="fixed top-3 left-16 z-50 bg-gray-800 text-white p-2 rounded-full shadow-md transition-transform duration-300 hover:scale-110"
             >
                 {isMenuOpen ? "▲" : "▼"}
             </button>
@@ -233,7 +233,7 @@ const Page = () => {
                 {/* Sidebar */}
                 <button
                     onClick={toggleSidebar}
-                    className="bg-gray-800 p-2 rounded mb-4 absolute top-3 left-[6px] transform -translate-y-1/2 z-40 "
+                    className="fixed top-3 left-4 z-50 bg-gray-800 text-white p-2 rounded-full shadow-md transition-transform duration-300 hover:scale-110"
                 >
                     {sidebarOpen ? "✖" : "☰"}
                 </button>
