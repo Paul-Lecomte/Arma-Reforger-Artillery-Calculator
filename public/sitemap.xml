@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-<sitemap><loc>https://arma-reforger-artillery-calculator.vercel.app/sitemap-0.xml</loc></sitemap>
-</sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://arma-reforger-artillery-calculator.vercel.app/</loc>
+        <lastmod>2025-04-02</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://arma-reforger-artillery-calculator.vercel.app/MapCalculator</loc>
+        <lastmod>2025-04-02</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://arma-reforger-artillery-calculator.vercel.app/about</loc>
+        <lastmod>2025-04-02</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>0.7</priority>
+    </url>
+</urlset>
