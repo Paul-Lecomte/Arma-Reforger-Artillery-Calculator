@@ -1,9 +1,5 @@
-# *
 User-agent: *
 Allow: /
 
-# Host
-Host: https://arma-reforger-artillery-calculator.vercel.app
-
-# Sitemaps
+# Sitemap
 Sitemap: https://arma-reforger-artillery-calculator.vercel.app/sitemap.xml
