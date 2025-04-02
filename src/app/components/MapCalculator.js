@@ -175,7 +175,35 @@ const Page = () => {
         debouncedCalculate(); // Call the debounced function
     }, [firingPosition, targetPosition, mapType, faction, round, charge]);
 
+    useEffect(() => {
+        const updateMarkers = () => {
+            setTimeout(() => { // Delay ensures markers are fully rendered
+                const markers = document.querySelectorAll('.leaflet-marker-icon');
 
+                if (markers.length >= 2) {
+                    markers[0].src = '/marker/mortar.png';  // Firing position
+                    markers[1].src = '/marker/shell.png';   // Target position
+                }
+            }, 100);
+        };
+
+        // Update markers when page loads
+        const handlePageLoad = () => {
+            console.log('Page has finished loading');
+            updateMarkers();
+        };
+
+        // Run on component mount, and trigger on page load
+        window.addEventListener('load', handlePageLoad);
+
+        // Trigger marker update whenever positions change
+        updateMarkers();
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('load', handlePageLoad);
+        };
+    }, [firingPosition, targetPosition]);
 
     return (
         <div className="map-container relative">
