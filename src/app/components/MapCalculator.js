@@ -175,6 +175,8 @@ const Page = () => {
         debouncedCalculate(); // Call the debounced function
     }, [firingPosition, targetPosition, mapType, faction, round, charge]);
 
+
+
     return (
         <div className="map-container relative">
             {/* Toggle Button */}
@@ -238,21 +240,36 @@ const Page = () => {
                     {sidebarOpen ? "✖" : "☰"}
                 </button>
                 <div
-                    className={`fixed z-30 w-64 bg-black rounded-2xl text-white p-4 transition-transform duration-300 ${sidebarOpen ? "translate-x-1" : "-translate-x-64"} top-4/5 transform -translate-y-1/2`}>
-                    <h3 className="text-xl">Artillery Calculation</h3>
+                    className={`fixed z-30 w-48 bg-black/70 rounded-2xl text-white p-2 transition-transform duration-300 ${
+                        sidebarOpen ? "translate-x-1" : "-translate-x-64"
+                    } top-4/5 transform -translate-y-1/2`}
+                >
+                    <h3 className="text-lg">Artillery Calculation</h3>
                     {error && <p className="text-red-500">{error}</p>}
 
-                    <p><strong>Distance:</strong> {distance} meters</p>
-                    <p><strong>Azimuth:</strong> {azimuth}°</p>
+                    <p>
+                        <strong>Distance:</strong> {distance}m
+                    </p>
+                    <p>
+                        <strong>Azimuth:</strong> {azimuth}°
+                    </p>
                     {calculatedMil !== null && (
                         <div>
-                            <p><strong>MIL:</strong> {calculatedMil.toFixed(2)}</p>
-                            <p><strong>Rings:</strong> {calculatedRings}</p>
-                            <p><strong>Dispersion:</strong> {calculatedDispersion} meters</p>
+                            <p>
+                                <strong>MIL:</strong> {calculatedMil.toFixed(2)}
+                            </p>
+                            <p>
+                                <strong>Rings:</strong> {calculatedRings}
+                            </p>
+                            <p>
+                                <strong>Dispersion:</strong> {calculatedDispersion}m
+                            </p>
                         </div>
                     )}
                     <span>----------------------------</span>
-                    <p><strong>Elevation:</strong> {elevation} meters</p>
+                    <p>
+                        <strong>Elevation:</strong> {elevation} meters
+                    </p>
                 </div>
 
                 {/* Map Component */}
