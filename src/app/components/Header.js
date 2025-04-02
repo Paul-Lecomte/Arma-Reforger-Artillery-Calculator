@@ -26,12 +26,12 @@ const Header = () => {
                     <ul className="flex flex-col items-center md:flex-row space-y-4 md:space-y-0 md:space-x-6 p-6 md:p-0">
                         <li>
                             <Link href="/" className="hover:text-gray-400" onClick={() => setIsOpen(false)}>
-                                Calculator
+                                Map
                             </Link>
                         </li>
                         <li>
-                            <Link href="/MapCalculator" className="hover:text-gray-400" onClick={() => setIsOpen(false)}>
-                                Map Calculator
+                            <Link href="/Calculator" className="hover:text-gray-400" onClick={() => setIsOpen(false)}>
+                                Calculator
                             </Link>
                         </li>
                         <li>
