@@ -22,6 +22,9 @@ export const metadata = {
         icon: '/mortar.ico', // Your favicon
     },
     locale: "en_US", // Specify the locale for better targeting
+    verification: {
+        google: "d80MGB5E1JUNxMxIX5pA55b9gqj0uWptqNb4gpAqfEw",
+    },
 };
 
 export default function RootLayout({ children }) {
