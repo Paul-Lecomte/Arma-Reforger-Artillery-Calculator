@@ -189,7 +189,6 @@ const Page = () => {
 
         // Update markers when page loads
         const handlePageLoad = () => {
-            console.log('Page has finished loading');
             updateMarkers();
         };
 
