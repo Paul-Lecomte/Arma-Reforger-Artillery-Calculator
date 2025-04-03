@@ -187,13 +187,15 @@ const Page = () => {
             }, 100);
         };
 
-        // Update markers when page loads
+        // Update markers when page loads with a 2-second delay
         const handlePageLoad = () => {
-            updateMarkers();
+            setTimeout(() => {
+                updateMarkers();
+            }, 2000); // Delay of 2 seconds
         };
 
         // Run on component mount, and trigger on page load
-        window.addEventListener('load', handlePageLoad);
+        window.addEventListener('load', updateMarkers);
 
         // Trigger marker update whenever positions change
         updateMarkers();
