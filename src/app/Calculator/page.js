@@ -3,27 +3,58 @@ import React, { useState, useEffect } from 'react';
 import { artilleryData } from '../components/Data'; // import the artilleryData
 
 // Function to find the appropriate number of rings and calculate mil
+// Function to interpolate MIL and dispersion based on range
 const interpolateMil = (roundData, distance) => {
-    for (let rings = 4; rings >= 0; rings--) {
+    let lastMaxRange = 0;
+
+    for (let rings = 0; rings <= 4; rings++) {
         const rangeTable = roundData[rings];
         if (!rangeTable) continue;
 
-        const dispersion = rangeTable[0].dispersion; // Extract dispersion from first entry
+        const dispersion = rangeTable[0].dispersion;
+        const maxRange = rangeTable[rangeTable.length - 1].range;
 
-        for (let i = 1; i < rangeTable.length - 1; i++) { // Start at 1 to skip dispersion object
-            if (distance >= rangeTable[i].range && distance <= rangeTable[i + 1].range) {
-                const x1 = rangeTable[i].range;
-                const y1 = rangeTable[i].mil;
-                const x2 = rangeTable[i + 1].range;
-                const y2 = rangeTable[i + 1].mil;
-                return {
-                    mil: y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1),
-                    rings,
-                    dispersion
-                };
+        if (distance < lastMaxRange) continue;
+
+        if (distance >= lastMaxRange && distance <= maxRange) {
+            // Iterate through the data to find the closest range
+            for (let i = 1; i < rangeTable.length; i++) {
+                const current = rangeTable[i];
+                const previous = rangeTable[i - 1];
+
+                // If exact match, return the MIL value
+                if (distance === current.range) {
+                    return {
+                        mil: current.mil,
+                        rings,
+                        dispersion
+                    };
+                }
+
+                // If the distance is between two ranges, interpolate
+                if (distance > previous.range && distance < current.range) {
+                    const rangeDiff = current.range - previous.range;
+                    const milDiff = current.mil - previous.mil;
+                    const dMilPer100m = previous.dMilPer100m;
+
+                    // Interpolate MIL based on distance and apply dMilPer100m
+                    const distanceDiff = distance - previous.range;
+                    const milAdjustment = Math.round(distanceDiff / 100) * dMilPer100m;
+
+                    const newMil = previous.mil + milAdjustment + milDiff * (distanceDiff / rangeDiff);
+
+                    return {
+                        mil: newMil,
+                        rings,
+                        dispersion
+                    };
+                }
             }
         }
+
+        lastMaxRange = maxRange;
     }
+
     return null;
 };
 
