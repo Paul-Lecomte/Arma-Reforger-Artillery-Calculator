@@ -17,39 +17,52 @@ import {debounce} from "lodash";
 
 // Function to interpolate MIL and dispersion based on range
 const interpolateMil = (roundData, distance) => {
-    let lastMaxRange = 0; // Variable to track the last max range that was used
+    let lastMaxRange = 0;
+
     for (let rings = 0; rings <= 4; rings++) {
         const rangeTable = roundData[rings];
         if (!rangeTable) continue;
 
-        const dispersion = rangeTable[0].dispersion; // Extract dispersion from first entry
-
-        // Get the max range for this ring
+        const dispersion = rangeTable[0].dispersion;
         const maxRange = rangeTable[rangeTable.length - 1].range;
 
-        // If the current distance has not maxed out the previous ring, skip this ring
         if (distance < lastMaxRange) continue;
 
-        // If the distance is within the range for this ring
         if (distance >= lastMaxRange && distance <= maxRange) {
-            for (let i = 1; i < rangeTable.length - 1; i++) { // Start at 1 to skip dispersion object
-                if (distance >= rangeTable[i].range && distance <= rangeTable[i + 1].range) {
-                    const x1 = rangeTable[i].range;
-                    const y1 = rangeTable[i].mil;
-                    const x2 = rangeTable[i + 1].range;
-                    const y2 = rangeTable[i + 1].mil;
+            // Handle exact match or very close to exact
+            for (let i = 1; i < rangeTable.length; i++) {
+                const entry = rangeTable[i];
+                if (Math.abs(distance - entry.range) < 0.001) {
+                    return {
+                        mil: entry.mil,
+                        rings,
+                        dispersion
+                    };
+                }
+            }
+
+            // Interpolate
+            for (let i = 1; i < rangeTable.length - 1; i++) {
+                const current = rangeTable[i];
+                const next = rangeTable[i + 1];
+
+                if (distance >= current.range && distance <= next.range) {
+                    const x1 = current.range;
+                    const y1 = current.mil;
+                    const x2 = next.range;
+                    const y2 = next.mil;
                     return {
                         mil: y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1),
-                        rings, // Return the current ring level
+                        rings,
                         dispersion
                     };
                 }
             }
         }
 
-        // Update the lastMaxRange to the current ring's max range
         lastMaxRange = maxRange;
     }
+
     return null;
 };
 
@@ -285,7 +298,7 @@ const Page = () => {
                     {calculatedMil !== null && (
                         <div>
                             <p>
-                                <strong>MIL:</strong> {calculatedMil.toFixed(2)}
+                                <strong>Elev mils:</strong> {calculatedMil.toFixed(2)}
                             </p>
                             <p>
                                 <strong>Rings:</strong> {calculatedRings}
