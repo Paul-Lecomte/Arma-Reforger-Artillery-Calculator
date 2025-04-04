@@ -328,6 +328,7 @@ const Page = () => {
                     <MapContainer
                         center={[600, 500]}
                         zoom={2}
+                        maxZoom={4}
                         style={{height: "100%", width: "100%", backgroundColor: "#8DB3BD"}}
                         crs={L.CRS.Simple}
                         zoomControl={false}
