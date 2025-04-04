@@ -15,69 +15,6 @@ const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { 
 import "leaflet/dist/leaflet.css";
 import {debounce} from "lodash";
 
-// Function to interpolate MIL and dispersion based on range
-const interpolateMil = (roundData, distance) => {
-    let lastMaxRange = 0;
-
-    for (let rings = 0; rings <= 4; rings++) {
-        const rangeTable = roundData[rings];
-        if (!rangeTable) continue;
-
-        const dispersion = rangeTable[0].dispersion;
-        const maxRange = rangeTable[rangeTable.length - 1].range;
-
-        console.log(`Ring: ${rings}, MaxRange: ${maxRange}, Distance: ${distance}`); // Debugging line
-
-        if (distance < lastMaxRange) continue;
-
-        if (distance >= lastMaxRange && distance <= maxRange) {
-            // Iterate through the data to find the closest range
-            for (let i = 1; i < rangeTable.length; i++) {
-                const current = rangeTable[i];
-                const previous = rangeTable[i - 1];
-
-                // If exact match, return the MIL value
-                if (distance === current.range) {
-                    console.log(`Exact match found at range: ${distance}, MIL: ${current.mil}`); // Debugging line
-                    return {
-                        mil: current.mil,
-                        rings,
-                        dispersion
-                    };
-                }
-
-                // If the distance is between two ranges, interpolate
-                if (distance > previous.range && distance < current.range) {
-                    const rangeDiff = current.range - previous.range;
-                    const milDiff = current.mil - previous.mil;
-                    const dMilPer100m = current.dMilPer100m;
-
-                    // Interpolate MIL based on distance
-                    const distanceDiff = distance - previous.range;
-                    const milAdjustment = Math.round(distanceDiff / 100) * dMilPer100m;
-
-                    const newMil = previous.mil + milAdjustment + milDiff * (distanceDiff / rangeDiff);
-
-                    console.log(`Interpolated MIL: ${newMil}, Distance: ${distance}`); // Debugging line
-
-                    return {
-                        mil: newMil,
-                        rings,
-                        dispersion
-                    };
-                }
-            }
-        }
-
-        lastMaxRange = maxRange;
-    }
-
-    return null;
-};
-
-// Scale factor: Each square represents 100 meters.
-const SCALE_FACTOR = 100; // 1 square = 100 meters
-
 const Page = () => {
     const [firingPosition, setFiringPosition] = useState([500, 500]);
     const [targetPosition, setTargetPosition] = useState([600, 600]);
@@ -112,6 +49,66 @@ const Page = () => {
             bounds: [[0, 0], [1000, 1000]],
             scaleFactor: 8.58164, // Everon scale for 100m
         },
+    };
+
+    // Function to interpolate MIL and dispersion based on range
+    const interpolateMil = (roundData, distance) => {
+        let lastMaxRange = 0;
+
+        for (let rings = 0; rings <= 4; rings++) {
+            const rangeTable = roundData[rings];
+            if (!rangeTable) continue;
+
+            const dispersion = rangeTable[0].dispersion;
+            const maxRange = rangeTable[rangeTable.length - 1].range;
+
+            console.log(`Ring: ${rings}, MaxRange: ${maxRange}, Distance: ${distance}`); // Debugging line
+
+            if (distance < lastMaxRange) continue;
+
+            if (distance >= lastMaxRange && distance <= maxRange) {
+                // Iterate through the data to find the closest range
+                for (let i = 1; i < rangeTable.length; i++) {
+                    const current = rangeTable[i];
+                    const previous = rangeTable[i - 1];
+
+                    // If exact match, return the MIL value
+                    if (distance === current.range) {
+                        console.log(`Exact match found at range: ${distance}, MIL: ${current.mil}`); // Debugging line
+                        return {
+                            mil: current.mil,
+                            rings,
+                            dispersion
+                        };
+                    }
+
+                    // If the distance is between two ranges, interpolate
+                    if (distance > previous.range && distance < current.range) {
+                        const rangeDiff = current.range - previous.range;
+                        const milDiff = current.mil - previous.mil;
+                        const dMilPer100m = current.dMilPer100m;
+
+                        // Interpolate MIL based on distance
+                        const distanceDiff = distance - previous.range;
+                        const milAdjustment = Math.round(distanceDiff / 100) * dMilPer100m;
+
+                        const newMil = previous.mil + milAdjustment + milDiff * (distanceDiff / rangeDiff);
+
+                        console.log(`Interpolated MIL: ${newMil}, Distance: ${distance}`); // Debugging line
+
+                        return {
+                            mil: newMil,
+                            rings,
+                            dispersion
+                        };
+                    }
+                }
+            }
+
+            lastMaxRange = maxRange;
+        }
+
+        return null;
     };
 
     // Calculate Distance in meters using Euclidean formula
