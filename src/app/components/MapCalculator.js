@@ -26,33 +26,42 @@ const interpolateMil = (roundData, distance) => {
         const dispersion = rangeTable[0].dispersion;
         const maxRange = rangeTable[rangeTable.length - 1].range;
 
+        console.log(`Ring: ${rings}, MaxRange: ${maxRange}, Distance: ${distance}`); // Debugging line
+
         if (distance < lastMaxRange) continue;
 
         if (distance >= lastMaxRange && distance <= maxRange) {
-            // Handle exact match or very close to exact
+            // Iterate through the data to find the closest range
             for (let i = 1; i < rangeTable.length; i++) {
-                const entry = rangeTable[i];
-                if (Math.abs(distance - entry.range) < 0.001) {
+                const current = rangeTable[i];
+                const previous = rangeTable[i - 1];
+
+                // If exact match, return the MIL value
+                if (distance === current.range) {
+                    console.log(`Exact match found at range: ${distance}, MIL: ${current.mil}`); // Debugging line
                     return {
-                        mil: entry.mil,
+                        mil: current.mil,
                         rings,
                         dispersion
                     };
                 }
-            }
 
-            // Interpolate
-            for (let i = 1; i < rangeTable.length - 1; i++) {
-                const current = rangeTable[i];
-                const next = rangeTable[i + 1];
+                // If the distance is between two ranges, interpolate
+                if (distance > previous.range && distance < current.range) {
+                    const rangeDiff = current.range - previous.range;
+                    const milDiff = current.mil - previous.mil;
+                    const dMilPer100m = current.dMilPer100m;
 
-                if (distance >= current.range && distance <= next.range) {
-                    const x1 = current.range;
-                    const y1 = current.mil;
-                    const x2 = next.range;
-                    const y2 = next.mil;
+                    // Interpolate MIL based on distance
+                    const distanceDiff = distance - previous.range;
+                    const milAdjustment = Math.round(distanceDiff / 100) * dMilPer100m;
+
+                    const newMil = previous.mil + milAdjustment + milDiff * (distanceDiff / rangeDiff);
+
+                    console.log(`Interpolated MIL: ${newMil}, Distance: ${distance}`); // Debugging line
+
                     return {
-                        mil: y1 + ((y2 - y1) / (x2 - x1)) * (distance - x1),
+                        mil: newMil,
                         rings,
                         dispersion
                     };
@@ -181,7 +190,7 @@ const Page = () => {
                 setError(`Distance must be within the available range.`);
             }
         }
-    }, 500); // 500 ms debounce time (adjust as necessary)
+    }, 50); // 500 ms debounce time (adjust as necessary)
 
     // Trigger recalculation when any of these values change
     useEffect(() => {
