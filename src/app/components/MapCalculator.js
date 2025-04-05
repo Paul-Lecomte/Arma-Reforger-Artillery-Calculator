@@ -326,8 +326,8 @@ const Page = () => {
                 {/* Map Component */}
                 <div className={`relative transition-all duration-300 z-10 h-full`}>
                     <MapContainer
-                        center={[600, 500]}
-                        zoom={2}
+                        center={[500, 500]}
+                        zoom={1}
                         maxZoom={4}
                         style={{height: "100%", width: "100%", backgroundColor: "#8DB3BD"}}
                         crs={L.CRS.Simple}
