@@ -63,3 +63,16 @@ body {
 .animate-slideFadeOut {
   animation: slideFadeOut 400ms ease-in forwards;
 }
+
+.custom-tooltip {
+  background: none !important; /* No background */
+  border: none !important;     /* No border */
+  color: black !important;     /* Text color */
+  font-weight: bold;           /* Bold text */
+  font-size: 14px;             /* Font size */
+  text-align: center;          /* Text alignment */
+  white-space: nowrap;         /* Keep text in one line */
+  padding: 0 !important;       /* No padding */
+  box-shadow: none !important; /* No shadow */
+  transform: rotate(90deg);    /* Rotate the text */
+}

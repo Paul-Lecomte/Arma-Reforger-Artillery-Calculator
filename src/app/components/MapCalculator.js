@@ -40,20 +40,6 @@ const Page = () => {
 
     const polylinePositions = [firingPosition, targetPosition];
 
-    // Custom styles for the Tooltip
-    const tooltipStyle = {
-        backgroundColor: "transparent !important",  // Enforcing transparency
-        padding: "0 !important",                    // Removing padding
-        fontSize: "12px",                           // Adjust font size
-        color: "black",                             // Tooltip text color
-        fontWeight: "bold",                         // Bold text
-        transform: "rotate(90deg)",                 // Rotate 90 degrees
-        whiteSpace: "nowrap",                       // Prevent text wrapping
-        border: "none !important",                  // Removing border if any
-        boxShadow: "none !important",               // Remove box shadow
-        textAlign: "center",                       // Center the text
-    };
-
     // Map images and bounds
     const maps = {
         map1: {
@@ -412,14 +398,11 @@ const Page = () => {
                                 offset={[0, 0]}
                                 opacity={1}
                                 permanent
-                                style={tooltipStyle}
+                                className="custom-tooltip"
                             >
                                 {"text"}
                             </Tooltip>
                         </Polyline>
-
-                        {/* Text tooltip to show the name or information at the middle of the polyline */}
-
                     </MapContainer>
                 </div>
             </div>
