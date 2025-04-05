@@ -399,7 +399,8 @@ const Page = () => {
                                 permanent
                                 className="custom-tooltip"
                             >
-                                {""}
+
+
                             </Tooltip>
                         </Polyline>
                     </MapContainer>
