@@ -15,7 +15,7 @@ const Header = () => {
 
                 {/* Burger Menu Button */}
                 <button
-                    className="md:hidden bg-gray-800 p-2 rounded-full text-white focus:outline-none absolute top-4 right-4 z-50"
+                    className="md:hidden bg-gray-800 p-2 rounded-lg text-white focus:outline-none absolute top-4 right-4 z-50"
                     onClick={() => setIsOpen(!isOpen)}
                 >
                     {isOpen ? <X size={28} /> : <Menu size={28} />}
@@ -28,7 +28,7 @@ const Header = () => {
                     } md:flex md:space-x-6`}
                     style={{ zIndex: 40 }} // ensures nav is under the button
                 >
-                    <ul className="flex flex-col absolute top-5 right-4 items-end md:flex-row space-y-4 md:space-y-0 md:space-x-6 p-6 md:p-0">
+                    <ul className="flex flex-col absolute top-5 right-4 items-end md:flex-row space-y-4 md:space-y-0 md:space-x-6 p-6 md:p-0 ">
                         <li>
                             <Link href="/" className="hover:text-gray-400" onClick={() => setIsOpen(false)}>
                                 Map
