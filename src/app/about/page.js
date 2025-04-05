@@ -6,17 +6,17 @@ const Page = () => {
             title: 'How to Choose the Map, Faction, and Shell',
             content: (
                 <>
-                    <h3>Choosing Your Map</h3>
-                    <p>
-                        Start by selecting your map. The tool supports multiple military-style maps with different grid systems. Each map has its own specific conversion factor for accurate calculations. You’ll need to know the grid scale to make sure the artillery calculations are precise.
+                    <h3 className="text-lg font-semibold mb-1">Choosing Your Map</h3>
+                    <p className="mb-3">
+                        Start by selecting your map. The tool supports multiple military-style maps with different grid systems...
                     </p>
-                    <h3>Selecting Your Faction</h3>
-                    <p>
-                        Choose between <strong>US</strong> and <strong>RU</strong> artillery. Each faction has unique data, including different artillery systems, ranges, and charge configurations.
+                    <h3 className="text-lg font-semibold mb-1">Selecting Your Faction</h3>
+                    <p className="mb-3">
+                        Choose between <strong>US</strong> and <strong>RU</strong> artillery...
                     </p>
-                    <h3>Choosing Your Shell</h3>
+                    <h3 className="text-lg font-semibold mb-1">Choosing Your Shell</h3>
                     <p>
-                        After selecting the faction, choose the type of artillery round you want to use: <strong>HE</strong> (High Explosive), <strong>Smoke</strong>, <strong>Illumination</strong>. Each shell type has its own properties, such as range and dispersion.
+                        After selecting the faction, choose the type of artillery round you want to use...
                     </p>
                 </>
             ),
@@ -27,14 +27,13 @@ const Page = () => {
             title: 'Setting Up the Firing Position and Target Area',
             content: (
                 <>
-                    <h3>Firing Position</h3>
-                    <p>
-                        The firing position refers to the location where your artillery will be stationed <strong style={{color: "red"}}>Red circle</strong>. Drag the marker of your firing position <strong style={{color: "green"}}>Green circle</strong>,
-                        or select it directly on the map. The tool will use this position to calculate the distance to the target.
+                    <h3 className="text-lg font-semibold mb-1">Firing Position</h3>
+                    <p className="mb-3">
+                        The firing position refers to the location where your artillery will be stationed <span className="text-red-500 font-bold">Red circle</span>. Drag the marker of your firing position <span className="text-green-500 font-bold">Green circle</span>...
                     </p>
-                    <h3>Target Area</h3>
+                    <h3 className="text-lg font-semibold mb-1">Target Area</h3>
                     <p>
-                        Next, choose where you want your artillery to hit. You can select a target point on the interactive map. The tool will calculate the angle (azimuth), the rings needed on the shell and elevation necessary to hit the target accurately.
+                        Next, choose where you want your artillery to hit...
                     </p>
                 </>
             ),
@@ -45,12 +44,12 @@ const Page = () => {
             title: 'Viewing Results',
             content: (
                 <>
-                    <h3>Results Display</h3>
-                    <p>
-                        Once the firing position and target area are set, the tool will calculate and display the necessary settings for firing the artillery. This includes the required azimuth, elevation, and charge settings. The results will also be shown on the map with range circles and other visual aids.
+                    <h3 className="text-lg font-semibold mb-1">Results Display</h3>
+                    <p className="mb-3">
+                        Once the firing position and target area are set, the tool will calculate and display the necessary settings...
                     </p>
                     <p>
-                        The results tab makes it easy to know exactly what adjustments you need to make to fire your artillery accurately, saving time and effort during gameplay.
+                        The results tab makes it easy to know exactly what adjustments you need...
                     </p>
                 </>
             ),
@@ -62,7 +61,7 @@ const Page = () => {
             content: (
                 <>
                     <p>
-                        The header section of the tool provides quick access to the main options, such as selecting the faction, round type, and charge settings. It also includes the map selection and a button to reset the entire tool for new calculations. This section is always visible and provides users with easy access to the most important features.
+                        The header section of the tool provides quick access to the main options...
                     </p>
                 </>
             ),
@@ -72,28 +71,23 @@ const Page = () => {
     ];
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-            <h1 style={{ textAlign: 'center' }}>Arma Reforger Artillery Calculator</h1>
+        <div className="px-4 py-8 max-w-screen-xl mx-auto text-white">
+            <h1 className="text-3xl font-bold text-center mb-10">Arma Reforger Artillery Calculator</h1>
             {sections.map((section, index) => (
                 <div
                     key={index}
-                    style={{
-                        display: 'flex',
-                        flexDirection: index % 2 === 0 ? 'row' : 'row-reverse',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '20px',
-                        marginBottom: '40px',
-                    }}
+                    className={`flex flex-col md:flex-row ${
+                        index % 2 !== 0 ? 'md:flex-row-reverse' : ''
+                    } items-center gap-8 mb-16`}
                 >
                     <img
                         src={section.imgSrc}
                         alt={section.imgAlt}
-                        style={{ width: '30%', height: 'auto', borderRadius: '8px' }}
+                        className="w-full md:w-1/2 rounded-lg shadow-lg"
                     />
-                    <div style={{ maxWidth: '600px' }}>
-                        <h2>{section.title}</h2>
-                        <div>{section.content}</div>
+                    <div className="w-full md:w-1/2">
+                        <h2 className="text-2xl font-semibold mb-4">{section.title}</h2>
+                        <div className="text-sm leading-relaxed text-gray-300">{section.content}</div>
                     </div>
                 </div>
             ))}
