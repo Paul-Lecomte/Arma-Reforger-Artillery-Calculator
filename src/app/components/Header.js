@@ -8,8 +8,8 @@ const Header = () => {
 
     return (
         <header className="text-white py-4 bg-black z-50">
-            <div className="container mx-auto flex justify-between items-center px-6">
-                <h1 className="text-2xl pl-20 pl-4 font-bold tracking-wide hidden md:block transition-opacity duration-300">
+            <div className="container mx-auto flex justify-between items-center px-6" style={{marginLeft: "5rem"}}>
+                <h1 className="text-2xl font-bold tracking-wide hidden md:block transition-opacity duration-300">
                     Arma Reforger Artillery Calculator
                 </h1>
 
