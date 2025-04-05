@@ -242,29 +242,23 @@ const Page = () => {
             >
                 {/* Map Switch Dropdown */}
                 <div className="flex flex-col md:flex-row items-center">
-                    <label className="text-lg text-white">Select Map:</label>
-                    <select
-                        value={mapType}
-                        onChange={(e) => setMapType(e.target.value)}
-                        className="p-2 border rounded bg-black text-white w-full md:w-auto"
-                    >
-                        <option value="map1">Arland</option>
-                        <option value="map2">Everon</option>
-                    </select>
+                    <div className="flex flex-col items-center"></div>
                 </div>
 
                 {/* Faction & Round Selection */}
                 <div className="flex flex-col md:flex-row items-center">
-                    <label className="text-lg text-white">Faction:</label>
-                    <select
-                        value={faction}
-                        onChange={(e) => setFaction(e.target.value)}
-                        className="p-2 border rounded bg-black text-white w-full md:w-auto"
-                    >
-                        <option value="American">American</option>
-                        <option value="Soviet">Soviet</option>
-                    </select>
-
+                    <div className="flex flex-col items-center">
+                        <label className="text-lg text-white">Faction:</label>
+                        <select
+                            value={faction}
+                            onChange={(e) => setFaction(e.target.value)}
+                            className="p-2 border rounded bg-black text-white w-full md:w-auto"
+                        >
+                            <option value="American">American</option>
+                            <option value="Soviet">Soviet</option>
+                        </select>
+                    </div>
+                    <div className="flex flex-col items-center"></div>
                     <label className="text-lg text-white md:ml-4">Round Type:</label>
                     <select
                         value={round}
