@@ -391,7 +391,6 @@ const Page = () => {
                             positions={polylinePositions}
                             color="black"
                         >
-                            <Popup>Path between Firing and Target</Popup>
                             <Tooltip
                                 position={[(firingPosition[0] + targetPosition[0]) / 2, (firingPosition[1] + targetPosition[1]) / 2]}
                                 direction="center"
@@ -400,7 +399,7 @@ const Page = () => {
                                 permanent
                                 className="custom-tooltip"
                             >
-                                {"text"}
+                                {""}
                             </Tooltip>
                         </Polyline>
                     </MapContainer>
