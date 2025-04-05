@@ -243,7 +243,7 @@ const Page = () => {
                 {/* Map Switch Dropdown */}
                 <div className="flex flex-col md:flex-row items-center">
                     <div className="flex flex-col items-center">
-                        <label className="text-lg text-white">Select Map:</label>
+                        <label className="text-lg text-white">Map</label>
                         <select
                             value={mapType}
                             onChange={(e) => setMapType(e.target.value)}
@@ -257,7 +257,7 @@ const Page = () => {
 
                 {/* Faction & Round Selection */}
                     <div className="flex flex-col items-center">
-                        <label className="text-lg text-white">Faction:</label>
+                        <label className="text-lg text-white">Faction</label>
                         <select
                             value={faction}
                             onChange={(e) => setFaction(e.target.value)}
@@ -268,7 +268,7 @@ const Page = () => {
                         </select>
                     </div>
                     <div className="flex flex-col items-center">
-                        <label className="text-lg text-white md:ml-4">Round Type:</label>
+                        <label className="text-lg text-white">Shell</label>
                         <select
                             value={round}
                             onChange={(e) => setRound(e.target.value)}
