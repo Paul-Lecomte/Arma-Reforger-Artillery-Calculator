@@ -35,17 +35,24 @@ const Page = () => {
     const [ringRanges, setRingRanges] = useState([]);
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(true);
-    const [polyline, setPolyline] = useState(null);
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
 
-    // Calculate the midpoint of the polyline
-    const getMidpoint = (start, end) => {
-        const lat = (start[0] + end[0]) / 2;
-        const lng = (start[1] + end[1]) / 2;
-        return [lat, lng];
-    };
     const polylinePositions = [firingPosition, targetPosition];
+
+    // Custom styles for the Tooltip
+    const tooltipStyle = {
+        backgroundColor: "transparent !important",  // Enforcing transparency
+        padding: "0 !important",                    // Removing padding
+        fontSize: "12px",                           // Adjust font size
+        color: "black",                             // Tooltip text color
+        fontWeight: "bold",                         // Bold text
+        transform: "rotate(90deg)",                 // Rotate 90 degrees
+        whiteSpace: "nowrap",                       // Prevent text wrapping
+        border: "none !important",                  // Removing border if any
+        boxShadow: "none !important",               // Remove box shadow
+        textAlign: "center",                       // Center the text
+    };
 
     // Map images and bounds
     const maps = {
@@ -405,6 +412,7 @@ const Page = () => {
                                 offset={[0, 0]}
                                 opacity={1}
                                 permanent
+                                style={tooltipStyle}
                             >
                                 {"text"}
                             </Tooltip>
