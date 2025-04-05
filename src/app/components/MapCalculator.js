@@ -11,6 +11,7 @@ const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), 
 const Polyline = dynamic(() => import("react-leaflet").then((mod) => mod.Polyline), { ssr: false });
 const Circle = dynamic(() => import("react-leaflet").then((mod) => mod.Circle), { ssr: false });
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
+const Tooltip = dynamic(() => import("react-leaflet").then((mod) => mod.Tooltip), { ssr: false });
 
 import "leaflet/dist/leaflet.css";
 import {debounce} from "lodash";
@@ -34,8 +35,17 @@ const Page = () => {
     const [ringRanges, setRingRanges] = useState([]);
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [isMenuOpen, setIsMenuOpen] = useState(true);
+    const [polyline, setPolyline] = useState(null);
 
     const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+
+    // Calculate the midpoint of the polyline
+    const getMidpoint = (start, end) => {
+        const lat = (start[0] + end[0]) / 2;
+        const lng = (start[1] + end[1]) / 2;
+        return [lat, lng];
+    };
+    const polylinePositions = [firingPosition, targetPosition];
 
     // Map images and bounds
     const maps = {
@@ -384,7 +394,24 @@ const Page = () => {
                         />
 
                         {/* Path between Firing Position and Target */}
-                        <Polyline positions={[firingPosition, targetPosition]} color="black"></Polyline>
+                        <Polyline
+                            positions={polylinePositions}
+                            color="black"
+                        >
+                            <Popup>Path between Firing and Target</Popup>
+                            <Tooltip
+                                position={[(firingPosition[0] + targetPosition[0]) / 2, (firingPosition[1] + targetPosition[1]) / 2]}
+                                direction="center"
+                                offset={[0, 0]}
+                                opacity={1}
+                                permanent
+                            >
+                                {"text"}
+                            </Tooltip>
+                        </Polyline>
+
+                        {/* Text tooltip to show the name or information at the middle of the polyline */}
+
                     </MapContainer>
                 </div>
             </div>
