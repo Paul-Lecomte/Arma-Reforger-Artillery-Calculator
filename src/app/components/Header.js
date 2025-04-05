@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
@@ -23,9 +23,9 @@ const Header = () => {
 
                 {/* Navigation Links */}
                 <nav
-                    className={`absolute md:static top-12 right-0 md:w-auto transition-all duration-300 ${
-                        isOpen ? "block" : "hidden"
-                    } md:flex md:space-x-6`}
+                    className={`absolute md:static top-12 right-0 md:w-auto transition-all duration-300 md:flex md:space-x-6 ${
+                        isOpen ? "animate-slideFadeIn" : "hidden"
+                    }`}
                     style={{ zIndex: 40 }}
                 >
                     <ul
