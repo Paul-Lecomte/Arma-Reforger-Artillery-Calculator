@@ -242,7 +242,17 @@ const Page = () => {
             >
                 {/* Map Switch Dropdown */}
                 <div className="flex flex-col md:flex-row items-center">
-                    <div className="flex flex-col items-center"></div>
+                    <div className="flex flex-col items-center">
+                        <label className="text-lg text-white">Select Map:</label>
+                        <select
+                            value={mapType}
+                            onChange={(e) => setMapType(e.target.value)}
+                            className="p-2 border rounded bg-black text-white w-full md:w-auto"
+                        >
+                            <option value="map1">Arland</option>
+                            <option value="map2">Everon</option>
+                        </select>
+                    </div>
                 </div>
 
                 {/* Faction & Round Selection */}
