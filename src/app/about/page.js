@@ -72,7 +72,6 @@ const Page = () => {
 
     return (
         <div className="px-4 py-8 max-w-screen-xl mx-auto text-white">
-            <h1 className="text-3xl font-bold text-center mb-10">Arma Reforger Artillery Calculator</h1>
             {sections.map((section, index) => (
                 <div
                     key={index}
