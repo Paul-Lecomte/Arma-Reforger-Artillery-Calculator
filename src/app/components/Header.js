@@ -23,12 +23,12 @@ const Header = () => {
 
                 {/* Navigation Links */}
                 <nav
-                    className={`absolute md:static top-16 right-4 md:w-auto bg-gray-800 md:bg-transparent transition-all duration-300 ${
+                    className={`absolute md:static top-12 right-0 md:w-auto bg-gray-800 md:bg-transparent transition-all duration-300 ${
                         isOpen ? "block" : "hidden"
                     } md:flex md:space-x-6`}
                     style={{ zIndex: 40 }} // ensures nav is under the button
                 >
-                    <ul className="flex flex-col absolute top-5 right-4 items-end md:flex-row space-y-4 md:space-y-0 md:space-x-6 p-6 md:p-0 ">
+                    <ul className="flex flex-col bg-gray-800 rounded-lg absolute top-5 right-4 items-end md:flex-row space-y-4 md:space-y-0 md:space-x-6 p-6 md:p-0 ">
                         <li>
                             <Link href="/" className="hover:text-gray-400" onClick={() => setIsOpen(false)}>
                                 Map
