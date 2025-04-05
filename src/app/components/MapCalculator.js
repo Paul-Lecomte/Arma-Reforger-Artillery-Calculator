@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import dynamic from "next/dynamic";
 import L from "leaflet";
 import { artilleryData } from '../components/Data';
@@ -384,7 +384,7 @@ const Page = () => {
                         />
 
                         {/* Path between Firing Position and Target */}
-                        <Polyline positions={[firingPosition, targetPosition]} color="blue"/>
+                        <Polyline positions={[firingPosition, targetPosition]} color="black"></Polyline>
                     </MapContainer>
                 </div>
             </div>
