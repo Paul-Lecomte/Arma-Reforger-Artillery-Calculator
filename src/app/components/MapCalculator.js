@@ -240,8 +240,9 @@ const Page = () => {
 
             {/* Options Chooser Container */}
             <div
-                className={`fixed z-40 w-full bg-black p-2 md:p-4 flex flex-col md:flex-row md:justify-center items-center space-y-2 md:space-y-0 md:space-x-4 transition-transform duration-300 
-            ${isMenuOpen ? "translate-y-0" : "-translate-y-full"}`}
+                className={`fixed z-40 w-full bg-black p-2 md:p-4 flex flex-col md:flex-row md:justify-center items-center space-y-2 md:space-y-0 md:space-x-4 
+                transition-all duration-300 ease-in-out 
+                ${isMenuOpen ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
             >
                 {/* Map Switch Dropdown */}
                 <div className="flex flex-col md:flex-row items-center">
@@ -259,30 +260,30 @@ const Page = () => {
                 </div>
 
                 {/* Faction & Round Selection */}
-                    <div className="flex flex-col items-center">
-                        <label className="text-lg text-white">Faction</label>
-                        <select
-                            value={faction}
-                            onChange={(e) => setFaction(e.target.value)}
-                            className="p-2 border rounded bg-black text-white w-full md:w-auto"
-                        >
-                            <option value="American">American</option>
-                            <option value="Soviet">Soviet</option>
-                        </select>
-                    </div>
-                    <div className="flex flex-col items-center">
-                        <label className="text-lg text-white">Shell</label>
-                        <select
-                            value={round}
-                            onChange={(e) => setRound(e.target.value)}
-                            className="p-2 border rounded bg-black text-white w-full md:w-auto"
-                        >
-                            <option value="HE">HE</option>
-                            <option value="Smoke">Smoke</option>
-                            <option value="Illumination">Illumination</option>
-                        </select>
-                    </div>
+                <div className="flex flex-col items-center">
+                    <label className="text-lg text-white">Faction</label>
+                    <select
+                        value={faction}
+                        onChange={(e) => setFaction(e.target.value)}
+                        className="p-2 border rounded bg-black text-white w-full md:w-auto"
+                    >
+                        <option value="American">American</option>
+                        <option value="Soviet">Soviet</option>
+                    </select>
                 </div>
+                <div className="flex flex-col items-center">
+                    <label className="text-lg text-white">Shell</label>
+                    <select
+                        value={round}
+                        onChange={(e) => setRound(e.target.value)}
+                        className="p-2 border rounded bg-black text-white w-full md:w-auto"
+                    >
+                        <option value="HE">HE</option>
+                        <option value="Smoke">Smoke</option>
+                        <option value="Illumination">Illumination</option>
+                    </select>
+                </div>
+            </div>
 
             {/* Sidebar & map container */}
             <div className="relative h-screen">
