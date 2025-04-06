@@ -65,7 +65,6 @@ const Page = () => {
             const dispersion = rangeTable[0].dispersion;
             const maxRange = rangeTable[rangeTable.length - 1].range;
 
-            console.log(`Ring: ${rings}, MaxRange: ${maxRange}, Distance: ${distance}`); // Debugging line
 
             if (distance < lastMaxRange) continue;
 
@@ -77,7 +76,6 @@ const Page = () => {
 
                     // If exact match, return the MIL value
                     if (distance === current.range) {
-                        console.log(`Exact match found at range: ${distance}, MIL: ${current.mil}`); // Debugging line
                         return {
                             mil: current.mil,
                             rings,
@@ -97,7 +95,6 @@ const Page = () => {
 
                         const newMil = previous.mil + milAdjustment + milDiff * (distanceDiff / rangeDiff);
 
-                        console.log(`Interpolated MIL: ${newMil}, Distance: ${distance}`); // Debugging line
 
                         return {
                             mil: newMil,
@@ -401,6 +398,7 @@ const Page = () => {
                                 className="custom-tooltip"
                             >
 
+                                {distance}m  {azimuth}°
 
                             </Tooltip>
                         </Polyline>
