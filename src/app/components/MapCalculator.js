@@ -398,7 +398,7 @@ const Page = () => {
                                 className="custom-tooltip"
                             >
 
-                                {distance}m  {azimuth}°
+
 
                             </Tooltip>
                         </Polyline>
