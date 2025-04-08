@@ -282,6 +282,23 @@ const Page = () => {
                 </div>
             </div>
 
+            {/* Sidebar & map container*/}
+            {calculatedMil !== null && (
+            <div className="fixed bottom-4 z-50 bg-black flex flex-col w-full items-center">
+                <div className="text-center flex flex-row">
+                    <p className="mr-2 text-2xl">
+                        <strong>Azimuth:</strong> {azimuth}° |
+                    </p>
+                    <p className="mr-2 text-2xl">
+                        <strong>Elev mils:</strong> {calculatedMil.toFixed(1)} |
+                    </p>
+                    <p className="text-2xl">
+                        <strong>Rings:</strong> {calculatedRings}
+                    </p>
+                </div>
+            </div>
+            )}
+
             {/* Sidebar & map container */}
             <div className="relative h-screen">
                 {/* Sidebar */}
@@ -323,20 +340,6 @@ const Page = () => {
                         <strong>Elevation:</strong> {elevation} meters
                     </p>
                 </div>
-
-                {/* Sidebar & map container
-                <div>
-                    <p>
-                        <strong>Azimuth:</strong> {azimuth}°
-                    </p>
-                    <p>
-                        <strong>Elev mils:</strong> {calculatedMil.toFixed(2)}
-                    </p>
-                    <p>
-                        <strong>Rings:</strong> {calculatedRings}
-                    </p>
-                </div>
-                */}
 
                 {/* Map Component */}
                 <div className={`relative transition-all duration-300 z-10 h-full`}>
