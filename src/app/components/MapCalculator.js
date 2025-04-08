@@ -347,7 +347,11 @@ const Page = () => {
                         center={[500, 500]}
                         zoom={1}
                         maxZoom={4}
-                        style={{height: "100%", width: "100%", backgroundColor: "#8DB3BD"}}
+                        style={{
+                            height: "100vh",
+                            width: "100vw",
+                            backgroundColor: "#8DB3BD"
+                        }}
                         crs={L.CRS.Simple}
                         zoomControl={false}
                     >
@@ -415,7 +419,7 @@ const Page = () => {
                                 className="custom-tooltip"
                             >
 
-
+                                {/*{distance}m {azimuth}°*/}
 
                             </Tooltip>
                         </Polyline>
