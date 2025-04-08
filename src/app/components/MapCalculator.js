@@ -324,18 +324,7 @@ const Page = () => {
                     </p>
                 </div>
 
-                {/* Sidebar & map container */}
-                <div>
-                    <p>
-                        <strong>Azimuth:</strong> {azimuth}°
-                    </p>
-                    <p>
-                        <strong>Elev mils:</strong> {calculatedMil.toFixed(2)}
-                    </p>
-                    <p>
-                        <strong>Rings:</strong> {calculatedRings}
-                    </p>
-                </div>
+
 
                 {/* Map Component */}
                 <div className={`relative transition-all duration-300 z-10 h-full`}>
