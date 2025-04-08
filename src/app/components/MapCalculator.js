@@ -324,6 +324,9 @@ const Page = () => {
                     </p>
                 </div>
 
+                {/* Sidebar & map container */}
+                <div></div>
+
                 {/* Map Component */}
                 <div className={`relative transition-all duration-300 z-10 h-full`}>
                     <MapContainer
