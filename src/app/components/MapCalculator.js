@@ -45,12 +45,12 @@ const Page = () => {
         map1: {
             imageUrl: "/maps/map1/arland.png",
             bounds: [[0, 0], [1000, 1000]],
-            scaleFactor: 18 // Arland scale 100m
+            scaleFactor: 18.3 // Arland scale 100m
         },
         map2: {
             imageUrl: "/maps/map2/everon.png",
             bounds: [[0, 0], [1000, 1000]],
-            scaleFactor: 8.58164, // Everon scale for 100m
+            scaleFactor: 8.58164, // Everon scale for 100m 8.58164
         },
     };
 
@@ -398,7 +398,7 @@ const Page = () => {
                                 className="custom-tooltip"
                             >
 
-
+                                {distance}m  {azimuth}°
 
                             </Tooltip>
                         </Polyline>
