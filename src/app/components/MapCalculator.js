@@ -45,7 +45,7 @@ const Page = () => {
         map1: {
             imageUrl: "/maps/map1/arland.png",
             bounds: [[0, 0], [1000, 1000]],
-            scaleFactor: 18.3 // Arland scale 100m
+            scaleFactor: 17.875 // Arland scale 100m
         },
         map2: {
             imageUrl: "/maps/map2/everon.png",
