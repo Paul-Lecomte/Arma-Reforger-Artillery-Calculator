@@ -44,15 +44,22 @@ const Page = () => {
     const maps = {
         map1: {
             imageUrl: "/maps/map1/arland.png",
-            bounds: [[0, 0], [1000, 1000]],
-            scaleFactor: 17.875 // Arland scale 100m
+            // Further reduced bounds to zoom out more
+            bounds: [[0, 0], [920, 1024]], // Significantly reduced bounds for more zoomed-out effect
+            scaleFactor: 18.4 // Arland scale 100m
         },
         map2: {
             imageUrl: "/maps/map2/everon.png",
-            bounds: [[0, 0], [1000, 1000]],
-            scaleFactor: 8.58164, // Everon scale for 100m 8.58164
+            // Further reduced bounds to zoom out more
+            bounds: [[0, 0], [1080, 1011]], // Significantly reduced bounds for more zoomed-out effect
+            scaleFactor: 8.58164, // Everon scale for 100m
         },
     };
+
+    useEffect(() => {
+        setFiringPosition([centerY, centerX]);  // Set firing position to center of map
+        setTargetPosition([centerY + 100, centerX + 100]);  // Set target position near the center
+    }, [mapType]);  // Recalculate when mapType changes
 
     // Function to interpolate MIL and dispersion based on range
     const interpolateMil = (roundData, distance) => {
@@ -225,6 +232,10 @@ const Page = () => {
         };
     }, [firingPosition, targetPosition]);
 
+    const { bounds } = maps[mapType];
+    const centerY = (bounds[0][0] + bounds[1][0]) / 2;
+    const centerX = (bounds[0][1] + bounds[1][1]) / 2;
+
     return (
         <div className="map-container relative">
             {/* Toggle Button */}
@@ -344,8 +355,8 @@ const Page = () => {
                 {/* Map Component */}
                 <div className={`relative transition-all duration-300 z-10 h-full`}>
                     <MapContainer
-                        center={[500, 500]}
-                        zoom={1}
+                        center={[centerY, centerX]}
+                        zoom={0}
                         maxZoom={4}
                         style={{
                             height: "100vh",
