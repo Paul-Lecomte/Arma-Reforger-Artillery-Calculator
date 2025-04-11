@@ -413,7 +413,8 @@ const Page = () => {
                             center={targetPosition}
                             radius={calculatedDispersion ? (calculatedDispersion * maps[mapType].scaleFactor) / 100 : 10}
                             color="green"
-                            fillOpacity={0.2}
+                            fillOpacity={0.5}
+                            stroke={false}
                         />
 
                         {/* Path between Firing Position and Target */}
