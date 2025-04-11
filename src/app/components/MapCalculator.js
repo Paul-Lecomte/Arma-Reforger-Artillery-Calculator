@@ -51,7 +51,7 @@ const Page = () => {
         map2: {
             imageUrl: "/maps/map2/everon.png",
             // Further reduced bounds to zoom out more
-            bounds: [[0, 0], [1080, 1011]], // Significantly reduced bounds for more zoomed-out effect
+            bounds: [[0, 0], [1084.3, 1011]], // Significantly reduced bounds for more zoomed-out effect
             scaleFactor: 8.58164, // Everon scale for 100m
         },
     };
