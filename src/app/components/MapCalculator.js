@@ -59,10 +59,17 @@ const Page = () => {
     };
 
     const MapClickHandler = () => {
-        useMapEvent("click", (e) => {
-            const { lat, lng } = e.latlng;
-            setTargetPosition([lat, lng]);
+        const map = useMapEvent({
+            click(e) {
+                const { lat, lng } = e.latlng;
+                setTargetPosition([lat, lng]); // Left-click sets target
+            },
+            contextmenu(e) {
+                const { lat, lng } = e.latlng;
+                setFiringPosition([lat, lng]); // Right-click sets firing position
+            }
         });
+
         return null;
     };
 
