@@ -406,7 +406,13 @@ const Page = () => {
                         </Marker>
 
                         {/* Red transparent circle around Firing Position */}
-                        <Circle center={firingPosition} radius={8} color="red" fillOpacity={0.2}/>
+                        <Circle
+                            center={firingPosition}
+                            radius={8}
+                            color="red"
+                            fillOpacity={0.5}
+                            stroke={false}
+                        />
 
                         {/* Red transparent circle around Target Position */}
                         <Circle
