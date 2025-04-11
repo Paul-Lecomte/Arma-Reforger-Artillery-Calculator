@@ -45,7 +45,7 @@ const Page = () => {
         map1: {
             imageUrl: "/maps/map1/arland.png",
             // Further reduced bounds to zoom out more
-            bounds: [[0, 0], [920, 1026]], // Significantly reduced bounds for more zoomed-out effect
+            bounds: [[0, 0], [905, 1026]], // Significantly reduced bounds for more zoomed-out effect
             scaleFactor: 18.4 // Arland scale 100m
         },
         map2: {
