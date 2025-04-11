@@ -3,6 +3,8 @@ import React, {useState, useEffect} from "react";
 import dynamic from "next/dynamic";
 import L from "leaflet";
 import { artilleryData } from '../components/Data';
+import { useMapEvent } from 'react-leaflet';
+
 
 // Dynamically import react-leaflet components
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
@@ -55,6 +57,15 @@ const Page = () => {
             scaleFactor: 8.58164, // Everon scale for 100m
         },
     };
+
+    const MapClickHandler = () => {
+        useMapEvent("click", (e) => {
+            const { lat, lng } = e.latlng;
+            setTargetPosition([lat, lng]);
+        });
+        return null;
+    };
+
 
     useEffect(() => {
         setFiringPosition([centerY, centerX]);  // Set firing position to center of map
@@ -441,6 +452,7 @@ const Page = () => {
 
                             </Tooltip>
                         </Polyline>
+                        <MapClickHandler />
                     </MapContainer>
                 </div>
             </div>
