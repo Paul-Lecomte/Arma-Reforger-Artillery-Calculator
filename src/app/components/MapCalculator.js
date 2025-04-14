@@ -256,145 +256,184 @@ const Page = () => {
 
     return (
         <div className="map-container relative">
+            {/* Toggle Button */}
+            <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="fixed top-3 left-16 z-50 bg-gray-800 text-white p-2 rounded-full shadow-md transition-transform duration-300 hover:scale-110"
+            >
+                {isMenuOpen ? "▲" : "▼"}
+            </button>
+
             {/* Sliding Menu Container */}
-            <div className="fixed z-40 bg-black/80 w-64 h-full p-4 flex flex-col space-y-6">
-                {/* Toggle Button */}
-                <button
-                    onClick={() => setIsMenuOpen(!isMenuOpen)}
-                    className="fixed top-3 left-16 z-50 bg-gray-800 text-white p-2 rounded-full shadow-md transition-transform duration-300 hover:scale-110"
-                >
-                    {isMenuOpen ? "▲" : "▼"}
-                </button>
+            <div
+                className={`fixed z-40 bg-black/80 w-64 h-full p-4 flex flex-col space-y-6 transition-transform duration-300 ${
+                    isMenuOpen ? "translate-x-0" : "-translate-x-full"
+                }`}
+            >
+                {/* Map Switch Dropdown */}
+                <div className="flex flex-col items-start">
+                    <label className="text-lg text-white">Map</label>
+                    <select
+                        value={mapType}
+                        onChange={(e) => setMapType(e.target.value)}
+                        className="p-2 border rounded bg-black text-white w-full"
+                    >
+                        <option value="map1">Arland</option>
+                        <option value="map2">Everon</option>
+                    </select>
+                </div>
 
-                {/* Sliding Menu Container */}
-                <div
-                    className={`fixed z-40 bg-black/80 w-64 h-full p-4 flex flex-col space-y-6 transition-transform duration-300 ${
-                        isMenuOpen ? "translate-x-0" : "-translate-x-full"
-                    }`}
-                >
-                    {/* Map Switch Dropdown */}
-                    <div className="flex flex-col items-start">
-                        <label className="text-lg text-white">Map</label>
-                        <select
-                            value={mapType}
-                            onChange={(e) => setMapType(e.target.value)}
-                            className="p-2 border rounded bg-black text-white w-full"
-                        >
-                            <option value="map1">Arland</option>
-                            <option value="map2">Everon</option>
-                        </select>
-                    </div>
+                {/* Faction & Round Selection */}
+                <div className="flex flex-col items-start">
+                    <label className="text-lg text-white">Faction</label>
+                    <select
+                        value={faction}
+                        onChange={(e) => setFaction(e.target.value)}
+                        className="p-2 border rounded bg-black text-white w-full"
+                    >
+                        <option value="American">American</option>
+                        <option value="Soviet">Soviet</option>
+                    </select>
+                </div>
+                <div className="flex flex-col items-start">
+                    <label className="text-lg text-white">Shell</label>
+                    <select
+                        value={round}
+                        onChange={(e) => setRound(e.target.value)}
+                        className="p-2 border rounded bg-black text-white w-full"
+                    >
+                        <option value="HE">HE</option>
+                        <option value="Smoke">Smoke</option>
+                        <option value="Illumination">Illumination</option>
+                    </select>
+                </div>
 
-                    {/* Faction Dropdown */}
-                    <div className="flex flex-col items-start">
-                        <label className="text-lg text-white">Faction</label>
-                        <select
-                            value={faction}
-                            onChange={(e) => setFaction(e.target.value)}
-                            className="p-2 border rounded bg-black text-white w-full"
-                        >
-                            <option value="American">American</option>
-                            <option value="Soviet">Soviet</option>
-                        </select>
-                    </div>
-
-                    {/* Shell Dropdown */}
-                    <div className="flex flex-col items-start">
-                        <label className="text-lg text-white">Shell</label>
-                        <select
-                            value={round}
-                            onChange={(e) => setRound(e.target.value)}
-                            className="p-2 border rounded bg-black text-white w-full"
-                        >
-                            <option value="HE">HE</option>
-                            <option value="Smoke">Smoke</option>
-                            <option value="Illumination">Illumination</option>
-                        </select>
-                    </div>
-                    <div className="relative transition-all duration-300 z-10 h-full">
-                        <MapContainer
-                            center={[centerY, centerX]}
-                            zoom={0}
-                            maxZoom={4}
-                            style={{
-                                height: "100vh",
-                                width: "100vw",
-                                backgroundColor: "#8DB3BD"
-                            }}
-                            crs={L.CRS.Simple}
-                            zoomControl={false}
-                        >
-                            {/* Map-related components */}
-                        </MapContainer>
-                    </div>
+                {/* Sidebar Information */}
+                <div className="flex flex-col items-start mt-4">
+                    <h3 className="text-lg text-white">Artillery Calculation</h3>
+                    {error && <p className="text-red-500">{error}</p>}
+                    <p><strong>Distance:</strong> {distance}m</p>
+                    <p><strong>Azimuth:</strong> {azimuth}°</p>
                     {calculatedMil !== null && (
-                        <div className="fixed bottom-4 z-50 bg-black flex flex-col w-full items-center">
-                            <div className="text-center flex flex-row">
-                                <p className="mr-2">
-                                    <strong>Azimuth:</strong> {azimuth}° |
-                                </p>
-                                <p className="mr-2">
-                                    <strong>Elev mils:</strong> {calculatedMil.toFixed(1)} |
-                                </p>
-                                <p>
-                                    <strong>Rings:</strong> {calculatedRings}
-                                </p><Marker
-                                position={firingPosition}
-                                draggable
-                                eventHandlers={{
-                                    drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
-                                }}
-                            >
-                                <div>
-                                    <p><strong>Elevation Difference:</strong> {elevationDifference} meters</p>
-                                </div>
-
-                                <Popup>Firing Position</Popup><Circle
-                                center={firingPosition}
-                                radius={8}
-                                color="red"
-                                fillOpacity={0.5}
-                                stroke={false}
-                            />
-
-                            </Marker>
-
-                            </div>
+                        <div>
+                            <p><strong>Elev mils:</strong> {calculatedMil.toFixed(2)}</p>
+                            <p><strong>Rings:</strong> {calculatedRings}</p>
+                            <p><strong>Dispersion:</strong> {calculatedDispersion}m</p>
                         </div>
                     )}
+                    <span>----------------------------</span>
+                    <p><strong>Elevation:</strong> {elevation} meters</p>
+                </div>
+            </div>
 
-                    <MapContainer>
-                        <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
-                        {ringRanges.map((range, index) => range && (
+            {/* Bottom Menu */}
+            {calculatedMil !== null && (
+                <div className="fixed bottom-4 z-50 bg-black flex flex-col w-full items-center">
+                    <div className="text-center flex flex-row">
+                        <p className="mr-2">
+                            <strong>Azimuth:</strong> {azimuth}° |
+                        </p>
+                        <p className="mr-2">
+                            <strong>Elev mils:</strong> {calculatedMil.toFixed(1)} |
+                        </p>
+                        <p>
+                            <strong>Rings:</strong> {calculatedRings}
+                        </p>
+                    </div>
+                </div>
+            )}
+
+            {/* Map Component */}
+            <div className={`relative transition-all duration-300 z-10 h-full`}>
+                <MapContainer
+                    center={[centerY, centerX]}
+                    zoom={0}
+                    maxZoom={4}
+                    style={{
+                        height: "100vh",
+                        width: "100vw",
+                        backgroundColor: "#8DB3BD"
+                    }}
+                    crs={L.CRS.Simple}
+                    zoomControl={false}
+                >
+                    <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds}/>
+                    {ringRanges.map((range, index) =>
+                        range ? (
                             <Circle
                                 key={index}
                                 center={firingPosition}
                                 radius={range}
-                                pathOptions={{ color: ["purple", "blue", "green", "yellow", "orange"][index] }}
+                                pathOptions={{
+                                    color: ["purple", "blue", "green", "yellow", "orange"][index],
+                                    fillOpacity: 0, // Adjust fill transparency
+                                    weight: 2, // Thinner lines
+                                    dashArray: "5, 5", // Dashed effect (5px on, 5px off)
+                                }}
                             />
-                        ))}
-                    </MapContainer>
+                        ) : null
+                    )}
 
+                    {/* Draggable Firing Position Marker */}
+                    <Marker
+                        position={firingPosition}
+                        draggable={true}
+                        eventHandlers={{
+                            drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
+                        }}
+                    >
+                        <Popup>Firing Position</Popup>
+                    </Marker>
 
-                    {/* Sidebar Information */}
-                    <div className="flex flex-col items-start mt-4">
-                        <h3 className="text-lg text-white">Artillery Calculation</h3>
-                        {error && <p className="text-red-500">{error}</p>}
-                        <p><strong>Distance:</strong> {distance}m</p>
-                        <p><strong>Azimuth:</strong> {azimuth}°</p>
-                        {calculatedMil !== null && (
-                            <div>
-                                <p><strong>Elev mils:</strong> {calculatedMil.toFixed(2)}</p>
-                                <p><strong>Rings:</strong> {calculatedRings}</p>
-                                <p><strong>Dispersion:</strong> {calculatedDispersion}m</p>
-                            </div>
-                        )}
-                        <span>----------------------------</span>
-                        <p><strong>Elevation:</strong> {elevation} meters</p>
-                    </div>
-                </div>
+                    {/* Draggable Target Position Marker */}
+                    <Marker
+                        position={targetPosition}
+                        draggable={true}
+                        eventHandlers={{
+                            drag: (e) => setTargetPosition([e.latlng.lat, e.latlng.lng]),
+                        }}
+                    >
+                        <Popup>Target Position</Popup>
+                    </Marker>
+
+                    {/* Red transparent circle around Firing Position */}
+                    <Circle
+                        center={firingPosition}
+                        radius={8}
+                        color="red"
+                        fillOpacity={0.5}
+                        stroke={false}
+                    />
+
+                    {/* Red transparent circle around Target Position */}
+                    <Circle
+                        center={targetPosition}
+                        radius={calculatedDispersion ? (calculatedDispersion * maps[mapType].scaleFactor) / 100 : 10}
+                        color="green"
+                        fillOpacity={0.5}
+                        stroke={false}
+                    />
+
+                    {/* Path between Firing Position and Target */}
+                    <Polyline
+                        positions={polylinePositions}
+                        color="black"
+                    >
+                        <Tooltip
+                            position={[(firingPosition[0] + targetPosition[0]) / 2, (firingPosition[1] + targetPosition[1]) / 2]}
+                            direction="center"
+                            offset={[0, 0]}
+                            opacity={1}
+                            permanent
+                            className="custom-tooltip"
+                        >
+                        </Tooltip>
+                    </Polyline>
+                    <MapClickHandler/>
+                </MapContainer>
             </div>
-            );
-            };
+        </div>
+    );
+};
 
-            export default Page;
+export default Page;
