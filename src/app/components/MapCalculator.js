@@ -270,9 +270,21 @@ const Page = () => {
                         <option value="map2">Everon</option>
                     </select>
                 </div>
+
+                {/* Faction Dropdown */}
+                <div className="flex flex-col items-start">
+                    <label className="text-lg text-white">Faction</label>
+                    <select
+                        value={faction}
+                        onChange={(e) => setFaction(e.target.value)}
+                        className="p-2 border rounded bg-black text-white w-full"
+                    >
+                        <option value="American">American</option>
+                        <option value="Soviet">Soviet</option>
+                    </select>
+                </div>
             </div>
         </div>
-
     );
 };
 
