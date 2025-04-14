@@ -343,6 +343,17 @@ const Page = () => {
                         </div>
                     )}
 
+                    <MapContainer>
+                        <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds} />
+                        {ringRanges.map((range, index) => range && (
+                            <Circle
+                                key={index}
+                                center={firingPosition}
+                                radius={range}
+                                pathOptions={{ color: ["purple", "blue", "green", "yellow", "orange"][index] }}
+                            />
+                        ))}
+                    </MapContainer>
 
 
                     {/* Sidebar Information */}
