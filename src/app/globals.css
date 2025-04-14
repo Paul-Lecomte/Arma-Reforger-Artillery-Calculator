@@ -76,12 +76,3 @@ body {
   box-shadow: none !important; /* No shadow */
   transform: rotate(90deg);    /* Rotate the text */
 }
-
-/* Add necessary CSS */
-.fixed {
-  transition: transform 0.3s ease-out;
-}
-
-.bg-black/80 {
-  background-color: rgba(0, 0, 0, 0.8);
-}
