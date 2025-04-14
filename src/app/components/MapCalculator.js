@@ -345,6 +345,10 @@ const Page = () => {
                                     drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
                                 }}
                             >
+                                <div>
+                                    <p><strong>Elevation Difference:</strong> {elevationDifference} meters</p>
+                                </div>
+
                                 <Popup>Firing Position</Popup><Circle
                                 center={firingPosition}
                                 radius={8}
