@@ -283,6 +283,20 @@ const Page = () => {
                         <option value="Soviet">Soviet</option>
                     </select>
                 </div>
+
+                {/* Shell Dropdown */}
+                <div className="flex flex-col items-start">
+                    <label className="text-lg text-white">Shell</label>
+                    <select
+                        value={round}
+                        onChange={(e) => setRound(e.target.value)}
+                        className="p-2 border rounded bg-black text-white w-full"
+                    >
+                        <option value="HE">HE</option>
+                        <option value="Smoke">Smoke</option>
+                        <option value="Illumination">Illumination</option>
+                    </select>
+                </div>
             </div>
         </div>
     );
