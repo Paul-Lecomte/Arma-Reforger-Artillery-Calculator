@@ -272,65 +272,82 @@ const Page = () => {
                         isMenuOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
                 >
-                {/* Map Switch Dropdown */}
-                <div className="flex flex-col items-start">
-                    <label className="text-lg text-white">Map</label>
-                    <select
-                        value={mapType}
-                        onChange={(e) => setMapType(e.target.value)}
-                        className="p-2 border rounded bg-black text-white w-full"
-                    >
-                        <option value="map1">Arland</option>
-                        <option value="map2">Everon</option>
-                    </select>
-                </div>
+                    {/* Map Switch Dropdown */}
+                    <div className="flex flex-col items-start">
+                        <label className="text-lg text-white">Map</label>
+                        <select
+                            value={mapType}
+                            onChange={(e) => setMapType(e.target.value)}
+                            className="p-2 border rounded bg-black text-white w-full"
+                        >
+                            <option value="map1">Arland</option>
+                            <option value="map2">Everon</option>
+                        </select>
+                    </div>
 
-                {/* Faction Dropdown */}
-                <div className="flex flex-col items-start">
-                    <label className="text-lg text-white">Faction</label>
-                    <select
-                        value={faction}
-                        onChange={(e) => setFaction(e.target.value)}
-                        className="p-2 border rounded bg-black text-white w-full"
-                    >
-                        <option value="American">American</option>
-                        <option value="Soviet">Soviet</option>
-                    </select>
-                </div>
+                    {/* Faction Dropdown */}
+                    <div className="flex flex-col items-start">
+                        <label className="text-lg text-white">Faction</label>
+                        <select
+                            value={faction}
+                            onChange={(e) => setFaction(e.target.value)}
+                            className="p-2 border rounded bg-black text-white w-full"
+                        >
+                            <option value="American">American</option>
+                            <option value="Soviet">Soviet</option>
+                        </select>
+                    </div>
 
-                {/* Shell Dropdown */}
-                <div className="flex flex-col items-start">
-                    <label className="text-lg text-white">Shell</label>
-                    <select
-                        value={round}
-                        onChange={(e) => setRound(e.target.value)}
-                        className="p-2 border rounded bg-black text-white w-full"
-                    >
-                        <option value="HE">HE</option>
-                        <option value="Smoke">Smoke</option>
-                        <option value="Illumination">Illumination</option>
-                    </select>
-                </div>
+                    {/* Shell Dropdown */}
+                    <div className="flex flex-col items-start">
+                        <label className="text-lg text-white">Shell</label>
+                        <select
+                            value={round}
+                            onChange={(e) => setRound(e.target.value)}
+                            className="p-2 border rounded bg-black text-white w-full"
+                        >
+                            <option value="HE">HE</option>
+                            <option value="Smoke">Smoke</option>
+                            <option value="Illumination">Illumination</option>
+                        </select>
+                    </div>
+                    <div className="relative transition-all duration-300 z-10 h-full">
+                        <MapContainer
+                            center={[centerY, centerX]}
+                            zoom={0}
+                            maxZoom={4}
+                            style={{
+                                height: "100vh",
+                                width: "100vw",
+                                backgroundColor: "#8DB3BD"
+                            }}
+                            crs={L.CRS.Simple}
+                            zoomControl={false}
+                        >
+                            {/* Map-related components */}
+                        </MapContainer>
+                    </div>
 
-                {/* Sidebar Information */}
-                <div className="flex flex-col items-start mt-4">
-                    <h3 className="text-lg text-white">Artillery Calculation</h3>
-                    {error && <p className="text-red-500">{error}</p>}
-                    <p><strong>Distance:</strong> {distance}m</p>
-                    <p><strong>Azimuth:</strong> {azimuth}°</p>
-                    {calculatedMil !== null && (
-                        <div>
-                            <p><strong>Elev mils:</strong> {calculatedMil.toFixed(2)}</p>
-                            <p><strong>Rings:</strong> {calculatedRings}</p>
-                            <p><strong>Dispersion:</strong> {calculatedDispersion}m</p>
-                        </div>
-                    )}
-                    <span>----------------------------</span>
-                    <p><strong>Elevation:</strong> {elevation} meters</p>
+
+                    {/* Sidebar Information */}
+                    <div className="flex flex-col items-start mt-4">
+                        <h3 className="text-lg text-white">Artillery Calculation</h3>
+                        {error && <p className="text-red-500">{error}</p>}
+                        <p><strong>Distance:</strong> {distance}m</p>
+                        <p><strong>Azimuth:</strong> {azimuth}°</p>
+                        {calculatedMil !== null && (
+                            <div>
+                                <p><strong>Elev mils:</strong> {calculatedMil.toFixed(2)}</p>
+                                <p><strong>Rings:</strong> {calculatedRings}</p>
+                                <p><strong>Dispersion:</strong> {calculatedDispersion}m</p>
+                            </div>
+                        )}
+                        <span>----------------------------</span>
+                        <p><strong>Elevation:</strong> {elevation} meters</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-};
+            );
+            };
 
-export default Page;
+            export default Page;
