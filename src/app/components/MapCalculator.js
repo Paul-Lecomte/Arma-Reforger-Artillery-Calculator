@@ -256,19 +256,23 @@ const Page = () => {
 
     return (
         <div className="map-container relative">
-            {/* Toggle Button */}
-            <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="fixed top-3 left-16 z-50 bg-gray-800 text-white p-2 rounded-full shadow-md transition-transform duration-300 hover:scale-110"
-            >
-                {isMenuOpen ? "▲" : "▼"}
-            </button>
-
-            {/* Sliding Menu Container (Empty) */}
+            {/* Sliding Menu Container */}
             <div className="fixed z-40 bg-black/80 w-64 h-full p-4 flex flex-col space-y-6">
-                {/* Placeholder for Map Switch Dropdown, Faction & Round Selection */}
+                {/* Map Switch Dropdown */}
+                <div className="flex flex-col items-start">
+                    <label className="text-lg text-white">Map</label>
+                    <select
+                        value={mapType}
+                        onChange={(e) => setMapType(e.target.value)}
+                        className="p-2 border rounded bg-black text-white w-full"
+                    >
+                        <option value="map1">Arland</option>
+                        <option value="map2">Everon</option>
+                    </select>
+                </div>
             </div>
         </div>
+
     );
 };
 
