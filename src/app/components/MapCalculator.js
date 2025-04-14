@@ -345,7 +345,14 @@ const Page = () => {
                                     drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
                                 }}
                             >
-                                <Popup>Firing Position</Popup>
+                                <Popup>Firing Position</Popup><Circle
+                                center={firingPosition}
+                                radius={8}
+                                color="red"
+                                fillOpacity={0.5}
+                                stroke={false}
+                            />
+
                             </Marker>
 
                             </div>
