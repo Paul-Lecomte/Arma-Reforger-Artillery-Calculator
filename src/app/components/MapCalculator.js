@@ -338,7 +338,16 @@ const Page = () => {
                                 </p>
                                 <p>
                                     <strong>Rings:</strong> {calculatedRings}
-                                </p>
+                                </p><Marker
+                                position={firingPosition}
+                                draggable
+                                eventHandlers={{
+                                    drag: (e) => setFiringPosition([e.latlng.lat, e.latlng.lng]),
+                                }}
+                            >
+                                <Popup>Firing Position</Popup>
+                            </Marker>
+
                             </div>
                         </div>
                     )}
