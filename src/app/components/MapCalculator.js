@@ -327,6 +327,22 @@ const Page = () => {
                             {/* Map-related components */}
                         </MapContainer>
                     </div>
+                    {calculatedMil !== null && (
+                        <div className="fixed bottom-4 z-50 bg-black flex flex-col w-full items-center">
+                            <div className="text-center flex flex-row">
+                                <p className="mr-2">
+                                    <strong>Azimuth:</strong> {azimuth}° |
+                                </p>
+                                <p className="mr-2">
+                                    <strong>Elev mils:</strong> {calculatedMil.toFixed(1)} |
+                                </p>
+                                <p>
+                                    <strong>Rings:</strong> {calculatedRings}
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
 
 
                     {/* Sidebar Information */}
