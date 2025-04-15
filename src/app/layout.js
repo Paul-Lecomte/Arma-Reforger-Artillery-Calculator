@@ -39,14 +39,6 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} h-screen flex flex-col bg-[#0D0D0D]`}>
-        {/* This will show up immediately after the DOCTYPE */}
-        <div
-            dangerouslySetInnerHTML={{
-                __html: `<!--
-    Please do not copy the site without leaving my authorship (Enj0y)
--->`,
-            }}
-        />
         <Header className="h-[10%]"/>
         <main className="flex-1 h-[80%] overflow-auto">{children}</main>
         <Footer className="h-[10%]" />
