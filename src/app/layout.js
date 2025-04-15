@@ -28,6 +28,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+    console.log("Please do not copy the site without leaving my authorship (Paul Lecomte)")
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} h-screen flex flex-col bg-[#0D0D0D]`}>
