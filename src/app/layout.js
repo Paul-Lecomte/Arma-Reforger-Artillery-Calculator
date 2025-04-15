@@ -28,7 +28,14 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-    console.log("Please do not copy the site without leaving my authorship (Paul Lecomte)")
+    console.log(
+        "%cHold up!",
+        "color: red; font-size: 24px; font-weight: bold;"
+    );
+    console.log(
+        "%cPlease do not copy this site without proper credit.\nAuthor: Paul Lecomte",
+        "color: white; font-size: 14px;"
+    );
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable} h-screen flex flex-col bg-[#0D0D0D]`}>
