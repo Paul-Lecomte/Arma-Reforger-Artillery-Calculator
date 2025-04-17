@@ -274,12 +274,12 @@ const Page = () => {
                 <h2 className="text-2xl font-semibold text-white mb-4">Artillery Tools</h2>
 
                 {/* Map Selector */}
-                <div className="flex flex-col items-start">
-                    <label className="text-lg text-white">Map</label>
+                <div>
+                    <label className="block text-sm text-gray-300 mb-1">Map</label>
                     <select
                         value={mapType}
                         onChange={(e) => setMapType(e.target.value)}
-                        className="p-2 border rounded bg-black text-white w-full"
+                        className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="map1">Arland</option>
                         <option value="map2">Everon</option>
