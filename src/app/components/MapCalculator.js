@@ -259,9 +259,10 @@ const Page = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="fixed top-3 left-16 z-50 bg-gray-800 text-white p-2 rounded-full shadow-md transition-transform duration-300 hover:scale-110"
+                className="fixed top-4 left-4 z-50 bg-black/70 text-white p-2 rounded-full shadow-lg hover:bg-black/90 transition-all duration-300"
+                title="Toggle Menu"
             >
-                {isMenuOpen ? "▲" : "▼"}
+                {isMenuOpen ? "←" : "→"}
             </button>
 
             {/* Sliding Menu Container */}
