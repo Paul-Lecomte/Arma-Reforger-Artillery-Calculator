@@ -259,10 +259,9 @@ const Page = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="fixed top-4 left-4 z-50 bg-black/70 text-white p-2 rounded-full shadow-lg hover:bg-black/90 transition-all duration-300"
-                title="Toggle Menu"
+                className="fixed top-3 left-16 z-50 bg-blue-600 text-white p-3 rounded-full shadow-lg border-2 border-white hover:bg-blue-500 hover:scale-110 transition-all duration-300 hover:shadow-2xl"
             >
-                {isMenuOpen ? "←" : "→"}
+                {isMenuOpen ? "▲" : "▼"}
             </button>
 
             {/* Sidebar */}
@@ -325,7 +324,7 @@ const Page = () => {
                             <p><strong>Dispersion:</strong> {calculatedDispersion}m</p>
                         </>
                     )}
-                    <hr className="border-gray-700 my-2" />
+                    <hr className="border-gray-700 my-2"/>
                     <p><strong>Elevation:</strong> {elevation} meters</p>
                 </div>
             </div>
