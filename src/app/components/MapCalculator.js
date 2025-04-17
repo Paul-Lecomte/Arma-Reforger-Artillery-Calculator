@@ -371,8 +371,8 @@ const Page = () => {
                                 pathOptions={{
                                     color: ["purple", "blue", "green", "yellow", "orange"][index],
                                     fillOpacity: 0, // Adjust fill transparency
-                                    weight: 2, // Thinner lines
-                                    dashArray: "5, 5", // Dashed effect (5px on, 5px off)
+                                    weight: 1.5, // Thinner lines
+                                    dashArray: "4", // Dashed effect (5px on, 5px off)
                                 }}
                             />
                         ) : null
