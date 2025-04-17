@@ -312,20 +312,20 @@ const Page = () => {
                     </select>
                 </div>
 
-                {/* Sidebar Information */}
-                <div className="flex flex-col items-start mt-4">
-                    <h3 className="text-lg text-white">Artillery Calculation</h3>
-                    {error && <p className="text-red-500">{error}</p>}
+                {/* Artillery Info */}
+                <div className="mt-6 text-white space-y-1 text-sm">
+                    <h3 className="text-base font-bold">Fire Solution</h3>
+                    {error && <p className="text-red-400">{error}</p>}
                     <p><strong>Distance:</strong> {distance}m</p>
                     <p><strong>Azimuth:</strong> {azimuth}°</p>
                     {calculatedMil !== null && (
-                        <div>
-                            <p><strong>Elev mils:</strong> {calculatedMil.toFixed(2)}</p>
+                        <>
+                            <p><strong>Elevation (mils):</strong> {calculatedMil.toFixed(1)}</p>
                             <p><strong>Rings:</strong> {calculatedRings}</p>
                             <p><strong>Dispersion:</strong> {calculatedDispersion}m</p>
-                        </div>
+                        </>
                     )}
-                    <span>----------------------------</span>
+                    <hr className="border-gray-700 my-2" />
                     <p><strong>Elevation:</strong> {elevation} meters</p>
                 </div>
             </div>
