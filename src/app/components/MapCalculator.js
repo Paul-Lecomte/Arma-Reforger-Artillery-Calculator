@@ -286,24 +286,25 @@ const Page = () => {
                     </select>
                 </div>
 
-                {/* Faction & Round Selection */}
-                <div className="flex flex-col items-start">
-                    <label className="text-lg text-white">Faction</label>
+                {/* Faction & Round */}
+                <div>
+                    <label className="block text-sm text-gray-300 mb-1">Faction</label>
                     <select
                         value={faction}
                         onChange={(e) => setFaction(e.target.value)}
-                        className="p-2 border rounded bg-black text-white w-full"
+                        className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
                     >
                         <option value="American">American</option>
                         <option value="Soviet">Soviet</option>
                     </select>
                 </div>
-                <div className="flex flex-col items-start">
-                    <label className="text-lg text-white">Shell</label>
+
+                <div>
+                    <label className="block text-sm text-gray-300 mb-1">Shell</label>
                     <select
                         value={round}
                         onChange={(e) => setRound(e.target.value)}
-                        className="p-2 border rounded bg-black text-white w-full"
+                        className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600"
                     >
                         <option value="HE">HE</option>
                         <option value="Smoke">Smoke</option>
