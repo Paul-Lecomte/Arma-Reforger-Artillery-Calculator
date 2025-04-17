@@ -259,9 +259,10 @@ const Page = () => {
             {/* Toggle Button */}
             <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="fixed top-3 left-16 z-50 bg-blue-600 text-white p-3 rounded-full shadow-lg border-2 border-white hover:bg-blue-500 hover:scale-110 transition-all duration-300 hover:shadow-2xl"
+                className="fixed top-2 left-4 z-50 bg-white/10 text-white p-3 rounded-full border border-white/30 shadow-md hover:bg-white/20 hover:shadow-lg transition-all duration-300"
+                title="Toggle Sidebar"
             >
-                {isMenuOpen ? "▲" : "▼"}
+                {isMenuOpen ? "←" : "→"}
             </button>
 
             {/* Sidebar */}
