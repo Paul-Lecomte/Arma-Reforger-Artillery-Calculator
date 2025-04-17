@@ -265,13 +265,15 @@ const Page = () => {
                 {isMenuOpen ? "←" : "→"}
             </button>
 
-            {/* Sliding Menu Container */}
+            {/* Sidebar */}
             <div
-                className={`fixed z-40 bg-black/80 w-64 h-full p-4 flex flex-col space-y-6 transition-transform duration-300 ${
+                className={`fixed top-0 left-0 z-40 bg-black/90 backdrop-blur-md w-72 h-full p-5 flex flex-col space-y-6 transform transition-transform duration-300 ease-in-out ${
                     isMenuOpen ? "translate-x-0" : "-translate-x-full"
-                }`}
+                } shadow-xl`}
             >
-                {/* Map Switch Dropdown */}
+                <h2 className="text-2xl font-semibold text-white mb-4">Artillery Tools</h2>
+
+                {/* Map Selector */}
                 <div className="flex flex-col items-start">
                     <label className="text-lg text-white">Map</label>
                     <select
