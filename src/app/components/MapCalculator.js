@@ -73,38 +73,54 @@ const Page = () => {
     };
 
 
+    // Custom Leaflet TileLayer with flipped Y
     class FlippedYTileLayer extends L.TileLayer {
+        constructor(tileUrl, options) {
+            super(tileUrl, options); // Pass tileUrl and options to parent class
+            this.tileUrl = tileUrl; // Store the tileUrl
+        }
+
         getTileUrl(coords) {
             const z = this._getZoomForUrl();
             const x = coords.x;
             const y = (1 << z) - 1 - coords.y; // Flip Y
             console.log(`Requesting tile at Z: ${z}, X: ${x}, Y: ${y}`); // 🪵 Log here
-            return `/maps/arland-map-tiles/${z}/${x}/${y}/tile.jpg`;
+
+            // Dynamically set the tile URL based on the flipped coordinates
+            return this.tileUrl.replace("{z}", z).replace("{x}", x).replace("{y}", y);
         }
     }
 
-    const FlippedTileLayer = ({ minZoom = 0, maxZoom = 5 }) => {
+// Updated FlippedTileLayer component
+    const FlippedTileLayer = ({ mapType, minZoom = 0, maxZoom = 5 }) => {
         const map = useMap();
 
         useEffect(() => {
-            const layer = new FlippedYTileLayer("", {
-                tileSize: 256,
+            const mapConfig = maps[mapType]; // Get map configuration based on mapType
+
+            if (!mapConfig || mapConfig.type !== "tile") {
+                console.error("Invalid map type or configuration");
+                return;
+            }
+
+            const layer = new FlippedYTileLayer(mapConfig.tileUrl, {
+                tileSize: 50,
                 minZoom,
                 maxZoom,
                 noWrap: true,
-                bounds: [[0, 0], [4000, 4000]],
+                bounds: mapConfig.bounds, // Use bounds from the map configuration
             });
 
             map.addLayer(layer);
             return () => {
                 map.removeLayer(layer);
             };
-        }, [map, minZoom, maxZoom]);
+        }, [map, mapType, minZoom, maxZoom]);
 
         return null;
     };
 
-
+// Updated getMapLayer function to handle both Arland and Everon tiles
     const getMapLayer = (mapType) => {
         const map = maps[mapType];
         if (!map) return null;
@@ -118,7 +134,7 @@ const Page = () => {
         } else if (map.type === "tile") {
             return (
                 <>
-                    <FlippedTileLayer />
+                    <FlippedTileLayer mapType={mapType} />
                 </>
             );
         }
