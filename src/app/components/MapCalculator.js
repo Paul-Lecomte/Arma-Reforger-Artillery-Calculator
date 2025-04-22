@@ -4,6 +4,8 @@ import dynamic from "next/dynamic";
 import L from "leaflet";
 import { artilleryData } from '../components/Data';
 import { useMapEvent } from 'react-leaflet';
+import { useMap } from 'react-leaflet';
+const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
 
 
 // Dynamically import react-leaflet components
@@ -46,16 +48,28 @@ const Page = () => {
     const maps = {
         map1: {
             imageUrl: "/maps/map1/arland.png",
-            // Further reduced bounds to zoom out more
-            bounds: [[0, 0], [905, 1026]], // Significantly reduced bounds for more zoomed-out effect
-            scaleFactor: 18.4 // Arland scale 100m
+            bounds: [[0, 0], [905, 1026]],
+            scaleFactor: 18.4,
+            type: "image"
         },
         map2: {
             imageUrl: "/maps/map2/everon.png",
-            // Further reduced bounds to zoom out more
-            bounds: [[0, 0], [1084.3, 1011]], // Significantly reduced bounds for more zoomed-out effect
-            scaleFactor: 8.58164, // Everon scale for 100m
+            bounds: [[0, 0], [1084.3, 1011]],
+            scaleFactor: 8.58164,
+            type: "image"
         },
+        map1_tiles: {
+            tileUrl: "/maps/arland-map-tiles/{z}/{x}/{y}/tile.jpg",
+            bounds: [[0, 0], [905, 1026]],
+            scaleFactor: 18.4,
+            type: "tile"
+        },
+        map2_tiles: {
+            tileUrl: "/maps/everon-map-tiles/{z}/{x}/{y}/tile.jpg",
+            bounds: [[0, 0], [1084.3, 1011]],
+            scaleFactor: 8.58164,
+            type: "tile"
+        }
     };
 
     const MapClickHandler = () => {
@@ -282,7 +296,9 @@ const Page = () => {
                         className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="map1">Arland</option>
+                        <option value="map1_tiles">Arland Sat</option>
                         <option value="map2">Everon</option>
+                        <option value="map2_tiles">Everon Sat</option>
                     </select>
                 </div>
 
@@ -352,7 +368,7 @@ const Page = () => {
                 <MapContainer
                     center={[centerY, centerX]}
                     zoom={0}
-                    maxZoom={4}
+                    maxZoom={5}
                     style={{
                         height: "100vh",
                         width: "100vw",
@@ -361,7 +377,23 @@ const Page = () => {
                     crs={L.CRS.Simple}
                     zoomControl={false}
                 >
-                    <ImageOverlay url={maps[mapType].imageUrl} bounds={maps[mapType].bounds}/>
+                    {maps[mapType].type === "tile" ? (
+                        <>
+                            <CustomTileLayer
+                                tileUrl={maps[mapType].tileUrl}
+                                bounds={maps[mapType].bounds}
+                                minZoom={maps[mapType].minZoom || 0}
+                                maxZoom={maps[mapType].maxZoom || 5}
+                            />
+                            <SetBounds bounds={maps[mapType].bounds} />
+                        </>
+                    ) : (
+                        <ImageOverlay
+                            url={maps[mapType].imageUrl}
+                            bounds={maps[mapType].bounds}
+                        />
+                    )}
+
                     {ringRanges.map((range, index) =>
                         range ? (
                             <Circle
@@ -370,15 +402,14 @@ const Page = () => {
                                 radius={range}
                                 pathOptions={{
                                     color: ["purple", "blue", "green", "yellow", "orange"][index],
-                                    fillOpacity: 0, // Adjust fill transparency
-                                    weight: 1.5, // Thinner lines
-                                    dashArray: "4", // Dashed effect (5px on, 5px off)
+                                    fillOpacity: 0,
+                                    weight: 1.5,
+                                    dashArray: "4",
                                 }}
                             />
                         ) : null
                     )}
 
-                    {/* Draggable Firing Position Marker */}
                     <Marker
                         position={firingPosition}
                         draggable={true}
@@ -389,7 +420,6 @@ const Page = () => {
                         <Popup>Firing Position</Popup>
                     </Marker>
 
-                    {/* Draggable Target Position Marker */}
                     <Marker
                         position={targetPosition}
                         draggable={true}
@@ -400,7 +430,6 @@ const Page = () => {
                         <Popup>Target Position</Popup>
                     </Marker>
 
-                    {/* Red transparent circle around Firing Position */}
                     <Circle
                         center={firingPosition}
                         radius={8}
@@ -409,7 +438,6 @@ const Page = () => {
                         stroke={false}
                     />
 
-                    {/* Red transparent circle around Target Position */}
                     <Circle
                         center={targetPosition}
                         radius={calculatedDispersion ? (calculatedDispersion * maps[mapType].scaleFactor) / 100 : 10}
@@ -418,7 +446,6 @@ const Page = () => {
                         stroke={false}
                     />
 
-                    {/* Path between Firing Position and Target */}
                     <Polyline
                         positions={polylinePositions}
                         color="black"
