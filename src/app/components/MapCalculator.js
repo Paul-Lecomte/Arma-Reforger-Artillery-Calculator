@@ -106,7 +106,7 @@ const Page = () => {
             }
 
             const layer = new FlippedYTileLayer(mapConfig.tileUrl, {
-                tileSize: 50,
+                tileSize: 256,
                 minZoom,
                 maxZoom,
                 noWrap: true,
