@@ -296,9 +296,9 @@ const Page = () => {
                         className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="map1">Arland</option>
-                        <option value="map1_tiles">Arland Sat</option>
+                        {/* <option value="map1_tiles">Arland Sat</option> */}
                         <option value="map2">Everon</option>
-                        <option value="map2_tiles">Everon Sat</option>
+                        {/* <option value="map2_tiles">Everon Sat</option> */}
                     </select>
                 </div>
 
@@ -381,7 +381,7 @@ const Page = () => {
                     {mapType.includes("tiles") && (
                         <>
                             <TileLayer
-                                url={maps[mapType].tileUrl}
+                                url={maps[mapType].tileUrl.replace(/-(\d+)/g, (match, p1) => `/${p1}`)}
                                 bounds={maps[mapType].bounds}
                                 attribution="Map data &copy; OpenStreetMap contributors"
                             />
@@ -391,7 +391,7 @@ const Page = () => {
                     {/* Image Overlay for hand-drawn maps */}
                     {!mapType.includes("tiles") && (
                         <ImageOverlay
-                            url={maps[mapType].imageUrl}
+                            url={maps[mapType].imageUrl.replace(/-(\d+)/g, (match, p1) => `/${p1}`)}
                             bounds={maps[mapType].bounds}
                         />
                     )}
