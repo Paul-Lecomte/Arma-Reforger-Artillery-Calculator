@@ -19,6 +19,9 @@ The **Arma Reforger Artillery Calculator** is a web-based tool designed to assis
 ## Technologies Used
 
 - **Frontend:** Developed using modern web technologies to ensure a responsive and user-friendly experience.
+- - NextJS
+- - React
+- - TailWindCss
 - **Mapping:** Integrates interactive mapping services to facilitate precise location selection and visualization.
 
 ## Future
