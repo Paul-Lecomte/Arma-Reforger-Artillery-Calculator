@@ -44,6 +44,8 @@ const Page = () => {
 
     const polylinePositions = [firingPosition, targetPosition];
 
+    //------------------------------------------------------------------------------------------------------------------
+    // Maps tiles and images
     // Map images and bounds
     const maps = {
         map1: {
@@ -91,7 +93,7 @@ const Page = () => {
         }
     }
 
-// Updated FlippedTileLayer component
+    // Updated FlippedTileLayer component
     const FlippedTileLayer = ({ mapType, minZoom = 0, maxZoom = 5 }) => {
         const map = useMap();
 
@@ -120,7 +122,7 @@ const Page = () => {
         return null;
     };
 
-// Updated getMapLayer function to handle both Arland and Everon tiles
+    // Updated getMapLayer function to handle both Arland and Everon tiles
     const getMapLayer = (mapType) => {
         const map = maps[mapType];
         if (!map) return null;
@@ -140,6 +142,7 @@ const Page = () => {
         }
         return null;
     };
+    //------------------------------------------------------------------------------------------------------------------
 
     const MapClickHandler = () => {
         const map = useMapEvent({
