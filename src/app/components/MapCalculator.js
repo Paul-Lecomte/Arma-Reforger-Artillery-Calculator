@@ -378,15 +378,7 @@ const Page = () => {
                     zoomControl={false}
                 >
                     {maps[mapType].type === "tile" ? (
-                        <>
-                            <CustomTileLayer
-                                tileUrl={maps[mapType].tileUrl}
-                                bounds={maps[mapType].bounds}
-                                minZoom={maps[mapType].minZoom || 0}
-                                maxZoom={maps[mapType].maxZoom || 5}
-                            />
-                            <SetBounds bounds={maps[mapType].bounds} />
-                        </>
+                        <div></div>
                     ) : (
                         <ImageOverlay
                             url={maps[mapType].imageUrl}
