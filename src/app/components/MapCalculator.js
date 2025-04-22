@@ -377,9 +377,19 @@ const Page = () => {
                     crs={L.CRS.Simple}
                     zoomControl={false}
                 >
-                    {maps[mapType].type === "tile" ? (
-                        <div></div>
-                    ) : (
+                    {/* Tile Layers */}
+                    {mapType.includes("tiles") && (
+                        <>
+                            <TileLayer
+                                url={maps[mapType].tileUrl}
+                                bounds={maps[mapType].bounds}
+                                attribution="Map data &copy; OpenStreetMap contributors"
+                            />
+                        </>
+                    )}
+
+                    {/* Image Overlay for hand-drawn maps */}
+                    {!mapType.includes("tiles") && (
                         <ImageOverlay
                             url={maps[mapType].imageUrl}
                             bounds={maps[mapType].bounds}
