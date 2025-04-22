@@ -21,6 +21,10 @@ The **Arma Reforger Artillery Calculator** is a web-based tool designed to assis
 - **Frontend:** Developed using modern web technologies to ensure a responsive and user-friendly experience.
 - **Mapping:** Integrates interactive mapping services to facilitate precise location selection and visualization.
 
+## Future
+
+- **Satellite style map:** Allow to switch with different style of map.
+
 ## Contributing
 
 We welcome contributions from the community to enhance the functionality and accuracy of the calculator. To contribute:
