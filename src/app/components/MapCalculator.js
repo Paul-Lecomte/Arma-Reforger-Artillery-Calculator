@@ -60,16 +60,69 @@ const Page = () => {
         },
         map1_tiles: {
             tileUrl: "/maps/arland-map-tiles/{z}/{x}/{y}/tile.jpg",
-            bounds: [[0, 0], [905, 1026]],
+            bounds: [[0, 0], [4000, 4000]], // ← should match the actual full image size at z=0
             scaleFactor: 18.4,
             type: "tile"
         },
         map2_tiles: {
             tileUrl: "/maps/everon-map-tiles/{z}/{x}/{y}/tile.jpg",
-            bounds: [[0, 0], [1084.3, 1011]],
+            bounds: [[0, 0], [12800, 12800]],
             scaleFactor: 8.58164,
             type: "tile"
         }
+    };
+
+
+    class FlippedYTileLayer extends L.TileLayer {
+        getTileUrl(coords) {
+            const z = this._getZoomForUrl();
+            const x = coords.x;
+            const y = (1 << z) - 1 - coords.y; // Flip Y
+            console.log(`Requesting tile at Z: ${z}, X: ${x}, Y: ${y}`); // 🪵 Log here
+            return `/maps/arland-map-tiles/${z}/${x}/${y}/tile.jpg`;
+        }
+    }
+
+    const FlippedTileLayer = ({ minZoom = 0, maxZoom = 5 }) => {
+        const map = useMap();
+
+        useEffect(() => {
+            const layer = new FlippedYTileLayer("", {
+                tileSize: 256,
+                minZoom,
+                maxZoom,
+                noWrap: true,
+                bounds: [[0, 0], [4000, 4000]],
+            });
+
+            map.addLayer(layer);
+            return () => {
+                map.removeLayer(layer);
+            };
+        }, [map, minZoom, maxZoom]);
+
+        return null;
+    };
+
+
+    const getMapLayer = (mapType) => {
+        const map = maps[mapType];
+        if (!map) return null;
+
+        if (map.type === "image") {
+            return (
+                <>
+                    <ImageOverlay url={map.imageUrl} bounds={map.bounds} />
+                </>
+            );
+        } else if (map.type === "tile") {
+            return (
+                <>
+                    <FlippedTileLayer />
+                </>
+            );
+        }
+        return null;
     };
 
     const MapClickHandler = () => {
@@ -296,9 +349,9 @@ const Page = () => {
                         className="w-full p-2 rounded bg-gray-800 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         <option value="map1">Arland</option>
-                        {/* <option value="map1_tiles">Arland Sat</option> */}
+                        <option value="map1_tiles">Arland Sat</option>
                         <option value="map2">Everon</option>
-                        {/* <option value="map2_tiles">Everon Sat</option> */}
+                        <option value="map2_tiles">Everon Sat</option>
                     </select>
                 </div>
 
@@ -377,24 +430,7 @@ const Page = () => {
                     crs={L.CRS.Simple}
                     zoomControl={false}
                 >
-                    {/* Tile Layers */}
-                    {mapType.includes("tiles") && (
-                        <>
-                            <TileLayer
-                                url={maps[mapType].tileUrl.replace(/-(\d+)/g, (match, p1) => `/${p1}`)}
-                                bounds={maps[mapType].bounds}
-                                attribution="Map data &copy; OpenStreetMap contributors"
-                            />
-                        </>
-                    )}
-
-                    {/* Image Overlay for hand-drawn maps */}
-                    {!mapType.includes("tiles") && (
-                        <ImageOverlay
-                            url={maps[mapType].imageUrl.replace(/-(\d+)/g, (match, p1) => `/${p1}`)}
-                            bounds={maps[mapType].bounds}
-                        />
-                    )}
+                    {getMapLayer(mapType)} {/* Render the correct map layer */}
 
                     {ringRanges.map((range, index) =>
                         range ? (
