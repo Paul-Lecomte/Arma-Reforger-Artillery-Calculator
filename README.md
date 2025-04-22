@@ -23,6 +23,9 @@ The **Arma Reforger Artillery Calculator** is a web-based tool designed to assis
 - - React
 - - TailWindCss
 - **Mapping:** Integrates interactive mapping services to facilitate precise location selection and visualization.
+- - LeafLet
+- - Map tiles
+- - Map single images
 
 ## Future
 
