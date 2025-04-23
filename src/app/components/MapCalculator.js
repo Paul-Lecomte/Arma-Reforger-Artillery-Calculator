@@ -63,7 +63,7 @@ const Page = () => {
         map1_tiles: {
             tileUrl: "/maps/arland-map-tiles/{z}/{x}/{y}/tile.jpg",
             bounds: [[0, 0], [4000, 4000]], // ← should match the actual full image size at z=0
-            scaleFactor: 18.4,
+            scaleFactor: 7.9,
             type: "tile"
         },
         map2_tiles: {
