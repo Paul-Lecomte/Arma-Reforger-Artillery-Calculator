@@ -110,7 +110,8 @@ const Page = () => {
                 minZoom,
                 maxZoom,
                 noWrap: true,
-                bounds: mapConfig.bounds, // Use bounds from the map configuration
+                //bounds are currently bugged
+                //bounds: mapConfig.bounds,
             });
 
             map.addLayer(layer);
