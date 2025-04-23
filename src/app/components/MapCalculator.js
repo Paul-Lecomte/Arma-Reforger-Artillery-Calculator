@@ -85,7 +85,7 @@ const Page = () => {
         getTileUrl(coords) {
             const z = this._getZoomForUrl();
             const x = coords.x;
-            const y = (1 << z) - 1 - coords.y; // Flip Y
+            const y = Math.pow(2, z) - 1 - coords.y; // Flip the Y axis
             console.log(`Requesting tile at Z: ${z}, X: ${x}, Y: ${y}`); // 🪵 Log here
 
             // Dynamically set the tile URL based on the flipped coordinates
@@ -134,6 +134,7 @@ const Page = () => {
                 </>
             );
         } else if (map.type === "tile") {
+            console.log("Initializing FlippedTileLayer for", mapType);
             return (
                 <>
                     <FlippedTileLayer mapType={mapType} />
