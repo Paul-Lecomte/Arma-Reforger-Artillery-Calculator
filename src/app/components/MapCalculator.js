@@ -69,7 +69,7 @@ const Page = () => {
         map2_tiles: {
             tileUrl: "/maps/everon-map-tiles/{z}/{x}/{y}/tile.jpg",
             bounds: [[0, 0], [12800, 12800]],
-            scaleFactor: 9,
+            scaleFactor: 8,
             type: "tile"
         }
     };
