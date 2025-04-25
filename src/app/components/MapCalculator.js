@@ -52,28 +52,35 @@ const Page = () => {
             imageUrl: "/maps/map1/arland.png",
             bounds: [[0, 0], [905, 1026]],
             scaleFactor: 18.4,
-            type: "image"
+            type: "image",
+            defaultFiring: [450, 450],
+            defaultTarget: [600, 600]
         },
         map2: {
             imageUrl: "/maps/map2/everon.png",
             bounds: [[0, 0], [1084.3, 1011]],
             scaleFactor: 8.58164,
-            type: "image"
+            type: "image",
+            defaultFiring: [450, 450],
+            defaultTarget: [600, 600]
         },
         map1_tiles: {
             tileUrl: "/maps/arland-map-tiles/{z}/{x}/{y}/tile.jpg",
-            bounds: [[0, 0], [4000, 4000]], // ← should match the actual full image size at z=0
+            bounds: [[0, 0], [4000, 4000]],
             scaleFactor: 7.9,
-            type: "tile"
+            type: "tile",
+            defaultFiring: [10, 50],
+            defaultTarget: [10, 120]
         },
         map2_tiles: {
             tileUrl: "/maps/everon-map-tiles/{z}/{x}/{y}/tile.jpg",
             bounds: [[0, 0], [12800, 12800]],
             scaleFactor: 8,
-            type: "tile"
+            type: "tile",
+            defaultFiring: [250, 450],
+            defaultTarget: [250, 500]
         }
     };
-
 
     // Custom Leaflet TileLayer with flipped Y
     class FlippedYTileLayer extends L.TileLayer {
@@ -341,6 +348,15 @@ const Page = () => {
     const { bounds } = maps[mapType];
     const centerY = (bounds[0][0] + bounds[1][0]) / 2;
     const centerX = (bounds[0][1] + bounds[1][1]) / 2;
+
+    useEffect(() => {
+        const config = maps[mapType];
+
+        if (config?.defaultFiring && config?.defaultTarget) {
+            setFiringPosition(config.defaultFiring);
+            setTargetPosition(config.defaultTarget);
+        }
+    }, [mapType]);
 
     return (
         <div className="map-container relative">
