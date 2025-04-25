@@ -27,6 +27,7 @@ const Page = () => {
     const [azimuth, setAzimuth] = useState(null);
     const [elevation, setElevation] = useState(null);
     const [mapType, setMapType] = useState("map1");
+    const [cameraPosition, setCameraPosition] = useState([500, 500]);
 
     // Additional state variables for artillery calculations
     const [faction, setFaction] = useState("American");
@@ -54,7 +55,8 @@ const Page = () => {
             scaleFactor: 18.4,
             type: "image",
             defaultFiring: [450, 450],
-            defaultTarget: [600, 600]
+            defaultTarget: [600, 600],
+            camera: [450, 450]
         },
         map2: {
             imageUrl: "/maps/map2/everon.png",
@@ -62,7 +64,8 @@ const Page = () => {
             scaleFactor: 8.58164,
             type: "image",
             defaultFiring: [450, 450],
-            defaultTarget: [600, 600]
+            defaultTarget: [600, 600],
+            camera: [450, 450]
         },
         map1_tiles: {
             tileUrl: "/maps/arland-map-tiles/{z}/{x}/{y}/tile.jpg",
@@ -70,7 +73,8 @@ const Page = () => {
             scaleFactor: 7.9,
             type: "tile",
             defaultFiring: [10, 50],
-            defaultTarget: [10, 120]
+            defaultTarget: [10, 120],
+            camera: [10, 50]
         },
         map2_tiles: {
             tileUrl: "/maps/everon-map-tiles/{z}/{x}/{y}/tile.jpg",
@@ -78,7 +82,8 @@ const Page = () => {
             scaleFactor: 8,
             type: "tile",
             defaultFiring: [250, 450],
-            defaultTarget: [250, 500]
+            defaultTarget: [250, 500],
+            camera: [250, 450]
         }
     };
 
@@ -356,6 +361,9 @@ const Page = () => {
             setFiringPosition(config.defaultFiring);
             setTargetPosition(config.defaultTarget);
         }
+        if (config?.camera) {
+            setCameraPosition(config.camera);
+        }
     }, [mapType]);
 
     return (
@@ -456,7 +464,7 @@ const Page = () => {
             {/* Map Component */}
             <div className={`relative transition-all duration-300 z-10 h-full`}>
                 <MapContainer
-                    center={[centerY, centerX]}
+                    center={cameraPosition}
                     zoom={0}
                     maxZoom={5}
                     style={{
