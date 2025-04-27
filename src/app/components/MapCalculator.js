@@ -425,9 +425,15 @@ const Page = () => {
                         <option value="Illumination">Illumination</option>
                     </select>
                 </div>
+                {/* Usage infp */}
+                <div className="mt-3 text-white space-y-1 text-sm">
+                    <h3 className="text-base font-bold">How to use</h3>
+                    <p><strong>Left click =</strong> Target</p>
+                    <p><strong>Right click =</strong> Mortar position</p>
+                </div>
 
                 {/* Artillery Info */}
-                <div className="mt-6 text-white space-y-1 text-sm">
+                <div className="mt-3 text-white space-y-1 text-sm">
                     <h3 className="text-base font-bold">Fire Solution</h3>
                     {error && <p className="text-red-400">{error}</p>}
                     <p><strong>Distance:</strong> {distance}m</p>
