@@ -110,7 +110,7 @@ const Page = () => {
         const map = useMap();
 
         useEffect(() => {
-            const mapConfig = maps[mapType]; // Get map configuration based on mapType
+            const mapConfig = maps[mapType];
 
             if (!mapConfig || mapConfig.type !== "tile") {
                 console.error("Invalid map type or configuration");
@@ -122,15 +122,19 @@ const Page = () => {
                 minZoom,
                 maxZoom,
                 noWrap: true,
-                //bounds are currently bugged
-                //bounds: mapConfig.bounds,
             });
 
+            // Add layer
             map.addLayer(layer);
+
+            // 👇 Set layer below markers
+            layer.setZIndex(1);
+
             return () => {
+                // ❗ clean up the old tile layer when mapType changes
                 map.removeLayer(layer);
             };
-        }, [map, mapType, minZoom, maxZoom]);
+        }, [mapType]);  // ONLY run when mapType changes
 
         return null;
     };
@@ -163,12 +167,6 @@ const Page = () => {
 
         return null;
     };
-
-
-    useEffect(() => {
-        setFiringPosition([centerY, centerX]);  // Set firing position to center of map
-        setTargetPosition([centerY + 100, centerX + 100]);  // Set target position near the center
-    }, [mapType]);  // Recalculate when mapType changes
 
     // Function to interpolate MIL and dispersion based on range
     const interpolateMil = (roundData, distance) => {
@@ -342,8 +340,6 @@ const Page = () => {
     }, [firingPosition, targetPosition]);
 
     const { bounds } = maps[mapType];
-    const centerY = (bounds[0][0] + bounds[1][0]) / 2;
-    const centerX = (bounds[0][1] + bounds[1][1]) / 2;
 
     useEffect(() => {
         const config = maps[mapType];
