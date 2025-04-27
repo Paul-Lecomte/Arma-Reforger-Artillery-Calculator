@@ -25,6 +25,16 @@ export const metadata = {
     verification: {
         google: "d80MGB5E1JUNxMxIX5pA55b9gqj0uWptqNb4gpAqfEw",
     },
+    openGraph: {
+        images: [
+            {
+                url: "/mortar.ico",
+                width: 192,
+                height: 192,
+                alt: "Arma Reforger Artillery Calculator",
+            },
+        ],
+    },
 };
 
 export default function RootLayout({ children }) {
