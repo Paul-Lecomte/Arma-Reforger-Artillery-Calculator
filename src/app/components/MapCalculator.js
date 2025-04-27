@@ -136,23 +136,14 @@ const Page = () => {
     };
 
     // Updated getMapLayer function to handle both Arland and Everon tiles
-    const getMapLayer = (mapType) => {
-        const map = maps[mapType];
-        if (!map) return null;
+    const renderMapLayer = () => {
+        const config = maps[mapType];
+        if (!config) return null;
 
-        if (map.type === "image") {
-            return (
-                <>
-                    <ImageOverlay url={map.imageUrl} bounds={map.bounds} />
-                </>
-            );
-        } else if (map.type === "tile") {
-            console.log("Initializing FlippedTileLayer for", mapType);
-            return (
-                <>
-                    <FlippedTileLayer mapType={mapType} />
-                </>
-            );
+        if (config.type === "image") {
+            return <ImageOverlay url={config.imageUrl} bounds={config.bounds} />;
+        } else if (config.type === "tile") {
+            return <FlippedTileLayer mapType={mapType} />;
         }
         return null;
     };
@@ -481,7 +472,7 @@ const Page = () => {
                     crs={L.CRS.Simple}
                     zoomControl={false}
                 >
-                    {getMapLayer(mapType)} {/* Render the correct map layer */}
+                    {renderMapLayer()} {/* Render the correct map layer */}
 
                     {ringRanges.map((range, index) =>
                         range ? (
