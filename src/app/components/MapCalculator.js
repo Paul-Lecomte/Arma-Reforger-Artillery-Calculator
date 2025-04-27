@@ -516,7 +516,7 @@ const Page = () => {
                     <Circle
                         center={firingPosition}
                         radius={8}
-                        color="red"
+                        color="green"
                         fillOpacity={0.5}
                         stroke={false}
                     />
@@ -524,7 +524,7 @@ const Page = () => {
                     <Circle
                         center={targetPosition}
                         radius={calculatedDispersion ? (calculatedDispersion * maps[mapType].scaleFactor) / 100 : 10}
-                        color="green"
+                        color="red"
                         fillOpacity={0.5}
                         stroke={false}
                     />
