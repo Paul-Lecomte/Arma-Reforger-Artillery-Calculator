@@ -28,7 +28,7 @@ export const metadata = {
     openGraph: {
         images: [
             {
-                url: "/mortar.ico",
+                url: "/marker/mortar.png",
                 width: 192,
                 height: 192,
                 alt: "Arma Reforger Artillery Calculator",
