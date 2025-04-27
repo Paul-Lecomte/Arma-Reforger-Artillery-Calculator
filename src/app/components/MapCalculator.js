@@ -1,5 +1,5 @@
 "use client";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useMemo} from "react";
 import dynamic from "next/dynamic";
 import L from "leaflet";
 import { artilleryData } from '../components/Data';
@@ -140,7 +140,7 @@ const Page = () => {
     };
 
     // Updated getMapLayer function to handle both Arland and Everon tiles
-    const renderMapLayer = () => {
+    const mapLayer = useMemo(() => {
         const config = maps[mapType];
         if (!config) return null;
 
@@ -150,7 +150,7 @@ const Page = () => {
             return <FlippedTileLayer mapType={mapType} />;
         }
         return null;
-    };
+    }, [mapType]);
     //------------------------------------------------------------------------------------------------------------------
 
     const MapClickHandler = () => {
@@ -468,7 +468,7 @@ const Page = () => {
                     crs={L.CRS.Simple}
                     zoomControl={false}
                 >
-                    {renderMapLayer()} {/* Render the correct map layer */}
+                    {mapLayer} {/* Render the correct map layer */}
 
                     {ringRanges.map((range, index) =>
                         range ? (
