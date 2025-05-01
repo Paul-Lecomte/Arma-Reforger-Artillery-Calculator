@@ -7,6 +7,7 @@ The **Arma Reforger Artillery Calculator** is a web-based tool designed to assis
 - **Interactive Map Interface:** Allows users to pinpoint firing positions and target locations seamlessly.
 - **Accurate Artillery Calculations:** Provides detailed parameters, including the number of charges, elevation angles, and azimuth directions, tailored to the selected artillery type.
 - **Customization Options:** Supports various artillery systems, enabling adjustments based on specific operational requirements.
+- **Map elevation logic:** take into acount the map elevation from the firing position to the target area.
 
 ## Usage Instructions
 
