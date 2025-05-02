@@ -68,7 +68,7 @@ const Page = () => {
             camera: [450, 450]
         },
         map1_tiles: {
-            tileUrl: "/maps/arland-map-tiles/{z}/{x}/{y}/tile.jpg",
+            tileUrl: "/maps/arland-sat-map-tiles/{z}/{x}/{y}/tile.jpg",
             bounds: [[0, 0], [4000, 4000]],
             scaleFactor: 7.9,
             type: "tile",
@@ -77,7 +77,7 @@ const Page = () => {
             camera: [10, 50]
         },
         map2_tiles: {
-            tileUrl: "/maps/everon-map-tiles/{z}/{x}/{y}/tile.jpg",
+            tileUrl: "/maps/everon-sat-map-tiles/{z}/{x}/{y}/tile.jpg",
             bounds: [[0, 0], [12800, 12800]],
             scaleFactor: 8,
             type: "tile",
