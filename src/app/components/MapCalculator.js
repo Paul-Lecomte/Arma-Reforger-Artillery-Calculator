@@ -56,6 +56,7 @@ const Page = () => {
             type: "image",
             defaultFiring: [450, 450],
             defaultTarget: [600, 600],
+            coordinateMultiplier: 1,
             camera: [450, 450]
         },
         map2: {
@@ -65,6 +66,7 @@ const Page = () => {
             type: "image",
             defaultFiring: [450, 450],
             defaultTarget: [600, 600],
+            coordinateMultiplier: 1,
             camera: [450, 450]
         },
         map1_tiles: {
@@ -74,6 +76,7 @@ const Page = () => {
             type: "tile",
             defaultFiring: [10, 50],
             defaultTarget: [10, 120],
+            coordinateMultiplier: 1,
             camera: [10, 50]
         },
         map2_tiles: {
@@ -83,9 +86,11 @@ const Page = () => {
             type: "tile",
             defaultFiring: [250, 450],
             defaultTarget: [250, 500],
+            coordinateMultiplier: 1,
             camera: [250, 450]
         }
     };
+    const coordinateMultiplier = maps[mapType]?.coordinateMultiplier;
 
     // Custom Leaflet TileLayer with flipped Y
     class FlippedYTileLayer extends L.TileLayer {
@@ -433,6 +438,17 @@ const Page = () => {
                         </>
                     )}
                     <hr className="border-gray-700 my-2"/>
+                    {firingPosition && firingPosition.length > 0 && (
+                        <p>
+                            <strong>Firing position:</strong> X: {(firingPosition[0] * coordinateMultiplier).toFixed(2)}, Y: {(firingPosition[1] * coordinateMultiplier).toFixed(2)}
+                        </p>
+                    )}
+
+                    {targetPosition && targetPosition.length > 0 && (
+                        <p>
+                            <strong>Target area:</strong> X: {(targetPosition[0] * coordinateMultiplier).toFixed(2)}, Y: {(targetPosition[1] * coordinateMultiplier).toFixed(2)}
+                        </p>
+                    )}
                     <p><strong>Elevation:</strong> {elevation} meters</p>
                 </div>
             </div>
