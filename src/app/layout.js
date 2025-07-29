@@ -1,3 +1,4 @@
+// This file is part of the Arma Reforger Artillery Calculator project.
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header";
